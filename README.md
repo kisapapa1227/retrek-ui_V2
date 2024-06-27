@@ -7,33 +7,7 @@ cd retrek-ui
 
 git clone https://github.com/clinfo/ReTReKpy.git
 
-
-以下のコマンドで.envファイルを.envexampleからコピーする
-
-cp .env.example .env
-
-上記のコマンドで作成した.envファイルの11～16行目を以下のように修正する
-
-DB_CONNECTION=mysql
-
-DB_HOST=mysql
-
-DB_PORT=3306
-
-DB_DATABASE=retrek_ui
-
-DB_USERNAME=sail
-
-DB_PASSWORD=password
-
-
-また、.envファイルに以下の内容を追記する
-
-WWWUSER=sail
-
-WWWGROUP=sail
-
-
+#.env は修正済み
 
 Dockerコンテナの反映（以下をターミナルで実行）
 
@@ -51,6 +25,24 @@ docker run --rm \
     -w /var/www/html \
     laravelsail/php83-composer:latest \
     composer install --ignore-platform-reqs
+
+#/var/www/html がすでにある場合、別名で保存しておく(cp /var/www/html /var/www/html.org)
+
+#apache が起動している場合は止める (service apache2 stop)、
+
+#実行ディレクトリーにリンクをはる。コピーでもok
+
+ln -s $PWD /var/www/html
+
+#log ファイル、一時ファイル用の書き込みパーミッションをつける。
+
+chmod 666 /var/www/html/.env
+
+touch /var/www/html/strage/logs/laravel.log
+
+chmod 666 /var/www/html/strage/logs/laravel.log
+
+chmod -R 777 /var/www/html
 
 ./vendor/bin/sail up -d
 
