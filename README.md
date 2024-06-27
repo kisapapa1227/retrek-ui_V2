@@ -26,6 +26,8 @@ docker run --rm \
     laravelsail/php83-composer:latest \
     composer install --ignore-platform-reqs
 
+#1
+
 #/var/www/html がすでにある場合、別名で保存しておく(cp /var/www/html /var/www/html.org)
 
 #apache が起動している場合は止める (service apache2 stop)、
