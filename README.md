@@ -1,7 +1,7 @@
 セットアップ方法
 以下をターミナルで実行
 
-git clone https://github.com/sho0109/retrek-ui.git
+git clone https://github.com/kisapapa1227/retrek-ui.git
 
 cd retrek-ui
 
@@ -19,14 +19,7 @@ docker volume prune -f
 
 docker network prune -f
 
-docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v $(pwd):/var/www/html \
-    -w /var/www/html \
-    laravelsail/php83-composer:latest \
-    composer install --ignore-platform-reqs
-
-#1
+docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php83-composer:latest composer install --ignore-platform-reqs
 
 #/var/www/html がすでにある場合、別名で保存しておく(cp /var/www/html /var/www/html.org)
 
