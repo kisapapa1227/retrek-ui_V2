@@ -9,7 +9,7 @@ cd retrek-ui
 
 git clone https://github.com/kojima-r/ReTReKpy.git
 
-# .env
+#.env
 
 cp .env.easy .env
 
@@ -37,9 +37,9 @@ ln -s $PWD /var/www/html
 
 chmod 666 /var/www/html/.env
 
-touch /var/www/html/strage/logs/laravel.log
+touch /var/www/html/storage/logs/laravel.log
 
-chmod 666 /var/www/html/strage/logs/laravel.log
+chmod 666 /var/www/html/storage/logs/laravel.log
 
 chmod -R 777 /var/www/html
 
