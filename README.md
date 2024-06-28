@@ -9,7 +9,9 @@ cd retrek-ui
 
 git clone https://github.com/kojima-r/ReTReKpy.git
 
-#.env は修正済み
+# .env
+
+cp .env.easy .env
 
 Dockerコンテナの反映（以下をターミナルで実行）
 
