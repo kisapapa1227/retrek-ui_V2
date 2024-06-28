@@ -23,7 +23,7 @@ docker network prune -f
 
 docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php83-composer:latest composer install --ignore-platform-reqs
 
-#/var/www/html がすでにある場合、別名で保存しておく(cp /var/www/html /var/www/html.org)
+#/var/www/html がすでにある場合、別名で保存しておく(mv /var/www/html /var/www/html.org)
 
 #apache が起動している場合は止める (service apache2 stop)、
 
