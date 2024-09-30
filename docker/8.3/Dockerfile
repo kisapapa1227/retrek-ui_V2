@@ -100,7 +100,7 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     scikit-learn==1.2.2 \
     matplotlib==3.7.1 \
     scikit-image==0.19.3 \
-    ipython==8.27.0 \
+    IPython==8.27.0 \
     reportlab==4.2.2 \
     svglib==1.5.1 \
     python-pptx==1.0.2 \
