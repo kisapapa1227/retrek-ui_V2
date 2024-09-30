@@ -70,6 +70,7 @@ class RetrekController extends Controller
 
         $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $cui, $csv, $selection_constant, $time_limit, $csrf_token, $substance]);
         $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        $process->setTimeout(0);
         $process->run();
 
         $results_num = [];
