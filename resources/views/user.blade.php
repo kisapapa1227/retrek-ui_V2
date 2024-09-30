@@ -81,8 +81,15 @@
         <form action="{{ route('exepy') }}" method="POST" class="mb-3">
             @csrf
             <div class="form-group">
+<br>
+<div id="smiBox">
                 <label for="smiles">SMILES化学式:</label>
                 <input type="text" name="smiles" class="form-control" id="smiles" required>
+</div>
+<div id="subBox">
+                <label for="substance">物質名(保存ファイル名/空欄なら日付を利用):</label>
+                <input type="text" name="substance" class="form-control" id="substance">
+</div>
             </div>
                 
             <fieldset>
@@ -91,17 +98,19 @@
                 <div class="form-group row mb-2">
                     <label for="route" class="col-sm-4 col-form-label">ルート数:</label>
                     <div class="col-sm-8">
-                        <input type="number" id="route" name="route_num" class="form-control" required value="3" min="1">
+                        <input type="number" id="route" name="route_num" class="form-control" required value="100" min="1">
                     </div>
                 </div>
-
+		@php
+		$weight=array("5.0","0.5","2.0","2.0","2.0","1.0")
+		@endphp
                 <div class="form-group row mb-2">
                     <label class="col-sm-4 col-form-label">knowledgeWeights:</label>
                     <div class="col-sm-8">
                         <div class="row">
                             @for ($i = 0; $i < 6; $i++)
                                 <div class="col">
-                                    <input type="number" class="form-control mb-2" name="weights[]" id="weights[{{ $i }}]" step="0.1" value="1.0" placeholder="{{ $i + 1 }}"  required>
+                                    <input type="number" class="form-control mb-2" name="weights[]" id=weights[{{ $i }}] step="0.1" value="{{$weight[$i]}}" placeholder="{{ $i + 1 }}"  required>
                                 </div>
                             @endfor
                         </div>
@@ -159,11 +168,34 @@
                     </div>
                 </div>
 
-
+                <div class="form-group row mb-2">
+                    <label class="col-sm-4 col-form-label">interface:</label>
+                    <div class="col-sm-8">
+                <div class="form-group row mb-2">
+			<div>
+                            <input type="radio" name="cui" class="form-check-input" id="Original" value="1" onchange="showCSV()">
+			<label style="width:90px" for="Original">Original</label>
+			</div>
+			<div>
+                            <input type="radio" name="cui" class="form-check-input" id="Single" value="2" checked onchange="showCSV()">
+			<label style="width:100px" for="Original">Advanced</label>
+			</div>
+			<div>
+                            <input type="radio" name="cui" class="form-check-input" id="fromFile" value="3" onchange="showCSV()">
+			<label style="width:100px" for="fromFile">fromFile</label>
+			</div>
+                            <label class="form-check-label" for="cui"></label>
+                    </div>
+                    </div>
+                </div>
+<div id="csvBox" style="display:none">
+CSV ファイルの読み込み
+<input type="file" id="getfile">
+<input type="text" name="fromCSV" class="form-control" id="fromCSV" value="id#,smiles,ops,,," >
+</div>
             </fieldset>
             <button type="submit" class="btn btn-primary">検索</button>
         </form>
-
 
         <section>
             <h3>お気に入りの合成経路</h3>  
@@ -182,8 +214,10 @@
                             <input type="hidden" name="expansion_num" value="{{ $route->expansion_num }}">
                             <input type="hidden" name="cum_prob_mod" value="{{ $route->cum_prob_mod ? 'true' : 'false' }}">
                             <input type="hidden" name="chem_axon" value="{{ $route->chem_axon ? 'true' : 'false' }}">
+                            <input type="hidden" name="cui" value="{{ $route->cui }}">
                             <input type="hidden" name="selection_constant" value="{{ $route->selection_constant }}">
                             <input type="hidden" name="time_limit" value="{{ $route->time_limit }}">
+                            <input type="hidden" name="fromCSV" value="{{ $route->fromCSV }}">
                             <button type="submit" class="btn btn-primary favorite-button">表示</button>
                         </form>
                         <form action="{{ route('remove') }}" method="POST" class="remove-route">
@@ -196,6 +230,8 @@
                             <input type="hidden" name="expansion_num" value="{{ $route->expansion_num }}">
                             <input type="hidden" name="cum_prob_mod" value="{{ $route->cum_prob_mod ? 'true' : 'false' }}">
                             <input type="hidden" name="chem_axon" value="{{ $route->chem_axon ? 'true' : 'false' }}">
+                            <input type="hidden" name="cui" value="{{ $route->cui ? 'true' : 'false' }}">
+                            <input type="hidden" name="fromCSV" value="{{ $route->fromCSV }}">
                             <input type="hidden" name="selection_constant" value="{{ $route->selection_constant }}">
                             <input type="hidden" name="time_limit" value="{{ $route->time_limit }}">
                             <button type="submit" class="btn btn-primary favorite-button">お気に入りから削除</button>
@@ -246,5 +282,46 @@
             });
         });
     </script>
+<script>
+// komai
+//
+function showCSV(){
+//fileInput=document.getElementById("getfile");
+	cui=document.getElementsByName("cui");
+	csvBox=document.getElementById("csvBox");
+	smiles=document.getElementById("smiles");
+	subBox=document.getElementById("subBox");
+	smiBox=document.getElementById("smiBox");
+	if (cui[2].checked){// fromFile
+		csvBox.style.display='block';
+		smiles.required=false;
+		smiBox.style.display='none';
+		subBox.style.display='none';
+	}else if (cui[1].checked){//'single'
+		csvBox.style.display='none';
+		smiBox.style.display='block';
+		subBox.style.display='block';
+		smiles.required=true;
+	}else{// Original
+		csvBox.style.display='none';
+		subBox.style.display='none';
+		smiBox.style.display='block';
+		smiles.required=true;
+	};
+
+};
+const fileInput=document.getElementById("getfile");
+	fileInput.addEventListener("change",function(event){
+		const file = event.target.files[0];
+		readFile(file);
+	});
+	function readFile(file){
+		const reader = new FileReader();
+		reader.onload = function (event) {
+		document.getElementById("fromCSV").value=event.target.result;
+		};
+		reader.readAsText(file);
+	};
+</script>
 </body>
 </html>
