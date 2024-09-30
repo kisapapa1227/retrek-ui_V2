@@ -1,13 +1,11 @@
 セットアップ方法
 以下をターミナルで実行
 
-git clone https://github.com/sho0109/retrek-ui.git
-
-(or git clone https://github.com/kisapapa1227/retrek-ui.git)
+git clone https://github.com/kisapapa1227/retrek-ui.git)
 
 cd retrek-ui
 
-git clone https://github.com/kojima-r/ReTReKpy.git
+git clone https://github.com/kisapapa1227/ReTReKpy.git
 
 #.env
 
