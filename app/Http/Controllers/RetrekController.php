@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -28,7 +27,7 @@ class RetrekController extends Controller
     public function exepy(Request $request)
     {
         $smiles = $request->input('smiles');
-
+        $substance = $request->input('substance');
 
         $route_num = (int) $request->input('route_num');
 
@@ -40,15 +39,38 @@ class RetrekController extends Controller
         $expansion_num = (float) $request->input('expansion_num');
         $cum_prob_mod = $request->input('cum_prob_mod');
         $chem_axon = $request->input('chem_axon');
+        $ccc = $request->input('cui');
+        $csv = $request->input('fromCSV');
         $selection_constant = (float) $request->input('selection_constant');
         $time_limit = (float) $request->input('time_limit');
 
         $csrf_token = csrf_token();
 
-        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token]);
+#	$strout=phpinfo();
+	$fh=fopen("/var/www/html/public/images/komai.info","w");
+	fwrite($fh,"cut:".$ccc."\n");
+	if ($ccc==3){
+		$array=explode('#',$csv);
+			foreach ($array as &$value){
+				fwrite($fh,$value."\n");
+			}
+		$cui='csv';
+		return;
+	}else if ($ccc==2){
+		fwrite($fh,"iiiiiiiiiiiiiiiiiiiiii:".$ccc."\n");
+		$cui='True';
+	}else{
+		fwrite($fh,"oooooooooooooooooo:".$ccc."\n");
+		$cui='False';
+	}
+	fwrite($fh,"cui:".$cui."\n");
+	fwrite($fh,"csv:".$csv."\n");
+#	fwrite($fh,$stdout);
+	fclose($fh);
+
+        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $cui, $csv, $selection_constant, $time_limit, $csrf_token, $substance]);
         $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
         $process->run();
-        
 
         $results_num = [];
         $save_tree = filter_var($save_tree, FILTER_VALIDATE_BOOLEAN);
@@ -278,12 +300,13 @@ class RetrekController extends Controller
         $expansion_num = $request->input('expansion_num');
         $cum_prob_mod = $request->input('cum_prob_mod');
         $chem_axon = $request->input('chem_axon');
+        $cui = $request->input('cui');
         $selection_constant = $request->input('selection_constant');
         $time_limit = $request->input('time_limit');
 
         $csrf_token = csrf_token();
 
-        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token]);
+        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $cui, $selection_constant, $time_limit, $csrf_token]);
         $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
         $process->run();
         
