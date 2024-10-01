@@ -96,9 +96,9 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     joblib==1.3.2 \
     numpy==1.25.2 \
     scipy==1.11.4 \
-    scikit-learn==1.2.2 \
-    matplotlib==3.7.1 \
-    scikit-image==0.19.3
+    scikit-learn==1.2.2
+#    matplotlib==3.7.1 \
+#    scikit-image==0.19.3
     
 # OpenBabel 3.0のインストール
 # 必要な依存関係のインストール
@@ -130,8 +130,6 @@ RUN cd openbabel-openbabel-3-0-0 && \
 RUN rm -rf /openbabel-3-0-0.tar.gz /openbabel-openbabel-3-0-0
 
 RUN python3.10 -m pip install --upgrade git+https://github.com/clinfo/kGCN.git
-
-
 
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
