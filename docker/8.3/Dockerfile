@@ -96,9 +96,9 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     joblib==1.3.2 \
     numpy==1.25.2 \
     scipy==1.11.4 \
-    scikit-learn==1.2.2
-#    matplotlib==3.7.1 \
-#    scikit-image==0.19.3
+    scikit-learn==1.2.2 \
+    matplotlib==3.7.1 \
+    scikit-image==0.19.3
     
 # OpenBabel 3.0のインストール
 # 必要な依存関係のインストール
