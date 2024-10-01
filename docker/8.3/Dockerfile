@@ -67,8 +67,7 @@ RUN apt-get update --fix-missing && apt-get install -y \
     python3-venv \
     wget \
     git  \
-    gnupg \
-    imagemagick
+    gnupg
 
 # Python 3.10のインストール
 RUN add-apt-repository ppa:deadsnakes/ppa && \
@@ -99,12 +98,7 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     scipy==1.11.4 \
     scikit-learn==1.2.2 \
     matplotlib==3.7.1 \
-    scikit-image==0.19.3 \
-    IPython==8.27.0 \
-    reportlab==4.2.2 \
-    svglib==1.5.1 \
-    python-pptx==1.0.2 \
-    Levenshtein==0.25.1
+    scikit-image==0.19.3
     
 # OpenBabel 3.0のインストール
 # 必要な依存関係のインストール
@@ -146,6 +140,14 @@ COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
+
+CMD pip install -y IPython==8.27.0 \
+    reportlab==4.2.2 \
+    svglib==1.5.1 \
+    python-pptx==1.0.2 \
+    Levenshtein==0.25.1
+CMD apt-get -y imagemagick
+
 
 EXPOSE 8000
 
