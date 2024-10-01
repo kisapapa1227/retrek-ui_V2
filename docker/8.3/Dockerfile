@@ -146,6 +146,7 @@ CMD yes | pip install reportlab==4.2.2
 CMD yes | pip install svglib==1.5.1
 CMD yes | pip install python-pptx==1.0.2
 CMD yes | pip install Levenshtein==0.25.1
+CMD apt-get update
 CMD apt-get -y install imagemagick
 
 
