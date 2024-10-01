@@ -98,7 +98,7 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     scipy==1.11.4 \
     scikit-learn==1.2.2 \
     matplotlib==3.7.1 \
-    scikit-image==0.19.3
+    scikit-image==0.19.3 \
     IPython==8.27.0 \
     reportlab==4.2.2 \
     svglib==1.5.1 \
