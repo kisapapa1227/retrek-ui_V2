@@ -99,6 +99,11 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     scikit-learn==1.2.2 \
     matplotlib==3.7.1 \
     scikit-image==0.19.3
+    IPython==8.27.0 \
+    reportlab==4.2.2 \
+    svglib==1.5.1 \
+    python-pptx==1.0.2 \
+    Levenshtein==0.25.1
     
 # OpenBabel 3.0のインストール
 # 必要な依存関係のインストール
@@ -139,11 +144,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
-CMD yes | pip install IPython==8.27.0
-CMD yes | pip install reportlab==4.2.2
-CMD yes | pip install svglib==1.5.1
-CMD yes | pip install python-pptx==1.0.2
-CMD yes | pip install Levenshtein==0.25.1
 CMD apt-get update
 CMD apt-get -y install imagemagick
 
