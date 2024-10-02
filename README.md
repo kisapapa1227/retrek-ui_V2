@@ -1,7 +1,7 @@
 セットアップ方法
 以下をターミナルで実行
 
-git clone https://github.com/kisapapa1227/retrek-ui.git)
+git clone https://github.com/kisapapa1227/retrek-ui.git
 
 cd retrek-ui
 
@@ -53,7 +53,7 @@ chmod -R 777 /var/www/html
 
 
 使用方法（以下のコマンドをターミナルで実行したのち、localhost80に接続して使用する）
-./vendor/bin/sail up
-ブラウザで
-http://localhost
+./vendor/bin/sail up<br>
+ブラウザで<br>
+http://localhost<br>
 に接続する
