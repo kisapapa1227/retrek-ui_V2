@@ -2,7 +2,7 @@
 以下をターミナルで実行
 
 cd hoge<br>
-## 手順１: コードを作業用ディレクトリーにダウンロードする。<br>
+# 手順１: コードを作業用ディレクトリーにダウンロードする。<br>
 git clone https://github.com/kisapapa1227/retrek-ui.git<br>
 cd retrek-ui<br>
 git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
