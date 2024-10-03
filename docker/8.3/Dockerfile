@@ -67,7 +67,7 @@ RUN apt-get update --fix-missing && apt-get install -y \
     python3-venv \
     wget \
     git  \
-    gnupg
+    gnupg 
 
 # Python 3.10のインストール
 RUN add-apt-repository ppa:deadsnakes/ppa && \
@@ -104,14 +104,15 @@ RUN python3.10 -m pip install --upgrade pip setuptools wheel && \
     svglib==1.5.1 \
     python-pptx==1.0.2 \
     Levenshtein==0.25.1
-    
+
 # OpenBabel 3.0のインストール
 # 必要な依存関係のインストール
 RUN apt-get update && apt-get install -y \
     cmake \
     g++ \
     libxml2-dev \
-    zlib1g-dev
+    zlib1g-dev \
+    imagemagick
 
 # OpenBabel 3.0のソースをダウンロードし、解凍
 RUN wget https://github.com/openbabel/openbabel/archive/openbabel-3-0-0.tar.gz && \
@@ -131,6 +132,7 @@ RUN cd openbabel-openbabel-3-0-0 && \
     make && \
     make install
 
+
 # インストール後のクリーンアップ
 RUN rm -rf /openbabel-3-0-0.tar.gz /openbabel-openbabel-3-0-0
 
@@ -143,10 +145,6 @@ COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.3/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
-
-CMD apt-get update
-CMD apt-get -y install imagemagick
-
 
 EXPOSE 8000
 
