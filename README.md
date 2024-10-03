@@ -7,7 +7,7 @@ git clone https://github.com/kisapapa1227/retrek-ui.git<br>
 cd retrek-ui<br>
 git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
 cp .env.easy .env # docker の設定ファイルを準備する。<br>
-\# 
+\# oi
 
 #### 手順２:Dockerコンテナの反映する。<br>
 sudo su<br>
@@ -19,12 +19,14 @@ docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html 
 
 #### https の設定（port:80 の利用状態の確認）<br>
 sudo su<br>
-lsos -i:80　#### ポートの利用状態を確認する。<br>
+lsos -i:80　# ポートの利用状態を確認する。<br>
 COMMAND    PID     USER   FD   TYPE DEVICE SIZE/OFF NODE NAME<br>
 apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
 <br>
-TCPポート:80 を利用するので、すでに使われている場合はサービスを停止する。<br>
+上記のように表示された場合、TCPポート:80 を利用するので、すでに使われている場合はサービスを停止する。<br>
 service apache2 stop<br>
+
+同様に、
 #/var/www/html がすでにある場合、別名で保存しておく(mv /var/www/html /var/www/html.org)
 
 #apache が起動している場合は止める (service apache2 stop)、
