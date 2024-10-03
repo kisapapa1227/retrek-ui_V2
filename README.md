@@ -1,8 +1,8 @@
 セットアップ方法<br>
 以下をターミナルで実行
 
-cd hoge<br>
 #### 手順1: コードを作業用ディレクトリーにダウンロードする。<br>
+cd hoge<br>
 git clone https://github.com/kisapapa1227/retrek-ui.git<br>
 cd retrek-ui<br>
 git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
@@ -17,7 +17,6 @@ docker network prune -f<br>
 docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php83-composer:latest composer install --ignore-platform-reqs<br>
 
 #### https の設定（port:80 の利用状態の確認）<br>
-sudo su<br>
 lsos -i:80　# ポートの利用状態を確認する。<br>
 COMMAND    PID     USER   FD   TYPE DEVICE SIZE/OFF NODE NAME<br>
 apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
@@ -30,7 +29,7 @@ service apache2 stop<br>
 mv /var/www/html /var/www/html.org<br>
 rm -rf /var/www/html<br>
 
-#### 手順3:Dockerイメージの作成、起動する。<br>
+#### 手順3:Dockerイメージを作成、起動する。<br>
 ln -s $(pwd) /var/www/html<br>
 chmod 666 /var/www/html/.env<br>
 touch /var/www/html/storage/logs/laravel.log<br>
@@ -49,9 +48,22 @@ http://localhost<br>
 
 #### 手順4:Docker イメージを再利用する。<br>
 手順1-3で作成した Docker イメージはコンピュータ再起動後でも利用できる。
+cd /var/www/html/<br>
 sudo ./vendor/bin/sail up -d <br>
-ただし、apache2 が自動起動している場合、停止する。<br>
+ただし、apache2 が自動起動している場合、上述の手順で停止する。<br>
 sudo service apache2 stop<br>
 
 #### 手順5:手順の自動化。<br>
-手順1,2,3 は、でいれくとりInstaller
+手順1,2,3 は、このページのディレクトリー Installer に準備されてスクリプトファイルを実行することで省力化できる。<br>
+あらかじめ任意のディレクトリー hoge に InstallerStep1.sh、InstallerStep2.sh、InstallerStep3.sh、InstallerStep4.sh をダウンロードする。<br>
+cd hoge<br>
+sh InstallerStep1.sh<br>
+sh InstallerStep2.sh<br>
+sh InstallerStep3.sh<br>
+ただし、https の設定に関しては、必要であれば、InstallerStep3.sh の実行時に指示されるので、上述の手順を行う。<br>
+
+同名のイメージが存在する場合、そのイメージが優先的に利用されるので<br>
+sh InstallerStep4.sh<br>
+を実行し、イメージの削除をした後<br>
+sh InstallerStep3.sh<br>
+を実行する。
