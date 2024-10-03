@@ -2,14 +2,14 @@
 以下をターミナルで実行
 
 cd hoge<br>
-#### 手順１: コードを作業用ディレクトリーにダウンロードする。<br>
+#### 手順1: コードを作業用ディレクトリーにダウンロードする。<br>
 git clone https://github.com/kisapapa1227/retrek-ui.git<br>
 cd retrek-ui<br>
 git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
 cp .env.easy .env # docker の設定ファイルを準備する。<br>
 \# oi
 
-#### 手順２:Dockerコンテナの反映する。<br>
+#### 手順2:Dockerコンテナを作成する。<br>
 sudo su<br>
 docker-compose down<br>
 docker-compose rm -f<br>
@@ -26,35 +26,22 @@ apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
 上記のように表示された場合、TCPポート:80 を利用するので、すでに使われている場合はサービスを停止する。<br>
 service apache2 stop<br>
 
-同様に、
-#/var/www/html がすでにある場合、別名で保存しておく(mv /var/www/html /var/www/html.org)
+同様に、<br>
+/var/www/html がある場合、別名で保存しておく<br>
+mv /var/www/html /var/www/html.org<br>
 
-#apache が起動している場合は止める (service apache2 stop)、
+#### 手順3:Dockerコンテナの反映する。<br>
+ln -s $(pwd) /var/www/html<br>
+chmod 666 /var/www/html/.env<br>
+touch /var/www/html/storage/logs/laravel.log<br>
+chmod 666 /var/www/html/storage/logs/laravel.log<br>
+chmod -R 777 /var/www/html<br>
 
-#実行ディレクトリーにリンクをはる。コピーでもok
-
-ln -s $PWD /var/www/html
-
-#log ファイル、一時ファイル用の書き込みパーミッションをつける。
-
-chmod 666 /var/www/html/.env
-
-touch /var/www/html/storage/logs/laravel.log
-
-chmod 666 /var/www/html/storage/logs/laravel.log
-
-chmod -R 777 /var/www/html
-
-./vendor/bin/sail up -d
-
-./vendor/bin/sail artisan key:generate
-
-./vendor/bin/sail artisan migrate
- 
-./vendor/bin/sail npm install
-
-./vendor/bin/sail npm run build
-
+./vendor/bin/sail up -d<br>
+./vendor/bin/sail artisan key:generate<br>
+./vendor/bin/sail artisan migrate<br>
+./vendor/bin/sail npm install<br>
+./vendor/bin/sail npm run build<br>
 
 使用方法（以下のコマンドをターミナルで実行したのち、localhost80に接続して使用する）
 ./vendor/bin/sail up<br>
