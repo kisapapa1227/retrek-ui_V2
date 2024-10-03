@@ -26,8 +26,9 @@ apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
 service apache2 stop<br>
 
 同様に、<br>
-/var/www/html がある場合、別名で保存しておく<br>
+/var/www/html がある場合、別名で保存するか、必要がなければ消去する。く<br>
 mv /var/www/html /var/www/html.org<br>
+rm -rf /var/www/html<br>
 
 #### 手順3:Dockerイメージの作成、起動する。<br>
 ln -s $(pwd) /var/www/html<br>
@@ -42,12 +43,15 @@ chmod -R 777 /var/www/html<br>
 ./vendor/bin/sail npm install<br>
 ./vendor/bin/sail npm run build<br>
 
-ブラウザで<br>
+ブラウザから<br>
 http://localhost<br>
-接続できます。<br>
+で接続する。<br>
 
 #### 手順4:Docker イメージを再利用する。<br>
-手順1-3で作成した Docker イメージは
-./vendor/bin/sail up<br>
+手順1-3で作成した Docker イメージはコンピュータ再起動後でも利用できる。
+sudo ./vendor/bin/sail up -d <br>
+ただし、apache2 が自動起動している場合、停止する。<br>
+sudo service apache2 stop<br>
 
-に接続する
+#### 手順5:手順の自動化。<br>
+手順1,2,3 は、でいれくとりInstaller
