@@ -1,15 +1,12 @@
 セットアップ方法
 以下をターミナルで実行
 
-git clone https://github.com/kisapapa1227/retrek-ui.git
-
-cd retrek-ui
-
-git clone https://github.com/kisapapa1227/ReTReKpy.git
-
-#.env
-
-cp .env.easy .env
+cd hoge
+手順１: コードを作業用ディレクトリーにダウンロードする。<br>
+git clone https://github.com/kisapapa1227/retrek-ui.git<br>
+cd retrek-ui<br>
+git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
+cp .env.easy .env <br>
 
 Dockerコンテナの反映（以下をターミナルで実行）
 
