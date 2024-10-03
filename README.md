@@ -17,7 +17,7 @@ docker network prune -f<br>
 docker run --rm -u "$(id -u):$(id -g)" -v $(pwd):/var/www/html -w /var/www/html laravelsail/php83-composer:latest composer install --ignore-platform-reqs<br>
 
 #### https の設定（port:80 の利用状態の確認）<br>
-lsos -i:80　# ポートの利用状態を確認する。<br>
+lsof -i:80　# ポートの利用状態を確認する。<br>
 COMMAND    PID     USER   FD   TYPE DEVICE SIZE/OFF NODE NAME<br>
 apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
 <br>
