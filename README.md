@@ -47,7 +47,7 @@ http://localhost<br>
 で接続する。<br>
 
 #### 手順4:Docker イメージを再利用する。<br>
-手順1-3で作成した Docker イメージはコンピュータ再起動後でも利用できる。
+手順1-3で作成した Docker イメージはコンピュータ再起動後でも利用できる。<br>
 cd /var/www/html/<br>
 sudo ./vendor/bin/sail up -d <br>
 ただし、apache2 が自動起動している場合、上述の手順で停止する。<br>
