@@ -1,4 +1,4 @@
-セットアップ方法
+セットアップ方法<br>
 以下をターミナルで実行
 
 cd hoge<br>
@@ -7,7 +7,6 @@ git clone https://github.com/kisapapa1227/retrek-ui.git<br>
 cd retrek-ui<br>
 git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
 cp .env.easy .env # docker の設定ファイルを準備する。<br>
-\# oi
 
 #### 手順2:Dockerコンテナを作成する。<br>
 sudo su<br>
@@ -23,14 +22,14 @@ lsos -i:80　# ポートの利用状態を確認する。<br>
 COMMAND    PID     USER   FD   TYPE DEVICE SIZE/OFF NODE NAME<br>
 apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
 <br>
-上記のように表示された場合、TCPポート:80 を利用するので、すでに使われている場合はサービスを停止する。<br>
+上記のように表示された場合、port:80を利用しているサービスを停止する。<br>
 service apache2 stop<br>
 
 同様に、<br>
 /var/www/html がある場合、別名で保存しておく<br>
 mv /var/www/html /var/www/html.org<br>
 
-#### 手順3:Dockerコンテナの反映する。<br>
+#### 手順3:Dockerイメージの作成、起動する。<br>
 ln -s $(pwd) /var/www/html<br>
 chmod 666 /var/www/html/.env<br>
 touch /var/www/html/storage/logs/laravel.log<br>
@@ -43,8 +42,12 @@ chmod -R 777 /var/www/html<br>
 ./vendor/bin/sail npm install<br>
 ./vendor/bin/sail npm run build<br>
 
-使用方法（以下のコマンドをターミナルで実行したのち、localhost80に接続して使用する）
-./vendor/bin/sail up<br>
 ブラウザで<br>
 http://localhost<br>
+接続できます。<br>
+
+#### 手順4:Docker イメージを再利用する。<br>
+手順1-3で作成した Docker イメージは
+./vendor/bin/sail up<br>
+
 に接続する
