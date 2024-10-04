@@ -60,7 +60,7 @@ cd hoge<br>
 sh InstallerStep1.sh<br>
 sh InstallerStep2.sh<br>
 sh InstallerStep3.sh<br>
-ただし、https の設定に関しては、必要であれば、InstallerStep3.sh の実行時に指示されるので、上述の手順を行う。<br>
+ただし、https の設定に関しては、必要であれば、InstallerStep3.sh の実行時に指示されるので、上述の手順を参考に、指示に従う。<br>
 
 同名のイメージが存在する場合、そのイメージが優先的に利用されるので<br>
 sh InstallerStep4.sh<br>
