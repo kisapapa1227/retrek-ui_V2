@@ -54,7 +54,7 @@ sudo ./vendor/bin/sail up -d <br>
 sudo service apache2 stop<br>
 
 #### 手順5:手順の自動化。<br>
-手順1,2,3 は、このページのディレクトリー Installer に準備されてスクリプトファイルを実行することで省力化できる。<br>
+手順1,2,3 は、このページのディレクトリー Installer に準備されているスクリプトファイルを実行することで省力化できる。<br>
 あらかじめ任意のディレクトリー hoge に InstallerStep1.sh、InstallerStep2.sh、InstallerStep3.sh、InstallerStep4.sh をダウンロードする。<br>
 cd hoge<br>
 sh InstallerStep1.sh<br>
