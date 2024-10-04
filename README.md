@@ -25,7 +25,7 @@ apache2 113106     root    4u  IPv6 864638      0t0  TCP *:80 (LISTEN)<br>
 service apache2 stop<br>
 
 同様に、<br>
-/var/www/html がある場合、別名で保存するか、必要がなければ消去する。く<br>
+/var/www/html が存在する場合、別名で保存するか、必要がなければ消去する。<br>
 mv /var/www/html /var/www/html.org<br>
 rm -rf /var/www/html<br>
 
