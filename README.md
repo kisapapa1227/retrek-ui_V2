@@ -50,7 +50,7 @@ http://localhost<br>
 手順1-3で作成した Docker イメージはコンピュータ再起動後でも利用できる。<br>
 cd /var/www/html/<br>
 sudo ./vendor/bin/sail up -d <br>
-ただし、apache2 が自動起動している場合、上述の手順で停止する。<br>
+ただし、apache2 等が起動している場合、停止する。<br>
 sudo service apache2 stop<br>
 
 #### 手順5:手順の自動化。<br>
