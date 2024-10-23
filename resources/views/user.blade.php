@@ -248,6 +248,21 @@ CSV ファイルの読み込み
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+var fetch=function(url,inerval){
+	$.ajax({
+		type: 'GET',
+		url: url,
+		processData: false,
+		contentType: false
+}).then(function(res){
+	consol.log(res);
+	if (res.statu==='Done'){clarInterval(interval);}
+});
+};
+
+var progress = function(url){
+	var interval = setInterval(fetch,1000,url,interval);
+};
 
         $(document).ready(function() {
             $('form.remove-route').on('submit', function(e) {
@@ -268,8 +283,6 @@ CSV ファイルの読み込み
                     success: function(data) {
                     if (data.isFavorite) {
                         alert('Error removing route');
-                        
-                        
                     } else { 
                         form.closest('li.list-group-item').remove();
                         alert(data.message);
@@ -285,6 +298,7 @@ CSV ファイルの読み込み
 <script>
 // komai
 //
+
 function showCSV(){
 //fileInput=document.getElementById("getfile");
 	cui=document.getElementsByName("cui");
