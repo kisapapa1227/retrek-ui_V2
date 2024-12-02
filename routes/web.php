@@ -47,6 +47,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/remove', [RetrekController::class, 'remove'])->name('remove');
     Route::post('/favorite', [RetrekController::class, 'favorite'])->name('favorite');
     Route::post('/askProc', [RetrekController::class, 'askProc'])->name('askProc');
+    Route::post('/db', [RetrekController::class, 'db'])->name('db');
+    Route::post('/addDb', [RetrekController::class, 'addDb'])->name('addDb');
+    Route::post('/dbAction', [RetrekController::class, 'dbAction'])->name('dbAction');
     Route::get('/kRet', [RetrekController::class, 'kRet'])->name('kRet');
 });
 
