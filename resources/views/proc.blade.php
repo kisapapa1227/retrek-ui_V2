@@ -12,6 +12,14 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.8);
             padding: 10px 0;
         }
+#bta,#btb {
+  padding: 2px 6px;
+  width: 12em;
+  background-color: #a9ceec;
+  color: #000;
+  border: none;
+  box-shadow: 3px 3px 4px black;
+}
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,9 +28,13 @@
     <div class="fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <form action="{{ route('kRet') }}" method="GET" class="mb-3">
-                <button onclick="window.location.href='/search';" class="btn btn-primary back-button">ユーザー検索画面へ戻る</button>
+                <button id='btb' onclick="window.location.href='/search';" class="btn btn-primary back-button">ユーザー検索画面へ戻る</button>
             </form>
+<div id='ida'>
+                <button id='bta' onclick="addDb()" class="btn btn-primary back-button">データベースに追加する</button>
       </div>
+<div id='idb'>  </div>
+</div>
     </div>
 </br>
 <div>
@@ -49,7 +61,39 @@ let count=0;
 let pdf=0;
 let sT=Date.now();
 let exT="∞";
+let elaps_time;
 
+const ida = document.getElementById("ida");
+const idb = document.getElementById("idb");
+ida.style.visibility='hidden';
+
+const addDb=()=>{
+	ida.style.visibility='hidden';
+	idb.innerHTML="Saving current search...";
+$(function(){
+    $.ajax({
+      headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
+      },
+      url: '/addDb', // routes/web.php でとび先を設定
+      method: 'POST',
+      data: {
+        'id': "{{$substance}}",
+        'uid': "{{$uid}}",
+      },
+    }).done(function (data){
+      ida.style.visibility='visible';
+      idb.innerHTML=data.substance+" is saved.";
+	ida.style.display="inline-block";
+	idb.style.display="inline-block";
+    }).fail(function () {
+      ida.style.visibility='visible';
+      idb.innerHTML='fail:'+data.substance;
+	ida.style.display="inline-block";
+	idb.style.display="inline-block";
+    });
+//window.location.reload();
+});
+}
 const countUp=()=>{
     flushText(loop);
 if(loop==0){
@@ -66,6 +110,7 @@ $(function(){
     }).done(function (data){
       count=data.currentRoute;
       pdf=data.pdf;
+      uid=data.uid;
     }).fail(function () {
       console.log('fail');
     });
@@ -79,11 +124,13 @@ $(function(){
 }
     loop--;
     if (pdf==0){
-       setTimeout(countUp, 1000);
+	setTimeout(countUp, 1000);
+	ida.style.visibility='hidden';
     }else{
           win=document.getElementById('forPDF');
-          win.src="http://localhost/images/report/{{$substance}}.pdf";
+          win.src="http://localhost/images/"+uid+"/report/{{$substance}}.pdf";
 	  win.style.height="700px";
+	  ida.style.visibility='visible';
 //<embed src="http://localhost/images/report/{substance}.pdf" type="application/pdf" width="100%" height="700px"></embed>'
     }
 }
@@ -91,24 +138,32 @@ $(function(){
 function flushText(l) {
   const elem = document.getElementById("proc");
   let d=new Date();
-  elem.innerHTML="Route "+count+"/"+num+"<br>"+d;
-  if (l==1){
-	  elem.innerHTML+="updating.."
-  }
-  if (count==num){
-	  if (pdf=="0"){
-	  	elem.innerHTML+="<br>summary report is making...";
-	  }
-  }else{
-	  if (count==0){
-		  elem.innerHTML+="<br>Remaining --:--:--";
-	  }else{
-	  ex=parseInt(exT/1000);
+  let elapse_time,exp_time;
+
+  elem.innerHTML="検索済みルート数 "+count+"/"+num+"<br>";
+
+	  ex=(Date.now()-sT)/1000 >> 0;
 	  hr=String(Math.floor(ex/60/60));
 	  min=String(Math.floor((ex%3600)/60));
 	  sec=String(ex%60);
-	  elem.innerHTML+="<br>Remaining "+hr+":"+('00'+min).slice(-2)+":"+('00'+sec).slice(-2);
+	  elapse_time=" 経過時間 "+hr+":"+('00'+min).slice(-2)+":"+('00'+sec).slice(-2);
+	  elem.innerHTML+="<br>"+d;
+	  elem.innerHTML+="<br>"+elapse_time;
+  if (count==num){
+	  if (pdf=="0"){
+	  	elem.innerHTML+="<br>Making report in progress...";
 	  }
+  }else{
+	  if (count==0){
+		  line3="";
+	  }else{
+	  ex=exT/1000 >>0;
+	  hr=String(Math.floor(ex/60/60));
+	  min=String(Math.floor((ex%3600)/60));
+	  sec=String(ex%60);
+	  line3=" (残り時間 "+hr+":"+('00'+min).slice(-2)+":"+('00'+sec).slice(-2)+")";
+	  }
+	  elem.innerHTML+=line3;
   }
 }
 //    setTimeout(countUp, 1000);

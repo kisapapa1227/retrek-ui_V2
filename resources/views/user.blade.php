@@ -53,7 +53,7 @@
         .list-group-item h5 {
             font-size: 1.25rem;
             margin-bottom: 10px;
-            color: #343a40;
+            color: #143a40;
         }
         .button-container {
             display: flex; 
@@ -64,6 +64,32 @@
             padding: 5px 10px;
             font-size: 0.875rem;
         }
+details {
+  font: 16px "Open Sans",
+    Calibri,
+    sans-serif;
+}
+details > summary {
+  padding: 2px 6px;
+  width: 12em;
+  background-color: #a9ceec;
+  border: none;
+  box-shadow: 3px 3px 4px black;
+  text-align: center;
+}
+
+#ida{
+	opacity:1.0;
+	color:#000;
+}
+#bta {
+  padding: 2px 6px;
+  width: 12em;
+  background-color: #a9ceec;
+  color: #000;
+  border: none;
+  box-shadow: 3px 3px 4px black;
+}
     </style>
 </head>
 <body>
@@ -93,7 +119,8 @@
             </div>
                 
             <fieldset>
-                <legend class="mb-3">詳細設定</legend>
+<details>
+                <summary class="mb-3">詳細設定</summary>
 
                 <div class="form-group row mb-2">
                     <label for="route" class="col-sm-4 col-form-label">ルート数:</label>
@@ -167,23 +194,32 @@
                         </div>
                     </div>
                 </div>
-
+</details>
                 <div class="form-group row mb-2">
-                    <label class="col-sm-4 col-form-label">interface:</label>
+                    <label class="col-sm-4 col-form-label">作業内容の切り替え:</label>
                     <div class="col-sm-8">
                 <div class="form-group row mb-2">
+		@php
+$operaion_old=array("Original","Advanced","fromFile","Database");
+$operation=array("RetRek","経路探索","一括処理","データベース");
+		@endphp
 			<div>
                             <input type="radio" name="cui" class="form-check-input" id="Original" value="1" onchange="showCSV()">
-			<label style="width:90px" for="Original">Original</label>
+			<label style="width:90px" for="Original">{{$operation[0]}}</label>
 			</div>
 			<div>
                             <input type="radio" name="cui" class="form-check-input" id="Single" value="2" checked onchange="showCSV()">
-			<label style="width:100px" for="Original">Advanced</label>
+			<label style="width:100px" for="Original">{{$operation[1]}}</label>
 			</div>
 			<div>
                             <input type="radio" name="cui" class="form-check-input" id="fromFile" value="3" onchange="showCSV()">
-			<label style="width:100px" for="fromFile">fromFile</label>
+			<label style="width:100px" for="fromFile">{{$operation[2]}}</label>
 			</div>
+			<div>
+                            <input type="radio" name="cui" class="form-check-input" id="Database" value="4" onchange="showCSV()">
+			<label style="width:100px" for="Database">{{$operation[3]}}</label>
+			</div>
+
                             <label class="form-check-label" for="cui"></label>
                     </div>
                     </div>
@@ -194,7 +230,8 @@ CSV ファイルの読み込み
 <input type="text" name="fromCSV" class="form-control" id="fromCSV" value="id#,smiles,ops,,," >
 </div>
             </fieldset>
-            <button type="submit" class="btn btn-primary">検索</button>
+	    <button type="submit" class="btn btn-primary" id="bta">
+<div id="ida">反応経路の探索</div></button>
         </form>
 
         <section>
@@ -300,30 +337,42 @@ var progress = function(url){
 //
 
 function showCSV(){
+action=["RetRek表記検索","反応経路の探索","複数物質の一括探索","過去に探索した反応経路の表示"];
 //fileInput=document.getElementById("getfile");
 	cui=document.getElementsByName("cui");
 	csvBox=document.getElementById("csvBox");
 	smiles=document.getElementById("smiles");
 	subBox=document.getElementById("subBox");
 	smiBox=document.getElementById("smiBox");
-	if (cui[2].checked){// fromFile
+	search=document.getElementById("ida");
+	if (cui[3].checked){// database
+		csvBox.style.display='none';
+		smiles.required=false;
+		smiBox.style.display='none';
+		subBox.style.display='none';
+		search.innerHTML=action[3];
+	}else if (cui[2].checked){// fromFile
 		csvBox.style.display='block';
 		smiles.required=false;
 		smiBox.style.display='none';
 		subBox.style.display='none';
+		search.innerHTML=action[2];
 	}else if (cui[1].checked){//'single'
 		csvBox.style.display='none';
 		smiBox.style.display='block';
 		subBox.style.display='block';
 		smiles.required=true;
+		search.innerHTML=action[1];
 	}else{// Original
 		csvBox.style.display='none';
 		subBox.style.display='none';
 		smiBox.style.display='block';
 		smiles.required=true;
+		search.innerHTML=action[0];
 	};
 
 };
+
 const fileInput=document.getElementById("getfile");
 	fileInput.addEventListener("change",function(event){
 		const file = event.target.files[0];
