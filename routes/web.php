@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/add', [RetrekController::class, 'add'])->name('add');
     Route::post('/remove', [RetrekController::class, 'remove'])->name('remove');
     Route::post('/favorite', [RetrekController::class, 'favorite'])->name('favorite');
+    Route::post('/syncPdf', [RetrekController::class, 'syncPdf'])->name('syncPdf');
     Route::post('/askProc', [RetrekController::class, 'askProc'])->name('askProc');
     Route::post('/db', [RetrekController::class, 'db'])->name('db');
     Route::post('/addDb', [RetrekController::class, 'addDb'])->name('addDb');
