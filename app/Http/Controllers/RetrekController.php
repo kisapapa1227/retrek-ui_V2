@@ -24,7 +24,6 @@ class RetrekController extends Controller
 	$prc->run();
 	$outp=explode("\n",$prc->getOutput());
 
-#        $fh=fopen("/var/www/html/public/images/kRet.txt","w");
 	foreach ($outp as &$o){
 	if (strpos($o,"sail")!==false 
 		&& strpos($o,"python")!==false
@@ -55,11 +54,6 @@ class RetrekController extends Controller
 	$output="/var/www/html/public/images/report/";
 	$smilesDir="/var/www/html/public/images/smiles/";
 
-#        $fh=fopen("/var/www/html/ReTReKpy/dbAction.txt","w");
-#	fwrite($fh,$op."\n");
-#	fwrite($fh,$id."\n");
-#	fclose($fh);
-
 	switch($op){
 	case 'thumbnail':
 	    $process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-id",$id,"-d",$smilesDir,"-thumbnail"]);
@@ -88,35 +82,25 @@ class RetrekController extends Controller
 	];
 		break;
 	case 'askPptx':
-	    $process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-id",$id,"-d",$output,"-ppt"]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
-       	$process->run();
-	$param=[
-		'pdf' => "images/report/".$id.".pptx",
-	];
-		break;
 	case 'askPdf':
-        $opt = $request->input('opt');
-//komai
-	if ($opt=='-force'){
-	    $process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-id",$id,"-d",$output,$opt]);
-	}else{
-	    $process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-id",$id,"-d",$output]);
-	}
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
-       	$process->run();
-	$param=[
-		'pdf' => "images/report/".$id.".pdf",
-	];
 		break;
 	}
 	return response()->json($param);
     }
 
+    public function syncPdf(Request $request){
+	$uid  =$request->uid;
+	$given=$request->given;
+    	$sh=$this->makeNow($request->options);
+	$prm=$this->forDb();
+	sleep(2);
+	$this->easyProcess($sh,"readDb.py","readDb.py"); 
+
+	$prm['modal']='yes';$prm['uid']=$uid;$prm['filename']=$given;
+       	return view('db', $prm);
+    }
+
     public function addDb(Request $request){
-       $fh=fopen("/var/www/html/public/images/addDb.txt","w");
-	fwrite($fh,"in addDb..\n");
-       fclose($fh);
 
        $uid=$request->uid;
 
@@ -174,6 +158,32 @@ fclose($fh);
         return view('resulttmp');
     }
 
+    private static function easyProcess($sh,$py1,$py2){
+
+	$process = new Process(["sh", $sh]);
+        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        $process->setTimeout(0);
+       	$process->start();
+	$ww=0;
+	while($ww<20){
+	$prc = new Process(['ps','aux']);
+	$prc->run();
+	$outp=explode("\n",$prc->getOutput());
+
+	foreach ($outp as &$o){
+	if (strpos($o,"sail")!==false 
+		&& strpos($o,"python")!==false
+		&& strpos($o,$py1)!==false
+		&& strpos($o,$py2)!==false)
+	{
+			$ww=21;break;
+	}
+	}
+		sleep(2);
+		$ww++;
+	}
+}
+
     private static function makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12, $uid){
     $user= Auth::user();
     $name = $user['name'];
@@ -197,8 +207,49 @@ fclose($fh);
 		fclose($fp);
 		return $wk.$ssh;
 }
-    public function exepy(Request $request)
-    {
+
+private static function makeNow($options){
+
+    $wk="/var/www/html/ReTReKpy/";
+    $output="/var/www/html/public/images/report/";
+    $sh=$wk."now.sh";
+    $fp=fopen($sh,"w");
+    fwrite($fp,"#!/bin/sh\n#\n#\n");
+    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py ".$options." -d ".$output);
+    fwrite($fp," 1> /dev/null 2>/dev/null &\n");
+    fclose($fp);
+
+    return $sh;
+}
+
+private static function forDb(){
+$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-db_list"]);
+$process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        $process->setTimeout(0);
+       	$process->run();
+        $routes = $process->getOutput();
+	$records=explode("###",$routes);
+	$cnt=0;$fieldName=[];$prm=array();$body=array();
+	foreach ($records as $record){
+		$fields=explode("##",$record);
+		if ($cnt==0){
+			foreach ($fields as $field){
+				$fieldName[]=$field;
+			}
+		$prm['name']=$fieldName;
+		}else{
+		$i=0;
+		foreach ($fields as $field){
+				$body[$fieldName[$i]][]=$field;
+				$i+=1;
+		}}
+		$cnt++;
+	}
+		$prm['body']=$body;
+
+	return $prm;
+}
+    public function exepy(Request $request){
 
         $smiles = $request->input('smiles');
         $substance = $request->input('substance');
@@ -226,73 +277,21 @@ fclose($fh);
     }elseif($ccc==2){
 	    $csv='True';
     }elseif($ccc==3){
-        return view('results', ['routes' => $updatedRoutes, 'molecule' => $smiles]);
+        $userId = auth()->id();
+        $favoriteRoutes = FavoriteRoute::where('user_id', $userId)->get();
+        return view('user', ['favoriteRoutes' => $favoriteRoutes]);
     }elseif($ccc==4){
-	    $process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-db_list"]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
-        $process->setTimeout(0);
-       	$process->run();
-        $routes = $process->getOutput();
-#komai
-#        $fh=fopen("/var/www/html/public/images/kRet.txt","w");
-#	fwrite($fh,$routes);
-#	fclose($fh);
-
-	$records=explode("###",$routes);
-	$cnt=0;	
-	$ret=[];
-	$fieldName=[];
-	$prm=array();
-	$body=array();
-	foreach ($records as $record){
-		$fields=explode("##",$record);
-		if ($cnt==0){
-			foreach ($fields as $field){
-				$fieldName[]=$field;
-			}
-		$prm['name']=$fieldName;
-		}else{
-		$i=0;
-		foreach ($fields as $field){
-				$body[$fieldName[$i]][]=$field;
-				$i+=1;
-		}
-		}
-		$cnt++;
-	}
-		$prm['body']=$body;
-#       	return view('db', response()->json(['all' => $routes]));
+	    $prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
        	return view('db', $prm);
-#       	return view('db', ['all' => "help me!"]);
     }
 	if ($ccc>1){
     	$user= Auth::user();
     	$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
         $sh = $this->makeScript("async.sh",$smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv,$substance,$uid);
 
-	$process = new Process(["sh", $sh]);
 #        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv, $substance]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
-        $process->setTimeout(0);
-        	$process->start();
-	$ww=0;
-	while($ww<20){
-	$prc = new Process(['ps','aux']);
-	$prc->run();
-	$outp=explode("\n",$prc->getOutput());
+	$this->easyProcess($sh,"exe.py",$uid);
 
-	foreach ($outp as &$o){
-	if (strpos($o,"sail")!==false 
-		&& strpos($o,"python")!==false
-		&& strpos($o,"exe.py")!==false
-		&& strpos($o,$uid)!==false)
-	{
-			$ww=21;break;
-		}
-	}
-		sleep(2);
-		$ww++;
-	}
 #		while ($process->getStatus()!="started"){}
 #        	$process->wait();
         	return view('proc', ['smiles' => $smiles, 'route_num' => $route_num,'substance' => $substance, 'uid' => $uid]);
@@ -418,14 +417,11 @@ fclose($fh);
         libxml_use_internal_errors(false);
 
         return view('results', ['routes' => $updatedRoutes, 'molecule' => $smiles]);
-
-        
     }
 
 
     public function add(Request $request)
     {
-
         $userId = auth()->id();
         $smiles = $request->input('smiles');
         $routeId = $request->input('route_id');
