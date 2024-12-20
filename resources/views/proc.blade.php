@@ -38,6 +38,8 @@
     </div>
 </br>
 <div>
+</br>
+</br>
 <h3>Searching "{{$smiles}}"</h3><br>
 </div>
 <div id="proc">

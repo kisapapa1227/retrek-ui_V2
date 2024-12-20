@@ -45,39 +45,69 @@ ok {
             </form>
       </div>
     </div>
-</br>
+<div id="mainView"></br></div>
 <div>
-<br>
-<details>
+</br>
+<details id="myDetails" onclick="goHere(this)" name="details_head">
 <summary> 探索経路の一覧、選択 </summary>
 </br>
+
+<details>
+<summary> 図の大きさを変える</summary>
+</br>
+<input type="radio" name="size" class="size" id="pdf" value="0.2" onchange="setSize(this)">
+<label style="width:10px">小さい</label>
+<input type="radio" name="size" class="size" id="pdf" value="0.25" onchange="setSize(this)" checked >
+<label style="width:10px">普通</label>
+<input type="radio" name="size" class="size" id="pdf" value="0.4" onchange="setSize(this)">
+<label style="width:10px">大きい</label>
+<input type="text" value="0.25" id="mySize">
+</details>
+<div>
+
 <table border="1" id="retTable" align="top">
 </table>
 </details>
 </br>
 
 @php
-$opt=array("PDFを表示","PPTXでダウンロード","RetRek情報のダウンロード","探索結果の削除")
+$opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報のダウンロード","探索結果の削除")
 @endphp
-<input type="radio" name="oper" class="oper" id="pdf" value="1" onchange="showCSV()">
+<input type="radio" name="oper" class="oper" id="pdf" value="1">
  <label style="width:90px" for="Original">{{$opt[0]}}</label>
-<input type="radio" name="oper" class="oper" id="ppt" value="2" checked onchange="showCSV()">
+<input type="radio" name="oper" class="oper" id="ppt" value="2" checked>
 <label style="width:100px" for="Original">{{$opt[1]}}</label>
-<input type="radio" name="oper" class="oper" id="db" value="3" onchange="showCSV()">
+<input type="radio" name="oper" class="oper" id="db" value="3">
  <label style="width:90px" for="Original">{{$opt[2]}}</label>
-<input type="radio" name="oper" class="oper" id="del" value="4" onchange="showCSV()">
+<input type="radio" name="oper" class="oper" id="del" value="4">
  <label style="width:90px" for="Original">{{$opt[3]}}</label>
                         </div>
 </div>
 <div id="proc">
 </div>
 <div>
-<div>
-<button id='bta' type="button" onclick="proc()"> <div id='ida'>実行する</div></button></br>
+<table border="0" align="top">
+<tr><td>
+<button id='bta' type="button" onclick="proc()"> <div id='ida' style="display:inline-block">実行する</div></button></td><td>
+<div id="modal" style="margin-left:20px"></div>
+</td></tr>
+</table>
 </div>
-<div>
+
 <embed id="forPDF" type="application/pdf" width="100%" height="0"></embed>
 </div>
+
+<form action="{{ route('syncPdf') }}" method="POST">
+@csrf
+<div style="display:none">
+	<button type="submit" id="syncPdf">
+        <input type="text" name="options" value="" id="syncOptions">
+        <input type="text" name="scale" value="0.25" id="syncScale">
+        <input type="text" name="uid" value="" id="syncUid">
+        <input type="text" name="given" value="who..." id="given">
+</div>
+</form>
+
     <footer>
       <hr />
       version 1.1 2024/11/30
@@ -89,11 +119,10 @@ $opt=array("PDFを表示","PPTXでダウンロード","RetRek情報のダウン�
 let CHK=10
 let fname=@json($name);
 let table=@json($body);
-let loop=CHK;
-let pdf=0;
+let modal=@json($modal);
+let thisId=@json($uid);
+let given_filename=@json($filename);
 let sT=Date.now();
-let exT="∞";
-let works=0;
 let i=0;
 let smileId=0;
 let smileTableId=0;
@@ -101,7 +130,8 @@ dsr="http://localhost/images/smiles/pid"
 
 function chkMess(opt){
 	switch(opt){
-	case 'pdf':return("pdfを表示中");
+	case 'pdf':return("pdfを作成中");
+	case 'ppt':return("パワーポイントを作成中");
 	case '-force':return("pdfを作成中");
 	case 'non':return("pdfを切り替え中");
 	case 'askPptx':return("pptxをダウンロード中");
@@ -113,37 +143,143 @@ function chkMess(opt){
 
 }
 
-function showPdf(btn,opt){
-mes=chkMess(opt);
-	xproc=document.getElementById("proc");xproc.innerHTML=mes;
-	search=document.getElementById("ida");search.style.display='none';
-    $.ajax({
-      headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-      },
-      url: '/dbAction', // routes/web.php でとび先を設定
-      method: 'POST',
-      data: {
-        'id': btn.value,
-        'oper':"askPdf",
-	'opt':opt,
-      },
-      timeout:5000,
-    }).done(function (data){
-      win=document.getElementById('forPDF');
-      win.src=data.pdf;
-      win.style.height="700px";
-  	xproc.innerHTML='';
-	search.style.display='block';
-    }).fail(function () {
-  	xproc.innerHTML='サーバーが混んでいます。再実行してください';
-	search.style.display='block';
-    });
+const sleep = (time) => new Promise((r) => setTimeout(r, time));
+
+function goHere(btn){
+	if (btn.open==true){
+		return;
+	}
+	goThere(btn);
+}
+
+async function goThere(btn){
+	await sleep(100);
+	if (btn.open==true){
+		location.href="#radio:"+getPrePid();
+	}
+}
+
+function modal_wacher(){
+var fp="http://localhost/images/report/readDb"+thisId+"normal.log";
+var fp2="http://localhost/images/report/"+thisId+".pdf";
+let modal=document.getElementById("modal").innerHTML;
+
+	$.ajax({
+		url: fp,
+		cache: false,
+		async: false,
+	}).done(function(data) {
+		let mes=data.split("\n");
+		modal=mes[mes.length-2];
+		if (mes[mes.length-2]!="mission ok"){
+			modal="...";
+			setTimeout(modal_wacher,1000);
+		}else{
+			document.getElementById("proc").innerHTML="";
+			ext=given_filename.split(".")[1];
+			if (ext=='pdf' || ext=='pptx' || ext=='txt'){
+			const myDetails=document.getElementById("myDetails");
+			const tg=document.getElementById("radio:"+thisId);
+				w1=fp2.split('.');
+				w2=given_filename.split('.');
+				if (ext=='txt'){
+					w3=w1[0]+"db."+w2[1];
+				}else{
+					w3=w1[0]+"."+w2[1];
+				}
+//				alert(w3+" as "+given_filename);
+				download(w3,given_filename);
+				myDetails.open=true;
+	      			tg.checked=true;
+				setTimeout(function(){location.href="#radio:"+getPrePid()},200);
+//				location.href="#radio:"+getPrePid();
+//komai
+			}else{
+				const win=document.getElementById('forPDF');
+				win.src=fp2;
+			}
+		}
+	}).fail(function(data){
+		modal="...";
+		setTimeout(modal_wacher,1000);
+	}
+		);
+
+//	filename.innerHTML="<img src='"+dsr+id+".svg' height='150px'>";
+}
+
+function is_file(fp){
+		var flg=null;
+		$.ajax({
+			url: fp,
+			cache: false,
+			async:false
+		}).done(function(data) {
+			flg=true;
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			flg=false;
+		});
+		return flg;
+}
+
+function closeAndGo(btn){
+const myDetails=document.getElementById("myDetails");
+const tg=document.getElementById("radio:"+btn.value);
+	tg.click();
+	myDetails.open=false;
+	location.href='#mainView';
+}
+
+function showPdf(btn,opt,filename){
+const xhr=new XMLHttpRequest();
+const url="http://localhost/images/report/"+btn.value+".pdf";
+const xproc=document.getElementById("proc");xproc.innerHTML=chkMess(opt);
+const search=document.getElementById("ida");search.style.display='none';
+
+if (opt=='non'){
+var flg=is_file(url);
+       	if(flg==true){
+	    const win=document.getElementById('forPDF');
+            win.src=url;
+            win.style.height="700px";
+            xproc.innerHTML='';
+            search.style.display='block';
+            location.href='#forPDF';
+            return;
+	}}
+      const button=document.getElementById("syncPdf");
+      const size=document.getElementById("mySize");
+      const options=document.getElementById("syncOptions");
+      const scale=document.getElementById("syncScale");
+      const myUid=document.getElementById("syncUid");
+      const myGiven=document.getElementById("given");
+      myUid.value=btn.value;
+      scale.value=size.value;
+
+switch(opt){
+    case 'non':
+	pid=getPid();
+	i=pid[0];
+	myGiven.value=String(table[fname[7]][i])+" at pid#"+btn.value;
+        options.value="-id "+btn.value+" -force -s "+scale.value;break;
+    case 'pdf':
+	myGiven.value=filename;
+        options.value="-id "+btn.value+" -force -s "+scale.value;break;
+    case 'ppt':
+	myGiven.value=filename;
+        options.value="-id "+btn.value+" -ppt -force -s "+scale.value;break;
+    case 'db':
+	myGiven.value=filename;
+        options.value="-id "+btn.value+" -db -force";break;
+    }
+      button.click();
 }
 
 function forDownload(id,oper,filename){
 mes=chkMess(oper);
-	xproc=document.getElementById("proc");xproc.innerHTML=mes;
-	search=document.getElementById("ida");search.style.display='none';
+const xproc=document.getElementById("proc");xproc.innerHTML=mes;
+const search=document.getElementById("ida");search.style.display='none';
     $.ajax({
       headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
       },
@@ -153,20 +289,13 @@ mes=chkMess(oper);
         'id': id,
         'oper':oper,
 	'options':'true',
-      },
-      timeout:5000,
-    }).done(function (data){
-	    if (data.pdf=='reload'){
-		location.reload();
-	    }else if(data.pdf=='none'){
-	   setTimeout(()=>{
-		filename.innerHTML="<img src='"+dsr+id+".svg' height='150px'>";
-	    },"1000");
-// nothing to do
-	    }else{
+      },timeout:5000,
+	}).done(function (data){
+//	alert(data.pdf+":"+filename);
+	if (filename!='non'){
 		download(data.pdf,filename);
-	    }
-  	xproc.innerHTML='';
+	}
+  		xproc.innerHTML='';
 	search.style.display='block';
     }).fail(function () {
 	xproc.innerHTML='サーバーが混んでいます。再実行してください';
@@ -184,33 +313,31 @@ function imageCheck(url,html,pid){
 	}
 	newImage.src=url;
 }
+
 function showAsSmilesImages(tbl){
-for (i = 0; i < table[fname[smileId]].length; i++) {
+let wk,img;
+for (var i = 0; i < table[fname[smileId]].length; i++) {
 	wk=tbl.rows[i+1].cells[smileTableId];
 	img=dsr+table['id'][i]+".svg";
 	imageCheck(img,wk,table['id'][i]);
-//		wk.innerHTML="<img src='"+img+"' height='150px'>";
 }
 }
 
 function showAsSmilesStrings(tbl){
-//	komai
-for (i = 0; i < table[fname[smileId]].length; i++) {
+let wk;
+for (var i = 0; i < table[fname[smileId]].length; i++) {
 	wk=tbl.rows[i+1].cells[smileTableId];
 	wk.innerHTML=table[fname[smileId]][i];
-//	wk.style.background='yellow';
-//	tbl.rows[i+1].cells[smileTableId].innerHTML="<img src='"+table[fname[smileId]][i]";
 }
 }
 
 function pushButton(btn){
-let tbl = document.getElementById("retTable");
+const tbl = document.getElementById("retTable");
+
 	if (btn.style.background=='transparent'){
 		if (btn.name=='smiles'){
-//      inp.name = xx;
 		btn.style.background='yellow';
 	        btn.value = "Click for images";
-		//komai
 		showAsSmilesStrings(tbl);
 	}else{
 		btn.style.background='red';
@@ -225,36 +352,48 @@ let tbl = document.getElementById("retTable");
 }
 
 function download(url,filename){
-	const a = document.createElement('a');
+const a = document.createElement('a');
+
 	a.href=url;
 	a.download=filename;
 	a.click();
 }
 
-function nothing(){
-  	document.getElementById("proc").innerHTML=String(works)+" jos is working";
-}
-function getPid(){
-	tgs=document.getElementsByName("id");
-	len=tgs.length;
-	for (let i=0;i<len;i++){
+function getPrePid(){
+const tgs=document.getElementsByName("id");
+
+	for (var i=0;i<tgs.length;i++){
 		bt=tgs[i];
 		if (bt.checked){
-		return [i,bt.value,bt];
+		if (i!=0){
+			return tgs[i-1].value-1;
+		}else{
+			return tgs[i-1].value-1;
+		}
 	    }
+    }
+}
+function getPid(){
+const tgs=document.getElementsByName("id");
+
+	for (let i=0;i<tgs.length;i++){
+		bt=tgs[i];
+		if (bt.checked){
+			if (i!=0){
+				i=i-1;
+			}
+		return [i,bt,bt.value];
+	}
     }
 }
 
 function proc(){
-	let pid;
-	let tgs;
-	let len;
-	let rd_btn=document.getElementsByName("oper");
-	let checkValue='';
-	let filename;
+let i,pid;
+let rd_btn=document.getElementsByName("oper");
+let checkValue='';
+let filename;
 
-	len=rd_btn.length;
-	for(let i=0;i<len;i++){
+	for(let i=0;i<rd_btn.length;i++){
 		if(rd_btn.item(i).checked){
 			checkValue=rd_btn.item(i).value;
 		}
@@ -262,113 +401,33 @@ function proc(){
 
 	switch(parseInt(checkValue)){
 	case 1:
-		pid=getPid();
-		showPdf(pid[2],'-force');
-		break;
 	case 2:
-		pid=getPid();
-		i=pid[0];
-		filename=String(table[fname[6]][i])+String(table[fname[7]][i]+".pptx");
-		forDownload(pid[1],"askPptx",filename);
-		break;
 	case 3:
 		pid=getPid();
 		i=pid[0];
-		filename=String(table[fname[6]][i])+String(table[fname[7]][i]+".txt");
-		forDownload(pid[1],"db",filename);
+		filename=String(table[fname[6]][i])+String(table[fname[7]][i]);
+		if (parseInt(checkValue)==1){
+			showPdf(pid[1],'pdf',filename+'.pdf');
+		}else if (parseInt(checkValue)==2){
+			showPdf(pid[1],'ppt',filename+'.pptx');
+		}else{
+			showPdf(pid[1],'db',filename+'.txt');
+		}
 		break;
 	case 4:
 		pid=getPid();
-		i=pid[0];
-		forDownload(pid[1],"drop","non");
-		break;
-	case 5:
-	tgs=document.getElementsByName("pid");
-	len=tgs.length;
-// komai
-	for (let i=0;i<len;i++){
-		bt=tgs[i];
-		pid=bt.id.split(":")[1]
-		if (bt.checked){
-		filename=String(table[fname[6]][i])+String(table[fname[7]][i]+".pptx");
-		forDownload(pid,"askPptx",filename);
-		}
-//		alert("what->"+String(i)+bt.id)
-	}
-		break;
-	case 6:
+		forDownload(pid[1].value,"drop","non");
 		break;
 	}
 }
-function showCSV(){
-	return;
-	        search=document.getElementById("ida");
-	        oper=document.getElementsByName("oper");
-	if (oper[0].checked){
-		search.innerHTML='PDF を表示する';
-	}else if (oper[1].checked){
-		search.innerHTML='ファイルをダウンロードする';
-	}else if (oper[2].checked){
-		search.innerHTML='ファイルをダウンロードする';
-	}else if (oper[3].checked){
-		search.innerHTML='削除する';
-	}else{
-		search.innerHTML='Non';
-	}
-}
 
-const askPdf=()=>{
-$(function(){
-
-let l=[];
-  document.getElementById("proc").innerHTML="This "+l;
-  return;
-    for (let j = 0; j < fname.length; j++) {
-	    if (document.getElementById("chk"+String(j)).checked){
-		    l.push(j);
-	    }
-    }
-//  document.getElementById("proc").innerHTML=l;
-      document.getElementById("proc").innerHTML='作業中';
-    $.ajax({
-      headers: {'X-CSRF-TOKEN' : $('meta[name="csrf-token"]').attr('content')
-      },
-      url: '/dbAction', // routes/web.php でとび先を設定
-      method: 'POST',
-      data: {
-        'id':"dummy" 
-      },
-    }).done(function (data){
-      count=data.test;
-      document.getElementById("proc").innerHTML=data.test.uname;
-    }).fail(function () {
-      document.getElementById("proc").innerHTML='';
-    });
-//window.location.reload();
-});
+function setSize(btn){
+	document.getElementById("mySize").value=btn.value;
 }
 
 function makeItTime(s){
-	tm=s.slice(0,4)+"年"+s.slice(4,6)+"月"+s.slice(6,8)+"日"+s.slice(8,10)+"時"+s.slice(10,12)+"分";
+const tm=s.slice(0,4)+"年"+s.slice(4,6)+"月"+s.slice(6,8)+"日"+s.slice(8,10)+"時"+s.slice(10,12)+"分";
 	return(tm);
-}
-
-function flushText(l) {
-  const elem = document.getElementById("proc");
-  let d=new Date();
-//  elem.innerHTML=db.head+"<br>";
-  elem.innerHTML=table[fname[3]]+"<br>";
-//  elem.innerHTML=table['id']+"<br>";
-  if (l==1){
-	  elem.innerHTML+="updating.."
-  }
-    num=3;
-  if (count==num){
-	  if (pdf=="0"){
-	  	elem.innerHTML+="<br>summary report is making...";
-	  }
-  }else{
-  }
 }
 
 conv={'date':'日付','uname':'ユーザー名','loop':'検索件数','factors':'検索の重み','options':'検索条件','substance':'物質名'}
@@ -376,18 +435,17 @@ function showTable(){
 const skip=[1,3,5]
 const tbl = document.getElementById("retTable");
 const tblBody = document.createElement("tbody");
+let tr,td,inp,xx,addButton;
 
-    let tr = document.createElement("tr");
-    let td = document.createElement("td");
-//    let inp = document.createTextNode("--");
-//    td.appendChild(inp);
+    tr = document.createElement("tr");
+    td = document.createElement("td");
     tr.appendChild(td);
 
-    for (let j = 0; j < fname.length; j++) {
-if (! skip.includes(j)){
-    let td = document.createElement("td");
-    let inp = document.createElement('input');
-      inp.type='button';
+    for (var j = 0; j < fname.length; j++) {
+if (!skip.includes(j)){
+    td = document.createElement("td");
+    inp = document.createElement('input');
+    inp.type='button';
     xx=fname[j];
     for(key in conv){
 	    if (key==fname[j]){
@@ -403,45 +461,49 @@ if (! skip.includes(j)){
       inp.value = "Click for images";
 	      smileId=j;
 	      smileTableId=td.cellIndex;
-      }
+            }
 	}
     }// for index list
     tblBody.appendChild(tr);
 
-    let i;
-for (i = 0; i < table[fname[0]].length-1; i++) {
-    // 表の行を作成
-    let row = document.createElement("tr");
-    let td = document.createElement("td");
+let cell,row,cellText;
 
-    let addButton = document.createElement('input');
-    addButton.type = 'checkbox';
-    //komai
+for (var i = 0; i < table[fname[0]].length-1; i++) {
+    // 表の行を作成
+    row = document.createElement("tr");
+    td = document.createElement("td");
+
+    addButton = document.createElement('input');
+    addButton.type = 'button';
     addButton.setAttribute("name","pid");
-    addButton.setAttribute("id","id:"+String(table[fname[0]][i]));
+    addButton.setAttribute("value",table[fname[0]][i]);
+    addButton.setAttribute("onclick","closeAndGo(this)");
     td.appendChild(addButton);
     row.appendChild(td);
 
     for (let j = 0; j < fname.length; j++) {
 if (! skip.includes(j)){
-      let cell = document.createElement("td");
-      let cellText;
+      cell = document.createElement("td");
+      cellText;
 if (j==0){
       cellText = document.createElement("input");
       cellText.type="radio";
       cellText.name="id";
-//      cellText.value=String(i)+":"+table[fname[2]][i];
+      cellText.id="radio:"+table[fname[0]][i];
       cellText.value=table[fname[j]][i];
-      cellText.setAttribute('onchange','showPdf(this,"non")');
+      cellText.setAttribute('onchange','showPdf(this,"non","non")');
+
       if (i==0){
 	      cellText.checked=true;
       }
+
 }else{
+let tm;
       if (fname[j]=='date'){
 	      tm=makeItTime(table[fname[j]][i]);
-	cellText = document.createTextNode(tm);
+	      cellText = document.createTextNode(tm);
       }else{
-      cellText = document.createTextNode(table[fname[j]][i]);
+              cellText = document.createTextNode(table[fname[j]][i]);
       }
 }
       cell.appendChild(cellText);
@@ -454,4 +516,11 @@ tbl.appendChild(tblBody);
 tbl.setAttribute("border", "2");
 }
 showTable();
+
+if (modal=='yes'){
+	const mess=given_filename+" is making ... wait...";
+	document.getElementById("proc").innerHTML=mess;
+
+	setTimeout(modal_wacher,1000);
+}
 </script>
