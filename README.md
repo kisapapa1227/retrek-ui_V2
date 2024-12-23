@@ -68,3 +68,8 @@ sh InstallerStep4.sh<br>
 を実行し、存在するイメージの削除をした後<br>
 sh InstallerStep3.sh<br>
 を実行する。
+
+#### ユーザーマニュアル
+ブラウザから<br>
+http://localhost<br>
+で接続後の操作は、このページのディレクトリー Installerにユーザーマニュアルを準備したので、参考にしてください。
