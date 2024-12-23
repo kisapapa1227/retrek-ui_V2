@@ -55,11 +55,11 @@ ok {
 <details>
 <summary> 図の大きさを変える</summary>
 </br>
-<input type="radio" name="size" class="size" id="pdf" value="0.2" onchange="setSize(this)">
+<input type="radio" name="size" class="size" id="pdf1" value="0.2" onchange="setSize(this)">
 <label style="width:10px">小さい</label>
-<input type="radio" name="size" class="size" id="pdf" value="0.25" onchange="setSize(this)" checked >
+<input type="radio" name="size" class="size" id="pdf2" value="0.25" onchange="setSize(this)" checked >
 <label style="width:10px">普通</label>
-<input type="radio" name="size" class="size" id="pdf" value="0.4" onchange="setSize(this)">
+<input type="radio" name="size" class="size" id="pdf3" value="0.4" onchange="setSize(this)">
 <label style="width:10px">大きい</label>
 <input type="text" value="0.25" id="mySize">
 </details>
@@ -74,13 +74,13 @@ ok {
 $opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報のダウンロード","探索結果の削除")
 @endphp
 <input type="radio" name="oper" class="oper" id="pdf" value="1">
- <label style="width:90px" for="Original">{{$opt[0]}}</label>
+ <label style="width:90px" for="pdf">{{$opt[0]}}</label>
 <input type="radio" name="oper" class="oper" id="ppt" value="2" checked>
-<label style="width:100px" for="Original">{{$opt[1]}}</label>
+<label style="width:100px" for="ppt">{{$opt[1]}}</label>
 <input type="radio" name="oper" class="oper" id="db" value="3">
- <label style="width:90px" for="Original">{{$opt[2]}}</label>
+ <label style="width:90px" for="db">{{$opt[2]}}</label>
 <input type="radio" name="oper" class="oper" id="del" value="4">
- <label style="width:90px" for="Original">{{$opt[3]}}</label>
+ <label style="width:90px" for="del">{{$opt[3]}}</label>
                         </div>
 </div>
 <div id="proc">
@@ -176,10 +176,15 @@ let modal=document.getElementById("modal").innerHTML;
 			setTimeout(modal_wacher,1000);
 		}else{
 			document.getElementById("proc").innerHTML="";
-			ext=given_filename.split(".")[1];
+			const tg=document.getElementById("radio:"+thisId);
+			exto=given_filename.split(".");
+			if (exto.length>1){
+				ext=given_filename.split(".")[1];
+			}else{
+				ext='non';
+			}
 			if (ext=='pdf' || ext=='pptx' || ext=='txt'){
 			const myDetails=document.getElementById("myDetails");
-			const tg=document.getElementById("radio:"+thisId);
 				w1=fp2.split('.');
 				w2=given_filename.split('.');
 				if (ext=='txt'){
@@ -192,11 +197,11 @@ let modal=document.getElementById("modal").innerHTML;
 				myDetails.open=true;
 	      			tg.checked=true;
 				setTimeout(function(){location.href="#radio:"+getPrePid()},200);
-//				location.href="#radio:"+getPrePid();
-//komai
 			}else{
 				const win=document.getElementById('forPDF');
 				win.src=fp2;
+            			win.style.height="700px";
+	      			tg.checked=true;
 			}
 		}
 	}).fail(function(data){
