@@ -55,15 +55,6 @@
             margin-bottom: 10px;
             color: #143a40;
         }
-        .button-container {
-            display: flex; 
-            gap: 10px; 
-        }
-        .favorite-button,
-        .remove-button {
-            padding: 5px 10px;
-            font-size: 0.875rem;
-        }
 details {
   font: 16px "Open Sans",
     Calibri,
@@ -85,6 +76,14 @@ details > summary {
 #bta {
   padding: 2px 6px;
   width: 12em;
+  background-color: #a9ceec;
+  color: #000;
+  border: none;
+  box-shadow: 3px 3px 4px black;
+}
+#btb {
+  padding: 2px 6px;
+  width: 18em;
   background-color: #a9ceec;
   color: #000;
   border: none;
@@ -229,59 +228,15 @@ CSV ファイルの読み込み
 <input type="file" id="getfile">
 <input type="text" name="fromCSV" class="form-control" id="fromCSV" value="id#,smiles,ops,,," >
 </div>
+<div>
+<button id='btb' type="button" style="display:none" onclick="templateDownload()" >テンプレートをダウンロードする</button>
+</div>
+</br>
             </fieldset>
 	    <button type="submit" class="btn btn-primary" id="bta">
 <div id="ida">反応経路の探索</div></button>
         </form>
 
-        <section>
-            <h3>お気に入りの合成経路</h3>  
-            <ul class="list-group">
-                @forelse($favoriteRoutes as $route)
-                    <li class="list-group-item">
-                        <h5>{{ $route->smiles }}の合成経路</h5>
-                        <div class="button-container">
-                        <form action="{{ route('favorite') }}" method="POST" class="favorite-form">
-                            @csrf
-                            <input type="hidden" name="smiles" value="{{ $route->smiles }}">
-                            <input type="hidden" name="route_id" value="{{ $route->route_id }}">
-                            <input type="hidden" name="route_num" value="{{ $route->route_num }}">
-                            <input type="hidden" name="knowledge_weights" value="{{ $route->knowledge_weights }}">
-                            <input type="hidden" name="save_tree" value="{{ $route->save_tree ? 'true' : 'false' }}">
-                            <input type="hidden" name="expansion_num" value="{{ $route->expansion_num }}">
-                            <input type="hidden" name="cum_prob_mod" value="{{ $route->cum_prob_mod ? 'true' : 'false' }}">
-                            <input type="hidden" name="chem_axon" value="{{ $route->chem_axon ? 'true' : 'false' }}">
-                            <input type="hidden" name="cui" value="{{ $route->cui }}">
-                            <input type="hidden" name="selection_constant" value="{{ $route->selection_constant }}">
-                            <input type="hidden" name="time_limit" value="{{ $route->time_limit }}">
-                            <input type="hidden" name="fromCSV" value="{{ $route->fromCSV }}">
-                            <button type="submit" class="btn btn-primary favorite-button">表示</button>
-                        </form>
-                        <form action="{{ route('remove') }}" method="POST" class="remove-route">
-                            @csrf
-                            <input type="hidden" name="smiles" value="{{ $route->smiles }}">
-                            <input type="hidden" name="route_id" value="{{ $route->route_id }}">
-                            <input type="hidden" name="route_num" value="{{ $route->route_num }}">
-                            <input type="hidden" name="knowledge_weights" value="{{ $route->knowledge_weights }}">
-                            <input type="hidden" name="save_tree" value="{{ $route->save_tree ? 'true' : 'false' }}">
-                            <input type="hidden" name="expansion_num" value="{{ $route->expansion_num }}">
-                            <input type="hidden" name="cum_prob_mod" value="{{ $route->cum_prob_mod ? 'true' : 'false' }}">
-                            <input type="hidden" name="chem_axon" value="{{ $route->chem_axon ? 'true' : 'false' }}">
-                            <input type="hidden" name="cui" value="{{ $route->cui ? 'true' : 'false' }}">
-                            <input type="hidden" name="fromCSV" value="{{ $route->fromCSV }}">
-                            <input type="hidden" name="selection_constant" value="{{ $route->selection_constant }}">
-                            <input type="hidden" name="time_limit" value="{{ $route->time_limit }}">
-                            <button type="submit" class="btn btn-primary favorite-button">お気に入りから削除</button>
-                        </form>
-                    </div>
-                    </li>
-                @empty
-                    <li class="list-group-item">お気に入りの合成経路はありません。</li>
-                @endforelse
-            </ul>
-        </section>
-    </div>
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -333,8 +288,13 @@ var progress = function(url){
         });
     </script>
 <script>
-// komai
-//
+function templateDownload(){
+	const a = document.createElement('a');
+
+        a.href="http://localhost/images/report/template.csv";
+        a.download="template.csv";
+        a.click();
+}
 
 function showCSV(){
 action=["RetRek表記検索","反応経路の探索","複数物質の一括探索","過去に探索した反応経路の表示"];
@@ -345,29 +305,34 @@ action=["RetRek表記検索","反応経路の探索","複数物質の一括探�
 	subBox=document.getElementById("subBox");
 	smiBox=document.getElementById("smiBox");
 	search=document.getElementById("ida");
+	temple=document.getElementById("btb");
 	if (cui[3].checked){// database
 		csvBox.style.display='none';
 		smiles.required=false;
 		smiBox.style.display='none';
 		subBox.style.display='none';
+		temple.style.display='none';
 		search.innerHTML=action[3];
 	}else if (cui[2].checked){// fromFile
 		csvBox.style.display='block';
 		smiles.required=false;
 		smiBox.style.display='none';
 		subBox.style.display='none';
+		temple.style.display='block';
 		search.innerHTML=action[2];
 	}else if (cui[1].checked){//'single'
 		csvBox.style.display='none';
 		smiBox.style.display='block';
 		subBox.style.display='block';
 		smiles.required=true;
+		temple.style.display='none';
 		search.innerHTML=action[1];
 	}else{// Original
 		csvBox.style.display='none';
 		subBox.style.display='none';
 		smiBox.style.display='block';
 		smiles.required=true;
+		temple.style.display='none';
 		search.innerHTML=action[0];
 	};
 
@@ -381,9 +346,15 @@ const fileInput=document.getElementById("getfile");
 	function readFile(file){
 		const reader = new FileReader();
 		reader.onload = function (event) {
-		document.getElementById("fromCSV").value=event.target.result;
+		step1=event.target.result.split('\n');
+		step2=step1[0];
+		for (var i =1;i<step1.length-1;i++){
+			step2=step2+";"+step1[i];
+		}
+			document.getElementById("fromCSV").value=step2;
 		};
 		reader.readAsText(file);
+//		reader.readAs(file,'shift-jis');
 	};
 </script>
 </body>

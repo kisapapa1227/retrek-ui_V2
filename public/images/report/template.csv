@@ -1,0 +1,11 @@
+#smiles,substance,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon
+#smiles#1,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#2,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,
+#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,

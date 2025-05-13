@@ -27,7 +27,8 @@ const submit = () => {
         onFinish: () => {
             if (!form.hasErrors()) {
                 
-                this.$inertia.visit(route('user'));
+//                this.$inertia.visit(route('menu'));
+document.getElementById('menu').click();
             }
             form.reset('password');  
         }
@@ -35,8 +36,10 @@ const submit = () => {
 };
 
 const redirectToRegister = () => {
-    Inertia.visit(route('register'));
+//    Inertia.visit(route('register'));
+document.getElementById('register').click();
 };
+
 </script>
 
 <template>
@@ -46,6 +49,13 @@ const redirectToRegister = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
+
+<form action="register" method="GET">
+<div style="display:none"><button type="submit" id="register"/></div>
+</form>
+<form action="menu" method="GET">
+<div style="display:none"><button type="submit" id="menu"/></div>
+</form>
 
         <form @submit.prevent="submit">
             <div>
@@ -78,18 +88,14 @@ const redirectToRegister = () => {
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
-
-            <div class="mt-6 text-center">
-                <span>テストテキストがここに表示されますか？</span>
-            </div>
-
+<!--
             <div class="block mt-4">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm text-gray-600">Remember me</span>
                 </label>
             </div>
-
+-->
             <div class="flex items-center justify-end mt-4">
                 <Link
                     v-if="canResetPassword"
@@ -110,7 +116,7 @@ const redirectToRegister = () => {
                 @click="redirectToRegister"
                 class="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
-                アカウント作成はこちら
+               新規登録
             </button>
         </div>
     </GuestLayout>

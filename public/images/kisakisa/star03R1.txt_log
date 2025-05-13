@@ -1,0 +1,12 @@
+routeAnalyzer
+star03R1.txt
+/var/www/html/public/images/kisakisa/report/star03R1.pdf
+12
+/var/www/html/public/images/kisakisa/star03R1.txt
+parent {1: [1, 0]}
+Categolized in respect to smiles.
+1 [1, 0]
+---> [1, 0]
+open pdf: /var/www/html/public/images/kisakisa/report/star03R1.pdf
+Route:1..end
+

@@ -1,0 +1,19 @@
+routeAnalyzer
+star04R2.txt
+/var/www/html/public/images/kisakisa/report/star04R2.pdf
+12
+/var/www/html/public/images/kisakisa/star04R2.txt
+parent {1: [5, 4, 3, 2, 1, 0], 3: [7, 16, 5, 4, 3, 2, 1, 0], 4: [8, 7, 6, 5, 4, 3, 2, 1, 0], 5: [9, 8, 7, 6, 5, 4, 3, 2, 1, 0], 7: [15, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0], 8: [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0], 9: [14, 5, 4, 13, 12], 10: [8, 7, 6, 5, 4, 13, 12]}
+Categolized in respect to smiles.
+1 [5, 4, 3, 2, 1, 0]
+3 [7, 16, 5, 4, 3, 2, 1, 0]
+4 [8, 7, 6, 5, 4, 3, 2, 1, 0]
+5 [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+7 [15, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+8 [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+9 [14, 5, 4, 13, 12]
+10 [8, 7, 6, 5, 4, 13, 12]
+---> [8, 7, 6, 5, 4, 13, 12]
+open pdf: /var/www/html/public/images/kisakisa/report/star04R2.pdf
+Route:1..Route:3..Route:4..Route:5..Route:7..Route:8..Route:9..Route:10..end
+

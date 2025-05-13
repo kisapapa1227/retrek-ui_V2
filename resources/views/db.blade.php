@@ -97,6 +97,15 @@ $opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報�
 <embed id="forPDF" type="application/pdf" width="100%" height="0"></embed>
 </div>
 
+<form action="{{ route('dropDb') }}" method="POST">
+@csrf
+<div style="display:none">
+	<button type="submit" id="dropDb">
+        <input type="text" name="oper" value="dropDb" id="dropDbOper">
+        <input type="text" name="id" value="" id="dropDbId">
+</div>
+</form>
+
 <form action="{{ route('syncPdf') }}" method="POST">
 @csrf
 <div style="display:none">
@@ -133,7 +142,7 @@ function chkMess(opt){
 	case 'pdf':return("pdfを作成中");
 	case 'ppt':return("パワーポイントを作成中");
 	case '-force':return("pdfを作成中");
-	case 'non':return("pdfを切り替え中");
+	case 'non':return("pdfを準備中");
 	case 'askPptx':return("pptxをダウンロード中");
 	case 'db':return("ReTRek情報をダウンロード中");
 	case 'drop':return("探索履歴の削除中");
@@ -421,7 +430,8 @@ let filename;
 		break;
 	case 4:
 		pid=getPid();
-		forDownload(pid[1].value,"drop","non");
+		document.getElementById("dropDbId").value=pid[1].value;
+		document.getElementById("dropDb").click();
 		break;
 	}
 }
@@ -489,7 +499,6 @@ for (var i = 0; i < table[fname[0]].length-1; i++) {
     for (let j = 0; j < fname.length; j++) {
 if (! skip.includes(j)){
       cell = document.createElement("td");
-      cellText;
 if (j==0){
       cellText = document.createElement("input");
       cellText.type="radio";
@@ -527,5 +536,8 @@ if (modal=='yes'){
 	document.getElementById("proc").innerHTML=mess;
 
 	setTimeout(modal_wacher,1000);
+}else{
+	cell=document.getElementById("radio:"+table[fname[0]][0]);
+	showPdf(cell,"non","non");
 }
 </script>

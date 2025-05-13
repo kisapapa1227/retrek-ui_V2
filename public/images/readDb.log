@@ -1,0 +1,5 @@
+ /var/www/html/ReTReKpy/make_reports/readDb.py
+ -id 60
+ 60 -drop
+ -d /var/www/html/public/images
+ /var/www/html/public/images

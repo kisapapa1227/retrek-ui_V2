@@ -1,57 +1,49 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+<link rel="stylesheet" href="{{ asset('css/style.css')}}">
     <title>Procces monitor</title>
 <style>
-        .fixed-top {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #fff;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.8);
-            padding: 10px 0;
-        }
-#bta,#btb {
-  padding: 2px 6px;
-  width: 12em;
-  background-color: #a9ceec;
-  color: #000;
-  border: none;
-  box-shadow: 3px 3px 4px black;
+#bta {
+  width:14em;
 }
+#btb {
+  width:12em;
+}
+
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-  <body>
-    <div class="fixed-top">
-        <div class="container d-flex justify-content-between align-items-center">
+<body>
+<div class="wrapper">
+	<div class="container">
+<h1>進捗表示画面</h1>
+		<div class="inline">
+		<div class="block">
+<a>
             <form action="{{ route('kRet') }}" method="GET" class="mb-3">
-                <button id='btb' onclick="window.location.href='/search';" class="btn btn-primary back-button">ユーザー検索画面へ戻る</button>
+            <button id='btb' onclick="window.location.href='/search';" class="sysButton">処理を中止する</button>
             </form>
-<div id='ida'>
-                <button id='bta' onclick="addDb()" class="btn btn-primary back-button">データベースに追加する</button>
-      </div>
-<div id='idb'>  </div>
-</div>
-    </div>
-</br>
+</a>
+<a>
+	<div id='ida'>
+        <button id='bta' onclick="addDb()" class="sysButton">データベースに追加する</button>
+	</div>
+	<div id='idb'>  </div>
+</a>
+		</div>
+		</div>
 <div>
-</br>
-</br>
-<h3>Searching "{{$smiles}}"</h3><br>
+<h3 class="message">Searching "{{$smiles}}"</h3><br>
 </div>
-<div id="proc">
+<div  class="subMessage" id="proc">
 </div>
-
+</div>
 <div>
 <embed id="forPDF" type="application/pdf" width="100%" height="0"></embed>
 </div>
-    <footer>
-      <hr />
-      last updated 2024 
-    </footer>
+</div>
   </body>
 </html>
 
@@ -67,6 +59,7 @@ let elaps_time;
 
 const ida = document.getElementById("ida");
 const idb = document.getElementById("idb");
+const btb = document.getElementById("btb");
 ida.style.visibility='hidden';
 
 const addDb=()=>{
@@ -133,6 +126,7 @@ $(function(){
           win.src="http://localhost/images/"+uid+"/report/{{$substance}}.pdf";
 	  win.style.height="700px";
 	  ida.style.visibility='visible';
+	  btb.innerHTML="メインメニューに戻る";
 //<embed src="http://localhost/images/report/{substance}.pdf" type="application/pdf" width="100%" height="700px"></embed>'
     }
 }
@@ -142,7 +136,7 @@ function flushText(l) {
   let d=new Date();
   let elapse_time,exp_time;
 
-  elem.innerHTML="検索済みルート数 "+count+"/"+num+"<br>";
+  elem.innerHTML="探索済みルート数 "+count+"/"+num+"<br>";
 
 	  ex=(Date.now()-sT)/1000 >> 0;
 	  hr=String(Math.floor(ex/60/60));

@@ -1,0 +1,648 @@
+----->
+----->
+----->
+----->
+----->
+
+----->
+
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1100star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1100star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,100,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+1
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+1
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+4
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+4
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+4
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+4
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+4
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+4
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+2 vs 1
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,1xx
+/var/www/html/ReTReKpy/kisakisa_async1.sh
+4
+[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC110star03R1kisakisa21
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 1/2
+2 vs 2
+1-[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,2-COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,2xx
+/var/www/html/ReTReKpy/kisakisa_async2.sh
+4
+COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c110star04R2kisakisa22
+return 2
+start...
+fromCSV#smiles,substanced,route_num,knowledgeWeights,expansion_num,time_limit,save_tre,comp_prob_mod,chem_axon;[C][C]OP(=S)(O[C][C])OC1C=C(C(=O)c2ccc(OC)cc2O)C=CC1,star03R1,10,[5,0.5,2,2,2,1],50,10,0,,,;COc1ccc(C(=O)C2=CC(Cl)CC=C2)c(O)c1,star04R2,10,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#3,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#4,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#5,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#6,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#7,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#8,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#9,substance,100,[5,0.5,2,2,2,1],50,10,0,,,;#smiles#10,substance,100,[5,0.5,2,2,2,1],50,10,0,,,...
+else 2/2
+2 vs 3
+return 1

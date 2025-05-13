@@ -15,11 +15,12 @@ defineProps({
 });
 </script>
 
+
 <template>
     <Head title="Profile" />
 
     <AuthenticatedLayout>
-        <template #header>
+        <template #template>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Profile</h2>
         </template>
 
@@ -39,6 +40,14 @@ defineProps({
 
                 <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                     <DeleteUserForm class="max-w-xl" />
+                </div>
+
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+			<p>
+<form action="/myLogout" method=GET>
+        <button class="sysButton" type="'submit">logout</button>
+</form>
+</p>
                 </div>
             </div>
         </div>

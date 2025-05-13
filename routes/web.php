@@ -18,6 +18,10 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+	return view('entry');
+});
+
+Route::get('/home', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -39,7 +43,8 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/user', [RetrekController::class, 'user'])->name('user');
+#    Route::get('/user', [RetrekController::class, 'user'])->name('user');
+    Route::get('/user', [RetrekController::class, 'myLogout'])->name('myLogout');
     Route::get('/tmp', [RetrekController::class, 'tmp'])->name('tmp');
     Route::post('/exepy', [RetrekController::class, 'exepy'])->name('exepy');
     
@@ -50,7 +55,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/askProc', [RetrekController::class, 'askProc'])->name('askProc');
     Route::post('/db', [RetrekController::class, 'db'])->name('db');
     Route::post('/addDb', [RetrekController::class, 'addDb'])->name('addDb');
+    Route::post('/dropDb', [RetrekController::class, 'dropDb'])->name('dropDb');
     Route::post('/dbAction', [RetrekController::class, 'dbAction'])->name('dbAction');
+    Route::post('/multiProc', [RetrekController::class, 'multiProc'])->name('multiProc');
     Route::get('/kRet', [RetrekController::class, 'kRet'])->name('kRet');
+    Route::get('/dummyEntry', [RetrekController::class, 'dummyEntry'])->name('dummyEntry');
+    Route::get('/myLogout', [RetrekController::class, 'myLogout'])->name('myLogout');
+    Route::get('/singleSearch', [RetrekController::class, 'singleSearch'])->name('singleSearch');
+    Route::get('/multiSearch', [RetrekController::class, 'multiSearch'])->name('multiSearch');
+    Route::get('/dbManage', [RetrekController::class, 'dbManage'])->name('dbManage');
 });
-

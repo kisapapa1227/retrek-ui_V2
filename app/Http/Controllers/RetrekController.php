@@ -9,15 +9,92 @@ use Symfony\Component\Process\Process;
 
 use App\Models\FavoriteRoute;
 
+function getPrms($l){
+
+        $s1=explode(",",$l);
+        $s2=explode("[",$l);
+        $ss=$s2[count($s2)-1];
+        $s3=explode("]",$ss);
+        $s4=explode(",",$s3[1]);
+
+        $p1=$s1[0];
+        $p2=$s1[2];
+        $p3="[".$s3[0]."]";
+        $p4=$s4[4] == '' ? '' : 'True';#savetree
+        $p5=$s4[1];#expantion_number
+        $p6=$s4[5] == '' ? '' : 'True';#cum_prob_mode
+        $p7=$s4[6] == '' ? '' : 'True';#chem_axon
+        $p8=$s4[2];#selection_constant
+        $p9=$s4[3];#time_limit
+        $p11='True';# csv any but 'false'
+        $p12=$s1[1];#substance
+
+        return [$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p11,$p12];
+} 
+
+function makeScriptForDrop($id){
+    $wk="/var/www/html/ReTReKpy/";
+    $sh=$wk."drop.sh";
+    $fp=fopen($sh,"w");
+    fwrite($fp,"#!/bin/sh\n#\n#\n");
+    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py -id ".$id." -drop -d /var/www/html/public/images");
+    fclose($fp);
+                return $sh;
+}
+
+function makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12, $uid){
+    $user= Auth::user();
+    $name = $user['name'];
+    $email = $user['email'];
+    $wk="/var/www/html/ReTReKpy/";
+    $ssh=$uid."_".$sh;
+    $fp=fopen($wk.$ssh,"w");
+    fwrite($fp,"#!/bin/sh\n#\n#\n");
+    fwrite($fp,"#name=".$user['name']."\n");
+    fwrite($fp,"#email=".$user['email']."\n");
+    fwrite($fp,"r=$(/usr/bin/ps -elf | /usr/bin/grep exe.py | /usr/bin/grep ".$uid." | /usr/bin/grep -v grep)\n");
+    fwrite($fp,"if [ ! -z \"\$r\" ]; then\necho \"Process is running, then exit\"\n");
+    fwrite($fp,"echo \"this is B...\" >> /var/www/html/public/images/echo.txt\n");
+    fwrite($fp,"exit 1\nfi\n");
+    fwrite($fp,"echo \"this is C...\" >> /var/www/html/public/images/echo.txt\n");
+    fwrite($fp,"/usr/bin/python3 ".$wk."exe.py");
+                fwrite($fp," '".$p1."' '".$p2."' '".$p3."' '".$p4."'");
+                fwrite($fp," '".$p5."' '".$p6."' '".$p7."' '".$p8."'");
+                fwrite($fp," '".$p9."' '".$p10."' '".$p11."' '".$p12."' '".$uid."'");
+                fwrite($fp," 1> /dev/null 2>/dev/null &\n");
+                fclose($fp);
+                return $wk.$ssh;
+}
+
 class RetrekController extends Controller
 {
-    public function user()
-    {
+    public function dummyEntry(){
+    	$user= Auth::user();
+    return view('menu',['user'=>$user]);
+}
+    public function singleSearch(){
         $userId = auth()->id();
-        $favoriteRoutes = FavoriteRoute::where('user_id', $userId)->get();
-        return view('user', ['favoriteRoutes' => $favoriteRoutes]);
+        return view('singleSearch');
     }
-    
+    public function multiSearch(){
+        $userId = auth()->id();
+        return view('multiSearch');
+    }
+
+    public function dbManage(){
+        $userId = auth()->id();
+	$prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
+        return view('dbManage',$prm);
+    }
+    public function myLogout(){
+	Auth::logout();
+	return view('entry');
+    }
+    public function user(){
+        $userId = auth()->id();
+        return view('user');
+    }
+
     public function kRet(Request $request){
 
 	$prc = new Process(['ps','aux']);
@@ -43,9 +120,8 @@ class RetrekController extends Controller
 		}
 	}
 #    	fclose($fh);
-        $userId = auth()->id();
-        $favoriteRoutes = FavoriteRoute::where('user_id', $userId)->get();
-        return view('user', ['favoriteRoutes' => $favoriteRoutes]);
+    	$user= Auth::user();
+    return view('menu',['user'=>$user]);
 }
 
     public function dbAction(Request $request){
@@ -88,6 +164,16 @@ class RetrekController extends Controller
 	return response()->json($param);
     }
 
+   public function dropDb(Request $request){
+        $op = $request->input('oper');
+        $id = $request->input('id');
+
+        $sh=makeScriptForDrop($id);
+        $this->easyProcess($sh,"readDb.py","readDb.py");
+        $prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
+       	return view('dbManage', $prm);
+    }
+
     public function syncPdf(Request $request){
 	$uid  =$request->uid;
 	$given=$request->given;
@@ -97,7 +183,22 @@ class RetrekController extends Controller
 	$this->easyProcess($sh,"readDb.py","readDb.py"); 
 
 	$prm['modal']='yes';$prm['uid']=$uid;$prm['filename']=$given;
-       	return view('db', $prm);
+       	return view('dbManage', $prm);
+    }
+
+    function myAddDb($uid,$loop){
+
+	$sh="async".$loop.".sh";
+	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/addDb.py", "-u",$uid,"-s",$sh,"-d","/var/www/html/public/images/"]);
+        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+       	$process->run();
+	$stdout=$process->getOutput();
+	$lines=explode("\n",$stdout);
+	foreach ($lines as $line){
+		if (strpos($line,"###")){
+			$sub=explode(":",explode("###",$line)[0])[1];
+		}
+	}
     }
 
     public function addDb(Request $request){
@@ -184,29 +285,19 @@ fclose($fh);
 	}
 }
 
-    private static function makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12, $uid){
-    $user= Auth::user();
-    $name = $user['name'];
-    $email = $user['email'];
-    $wk="/var/www/html/ReTReKpy/";
-    $ssh=$uid."_".$sh;
-    $fp=fopen($wk.$ssh,"w");
-    fwrite($fp,"#!/bin/sh\n#\n#\n");
-    fwrite($fp,"#name=".$user['name']."\n");
-    fwrite($fp,"#email=".$user['email']."\n");
-    fwrite($fp,"r=$(/usr/bin/ps -elf | /usr/bin/grep exe.py | /usr/bin/grep ".$uid." | /usr/bin/grep -v grep)\n");
-    fwrite($fp,"if [ ! -z \"\$r\" ]; then\necho \"Process is running, then exit\"\n");
-    fwrite($fp,"echo \"this is B...\" >> /var/www/html/public/images/echo.txt\n");
-    fwrite($fp,"exit 1\nfi\n");
-    fwrite($fp,"echo \"this is C...\" >> /var/www/html/public/images/echo.txt\n");
-    fwrite($fp,"/usr/bin/python3 ".$wk."exe.py");
-		fwrite($fp," '".$p1."' '".$p2."' '".$p3."' '".$p4."'");
-		fwrite($fp," '".$p5."' '".$p6."' '".$p7."' '".$p8."'");
-		fwrite($fp," '".$p9."' '".$p10."' '".$p11."' '".$p12."' '".$uid."'");
-		fwrite($fp," 1> /dev/null 2>/dev/null &\n");
-		fclose($fp);
-		return $wk.$ssh;
-}
+private static function askMakeScript($n,$l){
+
+    	$user= Auth::user();
+    	$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
+        $userId = auth()->id();
+
+	$sh="async".$n.".sh";
+
+	list($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p11, $p12)=getPrms($l);
+        $p10= csrf_token();
+
+	makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12,$uid);
+    }
 
 private static function makeNow($options){
 
@@ -249,6 +340,71 @@ $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレク�
 
 	return $prm;
 }
+    public function multiProc(Request $request){
+
+$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
+fwrite($fp,"start...\n");
+        $csv = $request->input('fromCSV');
+	$lines=explode(";",$csv);
+fwrite($fp,"fromCSV".$csv."...\n");
+
+if (!array_key_exists("max_loop",$request->input())){
+        $user= Auth::user();
+        $userId = auth()->id();
+        $uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
+
+$num=0;
+	foreach($lines as $l){
+		if (substr($l,0,1)!="#"){
+#			fwrite($fp,$l."\n");
+			$num=$num+1;
+			$this->askMakeScript($num,$l);
+		}}
+$max_loop=$num;
+$loop=1;
+}else{
+        $max_loop = $request->input('max_loop');
+        $loop = $request->input('loop');
+        $uid = $request->input('uid');
+        $userId = $request->input('user_Id');
+fwrite($fp,"else ".$loop."/".$max_loop."\n");
+
+$this->myAddDb($uid,$loop);
+	$loop=$loop+1;
+}
+
+fwrite($fp,$max_loop." vs ".$loop."\n");
+if ($loop>$max_loop){
+fwrite($fp,"return 1\n");
+fclose($fp);
+    $user= Auth::user();
+    return view('menu',['user'=>$user]);
+}
+
+$wk="/var/www/html/ReTReKpy/";
+$ssh=$wk.$uid."_async".$loop.".sh";
+
+$num=0;
+foreach($lines as $l){
+    if (substr($l,0,1)!="#"){
+            $num=$num+1;
+fwrite($fp,$num."-".$l);
+            if ($num==$loop){
+fwrite($fp,$num."xx\n");
+	$this->easyProcess($ssh,"exe.py",$uid);
+	
+        list($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p11, $p12)=getPrms($l);
+fwrite($fp,$ssh."\n");
+fwrite($fp,$userId."\n");
+fwrite($fp,$p1.$p2.$p12.$uid.$max_loop.$loop."\n");
+fwrite($fp,"return 2\n");
+fclose($fp);
+        return view('multiProc', ['smiles' => $p1, 'route_num' => $p2,'substance' => $p12, 'uid' => $uid,'max_loop' => $max_loop, 'loop' => $loop, 'fromCSV'=>$csv, 'userId'=> $userId]);
+}}}
+fwrite($fp,"return 3\n");
+fclose($fp);
+    }
+
     public function exepy(Request $request){
 
         $smiles = $request->input('smiles');
@@ -270,30 +426,28 @@ $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレク�
 
         $csrf_token = csrf_token();
 
-#	$strout=phpinfo();
-
     if ($ccc==1){
 	    $csv='False';
     }elseif($ccc==2){
 	    $csv='True';
-    }elseif($ccc==3){
+    }elseif($ccc==3){# fromCSV
+	return $this->multiProc($request);
+    }elseif($ccc==5){
+	    # this is for : void call
         $userId = auth()->id();
         $favoriteRoutes = FavoriteRoute::where('user_id', $userId)->get();
         return view('user', ['favoriteRoutes' => $favoriteRoutes]);
     }elseif($ccc==4){
 	    $prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
-       	return view('db', $prm);
+       	return view('dbManage', $prm);
     }
 	if ($ccc>1){
     	$user= Auth::user();
     	$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
-        $sh = $this->makeScript("async.sh",$smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv,$substance,$uid);
+        $sh = makeScript("async.sh",$smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv,$substance,$uid);
 
-#        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv, $substance]);
 	$this->easyProcess($sh,"exe.py",$uid);
 
-#		while ($process->getStatus()!="started"){}
-#        	$process->wait();
         	return view('proc', ['smiles' => $smiles, 'route_num' => $route_num,'substance' => $substance, 'uid' => $uid]);
 	}
 
