@@ -1,5 +1,15 @@
-セットアップ方法<br>
-以下をターミナルで実行。#### 手順5の、省力化スクリプトを利用することで、作業の簡略化もできます。
+# retrek-ui : user interface for ReTReK
+このパッケージはReTReK (逆合成の知識を使用したデータ駆動型コンピュータ支援合成計画ツール)をユーザーフレンドリーに使うためのウェブインタフェースを提供する。分子の化学構造をSMILES記述で指定するのみで、合成反応経路を探索し、pdf ファイルとして取得することが可能である。また、探索結果をデータベースに登録すれば、任意の表示サイズでpptxファイルに変換できる。
+    
+<div align="center">
+  <img src="./Installer/sample.jpg" width="100%">
+</div>
+
+### 動作確認済み環境
+- Ubuntu 22.04.3 LTS on Windows Subsystem for Linux version 2.2.4.0
+
+### セットアップ方法<br>
+以下をターミナルで実行する。手順5の、省力化スクリプトを利用することで、作業を簡略化できる。<br>
 
 #### 手順1: コードを作業用ディレクトリーにダウンロードする。<br>
 cd hoge<br>
@@ -70,6 +80,4 @@ sh InstallerStep3.sh<br>
 を実行する。
 
 #### ユーザーマニュアル
-ブラウザから<br>
-http://localhost<br>
-で接続後の操作は、このページのディレクトリー Installerにユーザーマニュアルを準備したので、参考にしてください。
+<a href="./Installer/retrek-ui-user-manualV1.3.pdf">ユーザーマニュアル</a>に操作を示す。
