@@ -4,10 +4,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; 
 use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Storage; 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 use App\Models\FavoriteRoute;
+
+function chkValidPrms($l){
+	if (count(explode(",",$l))<10) return 'short';
+
+	$s1=explode(",",$l)[0];
+	$prc = new Process(['python3',"/var/www/html/ReTReKpy/make_reports/chkSmiles.py", $s1]);
+	$prc->run();
+	$ret=explode("\n",$prc->getOutput())[0];
+
+	return $ret;
+}
 
 function getPrms($l){
 
@@ -37,7 +49,7 @@ function makeScriptForDrop($id){
     $sh=$wk."drop.sh";
     $fp=fopen($sh,"w");
     fwrite($fp,"#!/bin/sh\n#\n#\n");
-    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py -id ".$id." -drop -d /var/www/html/public/images");
+    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py -id ".$id." -drop -d ".$wk);
     fclose($fp);
                 return $sh;
 }
@@ -81,11 +93,18 @@ class RetrekController extends Controller
         return view('multiSearch');
     }
 
+    public function db(){
+        $userId = auth()->id();
+	$prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
+        return view('db',$prm);
+    }
+
     public function dbManage(){
         $userId = auth()->id();
 	$prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
         return view('dbManage',$prm);
     }
+
     public function myLogout(){
 	Auth::logout();
 	return view('entry');
@@ -166,27 +185,93 @@ class RetrekController extends Controller
 
    public function dropDb(Request $request){
         $op = $request->input('oper');
-        $id = $request->input('id');
+        $ids = $request->input('id');
+	$src="/var/www/html/ReTReKpy/sList.db";
 
-        $sh=makeScriptForDrop($id);
-        $this->easyProcess($sh,"readDb.py","readDb.py");
-        $prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
+	switch($op){
+	case 'get_all':
+		$agent="/var/www/html/ReTReKpy/make_reports/readDb.py";
+		$output="/var/www/html/storage/app/public/report/";
+		if (is_dir($output)){
+			$process=new Process(["rm","-rf",$output]);
+			$ret=$process->run();
+		}
+			$process=new Process(["mkdir",$output]);
+			$ret=$process->run();
+
+	foreach (explode(",",$ids) as $id){
+$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
+fwrite($fp,"get_all...\n".$id."\n");
+		$process=new Process(["python3",$agent,"-id",$id,"-s","0.25","-force","-d",$output]);
+        	$process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        	$process->setTimeout(0);
+			$ret=$process->run();
+
+fwrite($fp,"std:".$process->getOutput()."\n");
+fwrite($fp,"err:".$process->getErrorOutput()."\n");
+		$process=new Process(["python3",$agent,"-id",$id,"-force","-d",$output,"-db"]);
+        	$process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        	$process->setTimeout(0);
+			$ret=$process->run();
+	}
+			foreach (glob($output.'*.log') as $file){
+				unlink($file);
+			}
+	$ddd="/var/www/html/storage/app/public";
+			$process=new Process(["zip","-r","report.zip","report"]);
+			$process->setWorkingDirectory($ddd."/");
+			$ret=$process->run();
+fwrite($fp,"db_std:".$process->getOutput()."\n");
+fwrite($fp,"db_err:".$process->getErrorOutput()."\n");
+		$dst="Retrek_Report_".date("Ymd_Hi").".zip";
+		return response()->download($ddd."/report.zip",$dst);
+fclose($fp);
+		break;
+	case 'dropDb':
+        	$sh=makeScriptForDrop($id);
+        	$this->easyProcess($sh,"readDb.py","readDb.py");
+		break;
+	case 'db_load':
+		$fn=$request->file('a');$request->file('a')->storeAs('','test.db');
+		copy('/var/www/html/storage/app/test.db',$src);
+		break;
+	case 'db_init':
+		foreach (glob("/var/www/html/public/images/report/*.*") as $val){
+			unlink($val);
+		}
+			unlink($src);
+		break;
+	case 'db_save':
+		$dst="Retrek_".date("Ymd_Hi").".db";
+		return response()->download($src,$dst);
+		break;
+	}
+
+	$prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
        	return view('dbManage', $prm);
     }
 
     public function syncPdf(Request $request){
 	$uid  =$request->uid;
 	$given=$request->given;
+	$from =$request->from;
+
+
     	$sh=$this->makeNow($request->options);
 	$prm=$this->forDb();
 	sleep(2);
 	$this->easyProcess($sh,"readDb.py","readDb.py"); 
 
 	$prm['modal']='yes';$prm['uid']=$uid;$prm['filename']=$given;
-       	return view('dbManage', $prm);
+
+	if ($from=='db'){
+	       	return view('db', $prm);
+	}
+	       	return view('dbManage', $prm);
     }
 
     function myAddDb($uid,$loop){
+	$this->log("in addDb");
 
 	$sh="async".$loop.".sh";
 	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/addDb.py", "-u",$uid,"-s",$sh,"-d","/var/www/html/public/images/"]);
@@ -199,22 +284,24 @@ class RetrekController extends Controller
 			$sub=explode(":",explode("###",$line)[0])[1];
 		}
 	}
+	$this->copyPdf($uid,$sub);
     }
 
     public function addDb(Request $request){
-
+$path="/var/www/html/";
        $uid=$request->uid;
-
-	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/addDb.py", "-u",$uid,"-d","/var/www/html/public/images/"]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+	$process = new Process(["python3", $path."ReTReKpy/make_reports/addDb.py", "-u",$uid,"-d",$path."public/images/"]);
+        $process->setWorkingDirectory($path."ReTReKpy"); // 作業ディレクトリの設定
        	$process->run();
 	$stdout=$process->getOutput();
 	$lines=explode("\n",$stdout);
+
 	foreach ($lines as $line){
 		if (strpos($line,"###")){
 			$sub=explode(":",explode("###",$line)[0])[1];
 		}
 	}
+	$this->copyPdf($uid,$sub);
 	$param=[
 		'uname' => $uid,
 		'substance' => $sub,
@@ -222,8 +309,7 @@ class RetrekController extends Controller
 	return response()->json($param);
 	   }
 
-    public function askProc(Request $request)
-{
+	public function askProc(Request $request){
 $substance=$request->id;
 $user= Auth::user();
 $uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
@@ -235,6 +321,7 @@ if (file_exists($fn) == false){
         $fh=fopen($fn,"r");
         $count="0";
 	$done="0";
+	$running="yes";
 while(($buf=fgets($fh)) != false){
         if (false !== strpos($buf,'Route:')){
                 $num=explode(":",$buf);
@@ -244,13 +331,17 @@ while(($buf=fgets($fh)) != false){
                 $done="1";
         }
 }
-fclose($fh);
+	fclose($fh);
+	}
+
+	$pid=$this->getPid($uid);
+
 	$param=[
 		'currentRoute' => $count,
 		'pdf' => $done,
 		'uid' => $uid,
+		'pid' => $pid,
 	];
-    }
 	return response()->json($param);
 }
 
@@ -258,7 +349,42 @@ fclose($fh);
     {
         return view('resulttmp');
     }
+    private static function log($com){
+	$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+	fwrite($fp,$com);
+	fclose($fp);
+}
+    private static function copyPdf($uid,$sub){
+$path="/var/www/html/";
+	#
+	# 2025/06/12 データベースに追加する時、作ってあるpdf をimages/report/pid.pdf に移動する。 
+	#
+$process = new Process(["python3", $path."ReTReKpy/make_reports/readDb.py", "-db_list"]);
+$process->setWorkingDirectory($path.'ReTReKpy'); // 作業ディレクトリの設定
+        $process->setTimeout(0);
+       	$process->run();
+        $routes = $process->getOutput();
+	$records=explode("###",$routes);
+	$it=$records[count($records)-2];
+	$tid=explode("#",$it)[0];
+	$ipath=$path."public/images/";
+	$process = new Process(["cp",$ipath.$uid."/report/".$sub.".pdf",$ipath."report/".$tid.".pdf"]);
+       	$process->run();
+    }
 
+    private static function getPid($uid){
+	$prc = new Process(['ps','aux']);
+	$prc->run();
+	$outp=explode("\n",$prc->getOutput());
+	$pid="non";
+	foreach ($outp as &$o){
+		if (strpos($o,$uid)!==false && strpos($o,"exe.py")!==false){
+		$pid=explode(" ",$o)[1];
+			$running="yes";
+		}
+	}
+	return $pid;
+    }
     private static function easyProcess($sh,$py1,$py2){
 
 	$process = new Process(["sh", $sh]);
@@ -275,8 +401,7 @@ fclose($fh);
 	if (strpos($o,"sail")!==false 
 		&& strpos($o,"python")!==false
 		&& strpos($o,$py1)!==false
-		&& strpos($o,$py2)!==false)
-	{
+		&& strpos($o,$py2)!==false){
 			$ww=21;break;
 	}
 	}
@@ -342,43 +467,87 @@ $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレク�
 }
     public function multiProc(Request $request){
 
-$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
-fwrite($fp,"start...\n");
         $csv = $request->input('fromCSV');
 	$lines=explode(";",$csv);
-fwrite($fp,"fromCSV".$csv."...\n");
 
-if (!array_key_exists("max_loop",$request->input())){
+if (!array_key_exists("max_loop",$request->input())){// initial loop
         $user= Auth::user();
         $userId = auth()->id();
         $uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
-
+	$chkConf="";
+	$type = 'init';
+$conf=array();
 $num=0;
 	foreach($lines as $l){
 		if (substr($l,0,1)!="#"){
-#			fwrite($fp,$l."\n");
 			$num=$num+1;
-			$this->askMakeScript($num,$l);
+			$r=chkValidPrms($l);
+			if ($r=='true'){// smiles ok
+				array_push($conf,"ready");
+				$this->askMakeScript($num,$l);
+			}else{
+				if ($r=='None'){// smiles error
+					array_push($conf,"false_smiles");
+				}else{// conf error
+					array_push($conf,"false_config");
+				}
+			}
+
 		}}
+#$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+#foreach ($conf as $v){
+#	fwrite($fp,$v."$\n");
+#}
+#fclose($fp);
+
 $max_loop=$num;
 $loop=1;
 }else{
         $max_loop = $request->input('max_loop');
         $loop = $request->input('loop');
         $uid = $request->input('uid');
+        $type = $request->input('type');
         $userId = $request->input('user_Id');
-fwrite($fp,"else ".$loop."/".$max_loop."\n");
+        $conf = explode(";",$request->input('chkConf'));
 
-$this->myAddDb($uid,$loop);
+if ($type == 'next'){
+	$conf[$loop-1]="done";
+$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+fwrite($fp,"here..".$uid.":".$loop."\n");
+	$this->myAddDb($uid,$loop);
+		$loop=$loop+1;
+	fclose($fp);
+}elseif ($type == 'let'){
+	$conf[$loop-1]="ready";
+}elseif ($type == 'abort'){
+	$conf[$loop-1]="ready";
+	$pid=$this->getPid($uid);
+	$prc = new Process(['kill','-9',$pid]);
+	$prc->run();
+//	$loop=$loop+1;
+}
+}
+
+while(true){
+	if ($loop>$max_loop){
+    		$user= Auth::user();
+    		return view('menu',['user'=>$user]);
+	}
+	if ($conf[$loop-1]=='ready'){break;}
 	$loop=$loop+1;
 }
 
-fwrite($fp,$max_loop." vs ".$loop."\n");
-if ($loop>$max_loop){
-fwrite($fp,"return 1\n");
-fclose($fp);
-    $user= Auth::user();
-    return view('menu',['user'=>$user]);
+if ($type == 'let'){
+	$conf[$loop-1]="let:searching";
+}elseif ($type == 'abort'){
+	$conf[$loop-1]="abort:searching";
+}else{
+	$conf[$loop-1]="searching";
+}
+
+$chkConf=$conf[0];
+for ($i=1;$i<$max_loop;$i++){
+	$chkConf=$chkConf.";".$conf[$i];
 }
 
 $wk="/var/www/html/ReTReKpy/";
@@ -386,24 +555,15 @@ $ssh=$wk.$uid."_async".$loop.".sh";
 
 $num=0;
 foreach($lines as $l){
-    if (substr($l,0,1)!="#"){
-            $num=$num+1;
-fwrite($fp,$num."-".$l);
-            if ($num==$loop){
-fwrite($fp,$num."xx\n");
-	$this->easyProcess($ssh,"exe.py",$uid);
-	
+	if (substr($l,0,1)=="#") continue;
+    $num=$num+1;
+if ($num==$loop){
         list($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p11, $p12)=getPrms($l);
-fwrite($fp,$ssh."\n");
-fwrite($fp,$userId."\n");
-fwrite($fp,$p1.$p2.$p12.$uid.$max_loop.$loop."\n");
-fwrite($fp,"return 2\n");
-fclose($fp);
-        return view('multiProc', ['smiles' => $p1, 'route_num' => $p2,'substance' => $p12, 'uid' => $uid,'max_loop' => $max_loop, 'loop' => $loop, 'fromCSV'=>$csv, 'userId'=> $userId]);
-}}}
-fwrite($fp,"return 3\n");
-fclose($fp);
-    }
+}}
+	$this->easyProcess($ssh,"exe.py",$uid);
+
+        return view('multiProc', ['smiles' => $p1, 'route_num' => $p2,'substance' => $p12, 'uid' => $uid,'max_loop' => $max_loop, 'loop' => $loop, 'fromCSV'=>$csv, 'userId'=> $userId,'chkConf'=>$chkConf]);
+}
 
     public function exepy(Request $request){
 

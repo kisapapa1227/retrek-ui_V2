@@ -1,0 +1,12 @@
+routeAnalyzer
+ok2.txt
+/var/www/html/public/images/yukiyuki/report/ok2.pdf
+12
+/var/www/html/public/images/yukiyuki/ok2.txt
+parent {1: [0]}
+Categolized in respect to smiles.
+1 [0]
+---> [0]
+open pdf: /var/www/html/public/images/yukiyuki/report/ok2.pdf
+Route:1..end
+

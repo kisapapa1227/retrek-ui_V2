@@ -1,0 +1,13 @@
+routeAnalyzer
+DAINSORB_T-0.txt
+/var/www/html/public/images/yukiyuki/report/DAINSORB_T-0.pdf
+12
+/var/www/html/public/images/yukiyuki/DAINSORB_T-0.txt
+parent {1: [0], 2: [1]}
+Categolized in respect to smiles.
+1 [0]
+2 [1]
+---> [1]
+open pdf: /var/www/html/public/images/yukiyuki/report/DAINSORB_T-0.pdf
+Route:1..Route:2..end
+

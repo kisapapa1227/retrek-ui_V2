@@ -54,7 +54,7 @@ $mes=array("経路探索(1):SMILESを指定して反応経路を探索します�
 	<button type="'submit" class="menuButton">{{$mes[1]}}</button>
 </form>
 
-<form class="form" action="{{ route('db') }}" method=POST>
+<form class="form" action="{{ route('db') }}" method=GET>
 	<button type="'submit" class="menuButton">{{$mes[2]}}</button>
 </form>
 

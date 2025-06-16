@@ -31,19 +31,24 @@
   padding: 20px 20px;
 }
 
-#bta {
+#bta,#btb {
   width: 12em;
 }
     </style>
 </head>
 <body>
-    <div class="wrapper">
+<div class="wrapper">
+    <h1>経路探索(1)</h1>
+        <div class="container d-flex justify-content-between align-items-center">
+            <form action="{{ route('kRet') }}" method="GET" class="mb-3">
+                <button id="btb" onclick="window.location.href='/search';" class="btn btn-primary back-button">メインメニューに戻る</button>
+            </form>
+      </div>
 	<div class="container">
-            <h1>経路探索(1)</h1>
+
         <form action="{{ route('exepy') }}" method="POST" class="mb-3">
             @csrf
             <div class="form-group">
-<br>
 <div id="smiBox">
                 <label class="subMessage" for="smiles">SMILES化学式:</label>
                 <input type="text" name="smiles" class="form-control" id="smiles" required>
@@ -69,12 +74,21 @@
                     </div>
                 </div>
 		@php
-		$weight=array("5.0","0.5","2.0","2.0","2.0","1.0")
+		$name=array("Convergent Disconnection Score","Available Substance Score","Ring Disconnection Score","Seletive Transformation Score","Intermediate Score","Template Score");
+		$weight=array("5.0","0.5","2.0","2.0","2.0","1.0");
 		@endphp
                 <div class="form-group row mb-2">
                     <label class="col-sm-4 col-form-label">knowledgeWeights:</label>
                     <div class="col-sm-8">
                         <div class="row">
+                            @for ($i = 0; $i < 6; $i++)
+                                <div class="col">
+				"{{$name[$i]}}"
+                                </div>
+                            @endfor
+			    </div>
+                        <div class="row">
+
                             @for ($i = 0; $i < 6; $i++)
                                 <div class="col">
                                     <input type="number" class="form-control mb-2" name="weights[]" id=weights[{{ $i }}] step="0.1" value="{{$weight[$i]}}" placeholder="{{ $i + 1 }}"  required>
@@ -190,33 +204,6 @@ var progress = function(url){
             });
         });
     </script>
-<script>
-function templateDownload(){
-	const a = document.createElement('a');
-
-        a.href="http://localhost/images/report/template.csv";
-        a.download="template.csv";
-        a.click();
-}
-
-const fileInput=document.getElementById("getfile");
-	fileInput.addEventListener("change",function(event){
-		const file = event.target.files[0];
-		readFile(file);
-	});
-	function readFile(file){
-		const reader = new FileReader();
-		reader.onload = function (event) {
-		step1=event.target.result.split('\n');
-		step2=step1[0];
-		for (var i =1;i<step1.length-1;i++){
-			step2=step2+";"+step1[i];
-		}
-			document.getElementById("fromCSV").value=step2;
-		};
-		reader.readAsText(file);
-//		reader.readAs(file,'shift-jis');
-	};
 </script>
 </body>
 </html>

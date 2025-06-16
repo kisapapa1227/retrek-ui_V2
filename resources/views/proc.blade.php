@@ -56,6 +56,7 @@ let pdf=0;
 let sT=Date.now();
 let exT="∞";
 let elaps_time;
+let path="{{asset('images')}}";
 
 const ida = document.getElementById("ida");
 const idb = document.getElementById("idb");
@@ -123,7 +124,7 @@ $(function(){
 	ida.style.visibility='hidden';
     }else{
           win=document.getElementById('forPDF');
-          win.src="http://localhost/images/"+uid+"/report/{{$substance}}.pdf";
+          win.src=path+"/"+uid+"/report/{{$substance}}.pdf";
 	  win.style.height="700px";
 	  ida.style.visibility='visible';
 	  btb.innerHTML="メインメニューに戻る";

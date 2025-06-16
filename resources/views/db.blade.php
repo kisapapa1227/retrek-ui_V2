@@ -1,17 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <title>Database manager</title>
+    <title>Report maker</title>
+<link rel="stylesheet" href="{{ asset('css/style.css')}}">
 <style>
-        .fixed-top {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #fff;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.8);
-            padding: 10px 0;
-        }
 	.oper{
 	display:inline-block;
 	color:#343a40;
@@ -21,13 +13,15 @@ details {
     Calibri,
     sans-serif;
 }
-details > summary,#bta, #btb {
-  padding: 2px 6px;
-  width: 15em;
-  background-color: #a9ceec;
-  border: none;
-  box-shadow: 3px 3px 4px black;
+#btb {
+  width:12em;
 }
+
+#del,#pdf {
+  width:12em;
+  padding: 6px 6px;
+}
+
 ok {
   width: 620px;
  cursor: pointer;
@@ -38,16 +32,15 @@ ok {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
   <body>
-    <div class="fixed-top">
+    <div class="wrapper">
         <div class="container d-flex justify-content-between align-items-center">
+<h1>レポートを作成する</h1>
             <form action="{{ route('kRet') }}" method="GET" class="mb-3">
-                <button id="btb" onclick="window.location.href='/search';" class="btn btn-primary back-button">ユーザー検索画面へ戻る</button>
+		<button id="btb" onclick="window.location.href='/search';" class="sysButton">メインメニューに戻る</button>
             </form>
-      </div>
     </div>
-<div id="mainView"></br></div>
+<div id="mainView"></div>
 <div>
-</br>
 <details id="myDetails" onclick="goHere(this)" name="details_head">
 <summary> 探索経路の一覧、選択 </summary>
 </br>
@@ -79,9 +72,10 @@ $opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報�
 <label style="width:100px" for="ppt">{{$opt[1]}}</label>
 <input type="radio" name="oper" class="oper" id="db" value="3">
  <label style="width:90px" for="db">{{$opt[2]}}</label>
+<!--
 <input type="radio" name="oper" class="oper" id="del" value="4">
  <label style="width:90px" for="del">{{$opt[3]}}</label>
-                        </div>
+-->
 </div>
 <div id="proc">
 </div>
@@ -114,6 +108,7 @@ $opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報�
         <input type="text" name="scale" value="0.25" id="syncScale">
         <input type="text" name="uid" value="" id="syncUid">
         <input type="text" name="given" value="who..." id="given">
+        <input type="text" name="from" value="db">
 </div>
 </form>
 
@@ -135,7 +130,8 @@ let sT=Date.now();
 let i=0;
 let smileId=0;
 let smileTableId=0;
-dsr="http://localhost/images/smiles/pid"
+let path="{{asset('images')}}";
+dsr=path+"/smiles/pid"
 
 function chkMess(opt){
 	switch(opt){
@@ -169,8 +165,8 @@ async function goThere(btn){
 }
 
 function modal_wacher(){
-var fp="http://localhost/images/report/readDb"+thisId+"normal.log";
-var fp2="http://localhost/images/report/"+thisId+".pdf";
+var fp=path+"/report/readDb"+thisId+"normal.log";
+var fp2=path+"/report/"+thisId+".pdf";
 let modal=document.getElementById("modal").innerHTML;
 
 	$.ajax({
@@ -194,14 +190,14 @@ let modal=document.getElementById("modal").innerHTML;
 			}
 			if (ext=='pdf' || ext=='pptx' || ext=='txt'){
 			const myDetails=document.getElementById("myDetails");
-				w1=fp2.split('.');
+				w1=fp2.split('.pdf');
 				w2=given_filename.split('.');
 				if (ext=='txt'){
 					w3=w1[0]+"db."+w2[1];
 				}else{
 					w3=w1[0]+"."+w2[1];
 				}
-//				alert(w3+" as "+given_filename);
+//				alert(w3+" as "+given_filename+";"+ext);
 				download(w3,given_filename);
 				myDetails.open=true;
 	      			tg.checked=true;
@@ -247,7 +243,7 @@ const tg=document.getElementById("radio:"+btn.value);
 
 function showPdf(btn,opt,filename){
 const xhr=new XMLHttpRequest();
-const url="http://localhost/images/report/"+btn.value+".pdf";
+const url=path+"/report/"+btn.value+".pdf";
 const xproc=document.getElementById("proc");xproc.innerHTML=chkMess(opt);
 const search=document.getElementById("ida");search.style.display='none';
 
@@ -445,7 +441,7 @@ const tm=s.slice(0,4)+"年"+s.slice(4,6)+"月"+s.slice(6,8)+"日"+s.slice(8,10)+
 	return(tm);
 }
 
-conv={'date':'日付','uname':'ユーザー名','loop':'検索件数','factors':'検索の重み','options':'検索条件','substance':'物質名'}
+conv={'id':'選択','date':'日付','uname':'ユーザー名','loop':'検索件数','factors':'検索の重み','options':'検索条件','substance':'物質名'}
 function showTable(){
 const skip=[1,3,5]
 const tbl = document.getElementById("retTable");
@@ -454,7 +450,10 @@ let tr,td,inp,xx,addButton;
 
     tr = document.createElement("tr");
     td = document.createElement("td");
-    tr.appendChild(td);
+//    xx = document.createTextNode("選択");
+//    td.appendChild(xx);
+//    tr.appendChild(td);
+//
 
     for (var j = 0; j < fname.length; j++) {
 if (!skip.includes(j)){
@@ -488,13 +487,12 @@ for (var i = 0; i < table[fname[0]].length-1; i++) {
     row = document.createElement("tr");
     td = document.createElement("td");
 
-    addButton = document.createElement('input');
-    addButton.type = 'button';
-    addButton.setAttribute("name","pid");
-    addButton.setAttribute("value",table[fname[0]][i]);
-    addButton.setAttribute("onclick","closeAndGo(this)");
-    td.appendChild(addButton);
-    row.appendChild(td);
+//    addButton = document.createElement('input');
+//    addButton.type = 'checkBox';
+//    addButton.setAttribute("name","pid");
+//    addButton.setAttribute("value",table[fname[0]][i]);
+//    td.appendChild(addButton);
+//    row.appendChild(td);
 
     for (let j = 0; j < fname.length; j++) {
 if (! skip.includes(j)){

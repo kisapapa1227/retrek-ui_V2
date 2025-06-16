@@ -1,0 +1,13 @@
+c1cc(O)cc(O)c1-N2N=c(cccc3)c3=N2
+Route:1
+[OH-],COc1cc(O)ccc1-n1nc2ccccc2n1,BrB(Br)Br,>,Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Route:2
+[OH-],COc1ccc(-n2nc3ccccc3n2)c(O)c1,BrB(Br)Br,>,Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Route:3
+[OH-],COc1ccc(-n2nc3ccccc3n2)c(O)c1,BrB(Br)Br,>,Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Route:4
+[OH-],COc1ccc(-n2nc3ccccc3n2)c(O)c1,BrB(Br)Br,>,Oc1ccc(-n2nc3ccccc3n2)c(O)c1,
+Oc1ccc(-n2nc3ccccc3n2)c(O)c1,

@@ -53,7 +53,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorite', [RetrekController::class, 'favorite'])->name('favorite');
     Route::post('/syncPdf', [RetrekController::class, 'syncPdf'])->name('syncPdf');
     Route::post('/askProc', [RetrekController::class, 'askProc'])->name('askProc');
-    Route::post('/db', [RetrekController::class, 'db'])->name('db');
     Route::post('/addDb', [RetrekController::class, 'addDb'])->name('addDb');
     Route::post('/dropDb', [RetrekController::class, 'dropDb'])->name('dropDb');
     Route::post('/dbAction', [RetrekController::class, 'dbAction'])->name('dbAction');
@@ -63,5 +62,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/myLogout', [RetrekController::class, 'myLogout'])->name('myLogout');
     Route::get('/singleSearch', [RetrekController::class, 'singleSearch'])->name('singleSearch');
     Route::get('/multiSearch', [RetrekController::class, 'multiSearch'])->name('multiSearch');
+    Route::get('/db',[RetrekController::class, 'db'])->name('db');
     Route::get('/dbManage', [RetrekController::class, 'dbManage'])->name('dbManage');
+    Route::get('/menu', [RetrekController::class, 'menu'])->name('menu');
 });

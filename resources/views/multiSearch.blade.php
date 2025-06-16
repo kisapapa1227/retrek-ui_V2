@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ReTReK - ユーザー検索画面</title>
+    <title>ReTReK - 複数検索画面</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
@@ -35,8 +35,11 @@
   padding: 12px 6px;
 }
 
-#bta {
+#btb {
   width: 12em;
+}
+#bta {
+  width: 18em;
 }
 
 #template{
@@ -45,20 +48,25 @@
   justify-content: flex-end;
 }
 
-#btb,#getfile {
-  width: 18em;
+#getfile {
+  width: 20em;
 }
     </style>
 </head>
 
 <body>
     <div class="wrapper">
-	<div class="container">
             <h1>経路探索(2)</h1>
+        <div class="container d-flex justify-content-between align-items-center">
+            <form action="{{ route('kRet') }}" method="GET" class="mb-3">
+                <button id="btb" onclick="window.location.href='/search';" class="btb">メインメニューに戻る</button>
+            </form>
+      </div>
         <form action="{{ route('exepy') }}" method="POST" class="mb-3">
             @csrf
             <div class="form-group">
 <br>
+	<div class="container">
 <div style="display:none">
                 <input type="text" name="smiles" id="smiles" value="">
                 <input type="text" name="substance" id="substance" value="">
@@ -87,12 +95,12 @@
 </br>
 
 <div id='template'>
-<button id='btb' type="button" onclick="templateDownload()">テンプレートをダウンロードする</button>
+<button id='bta' type="button" onclick="templateDownload()">テンプレートをダウンロードする</button>
 </div>
 </br>
             </fieldset>
 
-	    <button type="submit" class="btn btn-primary" id="bta">反応経路の探索</button>
+	    <button type="submit" class="btn btn-primary" id="btb">探索</button>
         </form>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -146,10 +154,12 @@ var progress = function(url){
         });
     </script>
 <script>
+let path="{{asset('images')}}";
 function templateDownload(){
 	const a = document.createElement('a');
 
-        a.href="http://localhost/images/report/template.csv";
+	alert("<-- "+path);
+        a.href=pah+"/report/template.csv";
         a.download="template.csv";
         a.click();
 }

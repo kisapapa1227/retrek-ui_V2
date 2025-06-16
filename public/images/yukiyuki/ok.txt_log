@@ -1,0 +1,13 @@
+routeAnalyzer
+ok.txt
+/var/www/html/public/images/yukiyuki/report/ok.pdf
+12
+/var/www/html/public/images/yukiyuki/ok.txt
+parent {1: [8, 2, 7, 0], 3: [6, 5, 4, 3, 2, 1, 0]}
+Categolized in respect to smiles.
+1 [8, 2, 7, 0]
+3 [6, 5, 4, 3, 2, 1, 0]
+---> [6, 5, 4, 3, 2, 1, 0]
+open pdf: /var/www/html/public/images/yukiyuki/report/ok.pdf
+Route:1..Route:3..end
+

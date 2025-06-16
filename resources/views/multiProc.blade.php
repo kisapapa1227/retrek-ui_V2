@@ -24,7 +24,9 @@
 <input type="hidden" name="max_loop" value="{{$max_loop}}">
 <input type="hidden" name="loop" value="{{$loop}}">
 <input type="hidden" name="uid" value="{{$uid}}">
+<input type="hidden" id="type" name="type" value="next">
 <input type="hidden" name="user_Id" value="{{$userId}}">
+<input type="hidden" name="chkConf" value="{{$chkConf}}">
 <button type="submit" id="multiProc" style="display:none"></button>
 </form>
 <div>
@@ -46,10 +48,14 @@ let loop=CHK;
 let num={{$route_num}};
 let targ={{$loop}};
 let count=0;
+let pid="1";
 let pdf=0;
 let sT=Date.now();
+let p_count=0,p_time=0;
 let exT="∞";
 let elaps_time;
+let path="{{asset('images')}}";
+let chkConf="{{$chkConf}}".split(";");
 
 h3=document.getElementById('smilesList');
 
@@ -70,6 +76,7 @@ $(function(){
       count=data.currentRoute;
       pdf=data.pdf;
       uid=data.uid;
+      pid=data.pid;
     }).fail(function () {
       console.log('fail');
     });
@@ -82,13 +89,20 @@ $(function(){
     }
 }
     loop--;
+//		alert("Not running : restart:"+run+":"+String(pdf));
     if (pdf==0){
+	    if( pid == "non"){
+	  	document.getElementById('type').value="let";
+	  	const multiProc=document.getElementById('multiProc');
+		sT=Date.now();count=0;
+	  	multiProc.click();
+	    }
 	setTimeout(countUp, 1000);
     }else{
-//	  document.getElementById('bta').click();
           win=document.getElementById('forPDF');
-          win.src="http://localhost/images/"+uid+"/report/{{$substance}}.pdf";
+          win.src=path+"/"+uid+"/report/{{$substance}}.pdf";
 	  win.style.height="700px";
+	  document.getElementById('type').value="next";
 	  const multiProc=document.getElementById('multiProc');
 	  multiProc.click();
 //<embed src="http://localhost/images/report/{substance}.pdf" type="application/pdf" width="100%" height="700px"></embed>'
@@ -101,11 +115,24 @@ function flushText(l) {
   let elapse_time,exp_time;
 
   elem.innerHTML="探索済みルート数 "+count+"/"+num+"<br>";
-
 	  ex=(Date.now()-sT)/1000 >> 0;
+  if (p_count==count){
+	  if(ex-p_time>180){//　一定時間結果がでないと終了
+//			alert("need abort"+String(ex-p_time));
+	  document.getElementById('type').value="abort";
+	  const multiProc=document.getElementById('multiProc');
+	  sT=Date.now();
+	  multiProc.click();
+	  }
+  }else{
+	  p_time=ex;
+	  p_count=count;
+  }
+
 	  hr=String(Math.floor(ex/60/60));
 	  min=String(Math.floor((ex%3600)/60));
 	  sec=String(ex%60);
+
 	  elapse_time=" 経過時間 "+hr+":"+('00'+min).slice(-2)+":"+('00'+sec).slice(-2);
 	  elem.innerHTML+="<br>"+d;
 	  elem.innerHTML+="<br>"+elapse_time;
@@ -132,15 +159,9 @@ const lines=document.getElementById('fromCSV').value.split(";");
 let nnn=1;
 h3.innerHTML="";
 	for(i=0;i<lines.length;i++){
-		if (lines[i].indexOf('#')==-1){
+		if (lines[i].startsWith('#')==false){
 			col=lines[i].split(',');
-			h3.innerHTML+="("+String(nnn)+")"+col[0];
-			if (nnn<targ){
-				h3.innerHTML+=" done";
-			}else if (nnn==targ){
-				h3.innerHTML+=" searching";
-			}
-			h3.innerHTML+="<br>";
+			h3.innerHTML+="("+String(nnn)+")"+col[0]+" "+chkConf[nnn-1]+"<br>";
 			nnn=nnn+1;
 		}
 	}

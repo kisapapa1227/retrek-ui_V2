@@ -1,0 +1,12 @@
+routeAnalyzer
+JNC_LED.txt
+/var/www/html/public/images/yukiyuki/report/JNC_LED.pdf
+12
+/var/www/html/public/images/yukiyuki/JNC_LED.txt
+parent {1: [0]}
+Categolized in respect to smiles.
+1 [0]
+---> [0]
+open pdf: /var/www/html/public/images/yukiyuki/report/JNC_LED.pdf
+Route:1..end
+

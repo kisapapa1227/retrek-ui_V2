@@ -1,0 +1,12 @@
+routeAnalyzer
+Tinuvin326.txt
+/var/www/html/public/images/yukiyuki/report/Tinuvin326.pdf
+12
+/var/www/html/public/images/yukiyuki/Tinuvin326.txt
+parent {1: [1, 0]}
+Categolized in respect to smiles.
+1 [1, 0]
+---> [1, 0]
+open pdf: /var/www/html/public/images/yukiyuki/report/Tinuvin326.pdf
+Route:1..end
+
