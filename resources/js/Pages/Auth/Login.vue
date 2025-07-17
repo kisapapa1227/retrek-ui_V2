@@ -25,18 +25,12 @@ const form = useForm({
 const submit = () => {
     form.post(route('login'), {
         onFinish: () => {
-            if (!form.hasErrors()) {
-                
-//                this.$inertia.visit(route('menu'));
 document.getElementById('menu').click();
-            }
-            form.reset('password');  
         }
     });
 };
 
 const redirectToRegister = () => {
-//    Inertia.visit(route('register'));
 document.getElementById('register').click();
 };
 
@@ -53,7 +47,7 @@ document.getElementById('register').click();
 <form action="register" method="GET">
 <div style="display:none"><button type="submit" id="register"/></div>
 </form>
-<form action="menu" method="GET">
+<form action="dummyEntry" method="GET">
 <div style="display:none"><button type="submit" id="menu"/></div>
 </form>
 
@@ -88,14 +82,6 @@ document.getElementById('register').click();
 
                 <InputError class="mt-2" :message="form.errors.password" />
             </div>
-<!--
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
--->
             <div class="flex items-center justify-end mt-4">
                 <Link
                     v-if="canResetPassword"
