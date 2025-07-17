@@ -4,10 +4,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log; 
 use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Storage; 
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 use App\Models\FavoriteRoute;
+
+function chkValidPrms($l){
+// Rev 2.2
+	$s1=explode(",",$l)[0];
+	if (count(explode(",",$l))<10){
+		return [$s1,'short'];
+	}
+	$prc = new Process(['python3',"/var/www/html/ReTReKpy/make_reports/chkSmiles.py", $s1]);
+	$prc->run();
+	$ret=explode("\n",$prc->getOutput())[0];
+
+	return [$s1,$ret];
+}
 
 function getPrms($l){
 
@@ -32,17 +46,23 @@ function getPrms($l){
         return [$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p11,$p12];
 } 
 
-function makeScriptForDrop($id){
+function makeScriptForDrop($id,$uid,$db_type){
     $wk="/var/www/html/ReTReKpy/";
-    $sh=$wk."drop.sh";
+    $sh=$wk.$uid."_drop.sh";
+    $agent=$wk."make_reports/readDb.py";
+
     $fp=fopen($sh,"w");
     fwrite($fp,"#!/bin/sh\n#\n#\n");
-    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py -id ".$id." -drop -d /var/www/html/public/images");
+    if ($db_type=="com"){
+	    fwrite($fp,"python3 ".$agent." -id ".$id." -drop -d ".$wk);
+    }else{
+	    fwrite($fp,"python3 ".$agent." -id ".$id." -drop -d ".$wk." -database sList".$uid.".db");
+    }
     fclose($fp);
-                return $sh;
+    return $sh;
 }
 
-function makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12, $uid){
+function makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12,$uid){
     $user= Auth::user();
     $name = $user['name'];
     $email = $user['email'];
@@ -54,9 +74,7 @@ function makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12, $uid
     fwrite($fp,"#email=".$user['email']."\n");
     fwrite($fp,"r=$(/usr/bin/ps -elf | /usr/bin/grep exe.py | /usr/bin/grep ".$uid." | /usr/bin/grep -v grep)\n");
     fwrite($fp,"if [ ! -z \"\$r\" ]; then\necho \"Process is running, then exit\"\n");
-    fwrite($fp,"echo \"this is B...\" >> /var/www/html/public/images/echo.txt\n");
     fwrite($fp,"exit 1\nfi\n");
-    fwrite($fp,"echo \"this is C...\" >> /var/www/html/public/images/echo.txt\n");
     fwrite($fp,"/usr/bin/python3 ".$wk."exe.py");
                 fwrite($fp," '".$p1."' '".$p2."' '".$p3."' '".$p4."'");
                 fwrite($fp," '".$p5."' '".$p6."' '".$p7."' '".$p8."'");
@@ -70,22 +88,44 @@ class RetrekController extends Controller
 {
     public function dummyEntry(){
     	$user= Auth::user();
-    return view('menu',['user'=>$user]);
+//	$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
+    return view('menu',['user'=>$user,'db_type'=>'com']);
 }
-    public function singleSearch(){
-        $userId = auth()->id();
-        return view('singleSearch');
+    public function singleSearch(Request $request){
+        $db_type = $request->input('db_type');
+        $uid = $request->input('uid');
+	if ($this->getPid($uid)=="non"){
+        	return view('singleSearch',['db_type'=>$db_type,'uid'=>$uid]);
+	}
+	        return view('multiProc',['db_type'=>$db_type,'uid'=>$uid]);
     }
-    public function multiSearch(){
-        $userId = auth()->id();
-        return view('multiSearch');
+    public function multiSearch(Request $request){
+        $db_type = $request->input('db_type');
+        $uid = $request->input('uid');
+
+	if ($this->getPid($uid)=="non"){
+	        return view('multiSearch',['db_type'=>$db_type,'uid'=>$uid]);
+	}
+
+        return view('multiProc', ['uid' => $uid,'db_type'=>$db_type]);
     }
 
-    public function dbManage(){
-        $userId = auth()->id();
-	$prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
+    public function db(Request $request){
+        $db_type = $request->input('db_type');
+        $uid = $request->input('uid');
+	$prm=$this->forDb($db_type,$uid);$prm['modal']='no';$prm['filename']='non';$prm['tid']=0;
+        return view('db',$prm);
+    }
+
+    public function dbManage(Request $request){
+    	$user= Auth::user();
+        $uid = $request->input('uid');
+        $db_type = $request->input('db_type');
+	$prm=$this->forDb($db_type,$uid);$prm['modal']='no';$prm['filename']='non';$prm['tid']=0;
+	$prm['inUse']=$this->isInUse($db_type,$uid);
         return view('dbManage',$prm);
     }
+
     public function myLogout(){
 	Auth::logout();
 	return view('entry');
@@ -95,33 +135,24 @@ class RetrekController extends Controller
         return view('user');
     }
 
+
+    public function mRet(Request $request){
+    	$user= Auth::user();
+	return view('menu',['user'=>$user,'db_type'=>$request->input('db_type')]);
+    }
+
     public function kRet(Request $request){
 
 	$prc = new Process(['ps','aux']);
 	$prc->run();
 	$outp=explode("\n",$prc->getOutput());
 
-	foreach ($outp as &$o){
-	if (strpos($o,"sail")!==false 
-		&& strpos($o,"python")!==false
-		&& strpos($o,"exe.py")!==false){
-		$prms=explode(" ",$o);
-		$l=0;
-		foreach ($prms as &$i){
-			if($i!==""){
-				if ($l==1){
-				$prc = new Process(['kill',$i]);
-				$prc->run();
-				}
-#    	fwrite($fh,$l."(".$i.")");
-				$l++;
-			}
-		}
-		}
-	}
+        $uid = $request->input('uid');
+    $this->killIt($outp,"sail","python",$uid);
+
 #    	fclose($fh);
     	$user= Auth::user();
-    return view('menu',['user'=>$user]);
+	return view('menu',['user'=>$user,'db_type'=>$request->input('db_type')]);
 }
 
     public function dbAction(Request $request){
@@ -166,30 +197,129 @@ class RetrekController extends Controller
 
    public function dropDb(Request $request){
         $op = $request->input('oper');
-        $id = $request->input('id');
+        $tid = $request->input('tid');
+        $db_type = $request->input('db_type');
+        $uid = $request->input('uid');
 
-        $sh=makeScriptForDrop($id);
-        $this->easyProcess($sh,"readDb.py","readDb.py");
-        $prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
+	$opr_stat="";
+
+	if ($db_type=="com"){
+		$src="/var/www/html/ReTReKpy/sList.db";
+	}else{
+		$src="/var/www/html/ReTReKpy/sList".$uid.".db";
+	}
+
+	switch($op){
+	case 'get_all':
+		$agent="/var/www/html/ReTReKpy/make_reports/readDb.py";
+	 	$ddd="/var/www/html/storage/app/public/";
+		$output=$ddd."report/";
+		if (is_dir($ddd."report")){
+			$process=new Process(["rm","-rf",$output]);
+			$ret=$process->run();
+		}
+
+		if (file_exists($ddd."report.zip")==true){
+			unlink($ddd."report.zip");
+		}
+			$process=new Process(["mkdir",$output]);
+			$ret=$process->run();
+
+	foreach (explode(",",$tid) as $id){
+		$prm=["python3",$agent,"-id",$id,"-s","0.25","-force","-d",$output];
+		if ($db_type!="com"){
+			array_push($prm,"-database","sList".$uid.".db");
+		}
+		$process=new Process($prm);
+        	$process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        	$process->setTimeout(0);
+		$ret=$process->run();
+
+		array_push($prm,"-db");
+		$process=new Process($prm);
+        	$process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        	$process->setTimeout(0);
+		$ret=$process->run();
+	}
+			foreach (glob($output.'*.log') as $file){
+				unlink($file);
+			}
+			$process=new Process(["zip","-r","report.zip","report"]);
+			$process->setWorkingDirectory($ddd);
+			$ret=$process->run();
+		$dst="Retrek_Report_".date("Ymd_Hi").".zip";
+		return response()->download($ddd."report.zip",$dst);
+		break;
+	case 'dropDb':
+        	$sh=makeScriptForDrop($tid,$uid,$db_type);
+        	$this->easyProcess($sh,"readDb.py","readDb.py");
+		break;
+	case 'db_load':
+		$fn=$request->file('a');$request->file('a')->storeAs('','test.db');
+		$dst='/var/www/html/storage/app/test.db';
+		if ($this->is_database($dst)===false){
+			copy($dst,$src);
+		}else{
+			$gn=$request->file('a')->getClientOriginalName();
+//			$opr_stat=$gn." is not a retrek-ui database file.";
+			$opr_stat=$gn." は retrek-ui のデータベースファイルではありません.\nアップロードは行いませんでした。";
+		}
+		break;
+	case 'db_init':
+	if ($db_type=="com"){
+		foreach (glob("/var/www/html/public/images/report/*.*") as $val){
+			unlink($val);
+		}
+	}else{
+		foreach (glob("/var/www/html/public/images/".$uid."/report/*.*") as $val){
+			unlink($val);
+		}
+	}
+			unlink($src);
+		break;
+	case 'db_save':
+		$dst="Retrek_".date("Ymd_Hi").".db";
+		return response()->download($src,$dst);
+		break;
+	}
+
+	$prm=$this->forDb($db_type,$uid);$prm['modal']='no';$prm['filename']='non';$prm['tid']=0;
+
+	if ($opr_stat!=""){
+		$prm['log']=$opr_stat;
+	}
+	$prm['inUse']=$this->isInUse($db_type,$uid);
        	return view('dbManage', $prm);
     }
 
     public function syncPdf(Request $request){
-	$uid  =$request->uid;
+	$tid  =$request->tid;
 	$given=$request->given;
-    	$sh=$this->makeNow($request->options);
-	$prm=$this->forDb();
+	$from =$request->from;
+	$db_type =$request->db_type;
+	$uid  =$request->uid;
+    	$sh=$this->makeNow($request);
+	$prm=$this->forDb($db_type,$uid);
 	sleep(2);
 	$this->easyProcess($sh,"readDb.py","readDb.py"); 
 
-	$prm['modal']='yes';$prm['uid']=$uid;$prm['filename']=$given;
-       	return view('dbManage', $prm);
+	$prm['modal']='yes';$prm['filename']=$given;$prm['tid']=$tid;
+
+	if ($from=='db'){
+	       	return view('db', $prm);
+	}
+	$prm['inUse']=$this->isInUse($db_type,$uid);
+	       	return view('dbManage', $prm);
     }
 
-    function myAddDb($uid,$loop){
+    function myAddDb($uid,$loop,$db_type){
 
 	$sh="async".$loop.".sh";
+	if ($db_type=="com"){
 	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/addDb.py", "-u",$uid,"-s",$sh,"-d","/var/www/html/public/images/"]);
+	}else{
+	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/addDb.py", "-u",$uid,"-s",$sh,"-d","/var/www/html/public/images/","-database","sList".$uid.".db"]);
+	}
         $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
        	$process->run();
 	$stdout=$process->getOutput();
@@ -199,22 +329,34 @@ class RetrekController extends Controller
 			$sub=explode(":",explode("###",$line)[0])[1];
 		}
 	}
+	$this->copyPdf($uid,$sub,$db_type);
     }
 
     public function addDb(Request $request){
-
        $uid=$request->uid;
+       $db_type=$request->db_type;
 
-	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/addDb.py", "-u",$uid,"-d","/var/www/html/public/images/"]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+$path="/var/www/html/";
+
+       if ($db_type=="com"){
+	$process = new Process(["python3", $path."ReTReKpy/make_reports/addDb.py", "-u",$uid,"-d",$path."public/images/"]);
+       }else{
+	$process = new Process(["python3", $path."ReTReKpy/make_reports/addDb.py", "-u",$uid,"-d",$path."public/images/","-database","sList".$uid.".db"]);
+       }
+
+        $process->setWorkingDirectory($path."ReTReKpy"); // 作業ディレクトリの設定
        	$process->run();
 	$stdout=$process->getOutput();
 	$lines=explode("\n",$stdout);
+
 	foreach ($lines as $line){
 		if (strpos($line,"###")){
 			$sub=explode(":",explode("###",$line)[0])[1];
 		}
 	}
+
+$substance="the baby";
+	$this->copyPdf($uid,$sub,$db_type);
 	$param=[
 		'uname' => $uid,
 		'substance' => $sub,
@@ -222,11 +364,59 @@ class RetrekController extends Controller
 	return response()->json($param);
 	   }
 
-    public function askProc(Request $request)
-{
+	public function is_db_busy(Request $request){
+	}
+	public function askMaster(Request $request){
+	$uid = $request->uid;
+	$pid = $request->pid;
+#
+# check the list
+#
+	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/jobMaster.py","-ask","-uid",$uid]);
+        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+       	$process->run();
+	$stdout=$process->getOutput();
+	$lines=explode("###",$stdout);
+
+	$end=True;
+	foreach ($lines as $line){
+        	if (false !== strpos($line,'ready') || false !== strpos($line,'Searching')){
+			$end=False;
+		}
+	}
+#
+# list completed
+#
+	if ($end){
+		return response()->json(['pid'=>-2]);
+	}
+
+	$now=explode("pid:",$lines[0])[1];
+
+	if ($now!=$pid){# return progress list
+		$list=$lines[1];
+		$proc="";
+	}else{# return progress time_table
+	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/jobMaster.py","-ask","-uid",$uid,"-pid",$pid]);
+        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+       	$process->run();
+	$stdout=$process->getOutput();
+	$lines=explode("###",$stdout);
+		$list="";
+		$proc=$lines[1];
+	}
+
+	$param=[
+		'pid' => $now,
+		'list'=> $list, 
+		'proc'=> $proc,
+	];
+	return response()->json($param);
+	}
+
+	public function askProc(Request $request){
 $substance=$request->id;
-$user= Auth::user();
-$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
+$uid = $request->uid;
 
 $fn="/var/www/html/public/images/".$uid."/".$substance.".txt";
 if (file_exists($fn) == false){
@@ -235,6 +425,7 @@ if (file_exists($fn) == false){
         $fh=fopen($fn,"r");
         $count="0";
 	$done="0";
+	$running="yes";
 while(($buf=fgets($fh)) != false){
         if (false !== strpos($buf,'Route:')){
                 $num=explode(":",$buf);
@@ -244,13 +435,17 @@ while(($buf=fgets($fh)) != false){
                 $done="1";
         }
 }
-fclose($fh);
+	fclose($fh);
+	}
+
+	$pid=$this->getPid($uid);
+
 	$param=[
 		'currentRoute' => $count,
 		'pdf' => $done,
 		'uid' => $uid,
+		'pid' => $pid,
 	];
-    }
 	return response()->json($param);
 }
 
@@ -258,7 +453,118 @@ fclose($fh);
     {
         return view('resulttmp');
     }
+	
+    private static function isInUse($db_type,$uid){
+#komai
+        $path="/var/www/html/ReTReKpy/";
+        $fn=$path."jobMaster.lock";
+if (file_exists($fn) == false){
+	return 'not-running';
+}
+    $fp=fopen($fn,"r");
+	$r=True;
+	while($line=fgets($fp)){
+		if (strpos($line,$uid)!==false){
+			$r=False;
+		}
+	}
+	fclose($fp);
+	if ($r){
+		return 'not-my_job-running';
+	}
 
+	$process = new Process(["python3", $path."/make_reports/jobMaster.py","-ask_db_type","-uid",$uid]);
+#	$process = new Process(["python3", $path."/make_reports/jobMaster.py","-ask","-uid",$uid]);
+        $process->setWorkingDirectory($path); // 作業ディレクトリの設定
+       	$process->run();
+	$stdout=$process->getErrorOutput();
+
+	$outp=explode("\n",$process->getOutput());
+	if($outp[0]==$db_type){
+		return 'True';
+	}
+		return 'not_this_database';
+    }
+
+    private static function killIt($outp,$key1,$key2,$key3){
+
+	foreach ($outp as $o){
+	if (strpos($o,$key1)!==false 
+		&& strpos($o,$key2)!==false
+		&& strpos($o,$key3)!==false){
+		$prms=explode(" ",$o);
+		$l=0;
+		foreach ($prms as $i){
+			if($i!==""){
+				if ($l==1){
+				$prc = new Process(['kill',$i]);
+				$prc->run();
+				}
+				$l++;
+			}
+		}}}
+}
+    private static function is_database($fn){
+	$path="/var/www/html/ReTReKpy/";
+	$process = new Process(["python3", $path."make_reports/readDb.py", "-db_list","-database",$fn]);
+        $process->setWorkingDirectory($path); // 作業ディレクトリの設定
+       	$process->run();
+	$stdout=$process->getErrorOutput();
+	return strpos($stdout,"sqlite3.DatabaseError");
+    }
+    private static function log($com){
+	$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+	fwrite($fp,$com."\n");
+	fclose($fp);
+}
+    private static function copyPdf($uid,$sub,$db_type){
+$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
+fwrite($fp,"in copyPdf.....xxx\n");
+$path="/var/www/html/";
+	#
+	# 2025/06/12 データベースに追加する時、作ってあるpdf をimages/report/pid.pdf に移動する。 
+	#
+if ($db_type=="com"){
+$process = new Process(["python3", $path."ReTReKpy/make_reports/readDb.py", "-db_list"]);
+}else{
+$process = new Process(["python3", $path."ReTReKpy/make_reports/readDb.py", "-db_list","-database","sList".$uid.".db"]);
+}
+$process->setWorkingDirectory($path.'ReTReKpy'); // 作業ディレクトリの設定
+        $process->setTimeout(0);
+       	$process->run();
+        $routes = $process->getOutput();
+	$records=explode("###",$routes);
+	$it=$records[count($records)-2];
+	$tid=explode("#",$it)[0];
+	$ipath=$path."public/images/";
+	if ($db_type=="com"){
+#fwrite($fp,"<---------------------------------12:".$it."\n");
+#fwrite($fp,$ipath.$uid."/report/".$sub.".pdf\n");
+#fwrite($fp,$ipath."report/".$tid.".pdf\n");
+#fwrite($fp,"<---------------------------------13:".$it."\n");
+		$process = new Process(["mv",$ipath.$uid."/report/".$sub.".pdf",$ipath."report/".$tid.".pdf"]);
+	}else{
+fwrite($fp,"<---------------------------------22:".$it."\n");
+		$process = new Process(["mv",$ipath.$uid."/report/".$sub.".pdf",$ipath.$uid."/report/".$tid.".pdf"]);
+		
+	}
+fclose($fp);
+       	$process->run();
+    }
+
+    private static function getPid($uid){
+	$prc = new Process(['ps','aux']);
+	$prc->run();
+	$outp=explode("\n",$prc->getOutput());
+	$pid="non";
+	foreach ($outp as $o){
+		if (strpos($o,$uid)!==false && strpos($o,"exe.py")!==false){
+		$pid=explode(" ",$o)[1];
+			$running="yes";
+		}
+	}
+	return $pid;
+    }
     private static function easyProcess($sh,$py1,$py2){
 
 	$process = new Process(["sh", $sh]);
@@ -271,27 +577,46 @@ fclose($fh);
 	$prc->run();
 	$outp=explode("\n",$prc->getOutput());
 
-	foreach ($outp as &$o){
+	$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
+	foreach ($outp as $o){
+		fwrite($fp,$o."\n");
+
 	if (strpos($o,"sail")!==false 
 		&& strpos($o,"python")!==false
 		&& strpos($o,$py1)!==false
-		&& strpos($o,$py2)!==false)
-	{
+		&& strpos($o,$py2)!==false){
 			$ww=21;break;
 	}
 	}
 		sleep(2);
 		$ww++;
 	}
+	fclose($fp);
 }
 
-private static function askMakeScript($n,$l){
-
-    	$user= Auth::user();
-    	$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
-        $userId = auth()->id();
-
+private static function askMakeScript($n,$l,$uid){
 	$sh="async".$n.".sh";
+        $wk="/var/www/html/ReTReKpy/";
+# Rev 2.2
+		$ret=chkValidPrms($l);//short or None
+	$s=$ret[0];$r=$ret[1];
+
+#$fp=fopen("/var/www/html/public/images/report/step3.txt","a");
+#fwrite($fp,"in ask".$n.":".$s.":".$r."\n");
+#fclose($fp);
+
+	if ($r=='short'){
+    		$fp=fopen($wk.$uid."_".$sh,"w");
+    		fwrite($fp,"#!/bin/sh\n#\n#\n#smiles:".$s."\n#abort:false_config\n");
+		fclose($fp);
+		return;
+	}
+	if ($r=='None'){
+    		$fp=fopen($wk.$uid."_".$sh,"w");
+    		fwrite($fp,"#!/bin/sh\n#\n#\n#smiles:".$s."\n#abort:false_smiles\n");
+		fclose($fp);
+		return;
+	}
 
 	list($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p11, $p12)=getPrms($l);
         $p10= csrf_token();
@@ -299,22 +624,32 @@ private static function askMakeScript($n,$l){
 	makeScript($sh,$p1,$p2,$p3,$p4,$p5,$p6,$p7,$p8,$p9,$p10,$p11,$p12,$uid);
     }
 
-private static function makeNow($options){
+private static function makeNow($request){
 
     $wk="/var/www/html/ReTReKpy/";
-    $output="/var/www/html/public/images/report/";
+
     $sh=$wk."now.sh";
     $fp=fopen($sh,"w");
     fwrite($fp,"#!/bin/sh\n#\n#\n");
-    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py ".$options." -d ".$output);
+    if ($request->db_type=="com"){
+    $output="/var/www/html/public/images/report/";
+    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py ".$request->options." -d ".$output);
+    }else{
+    $output="/var/www/html/public/images/".$request->uid."/report/";
+    fwrite($fp,"python3 /var/www/html/ReTReKpy/make_reports/readDb.py ".$request->options." -d ".$output." -database sList".$request->uid.".db");
+    }
     fwrite($fp," 1> /dev/null 2>/dev/null &\n");
     fclose($fp);
 
     return $sh;
 }
 
-private static function forDb(){
-$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-db_list"]);
+private static function forDb($db_type,$uid){
+if ($db_type=="com"){
+	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-db_list"]);
+}else{
+	$process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-db_list","-database","sList".$uid.".db"]);
+}
 $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
         $process->setTimeout(0);
        	$process->run();
@@ -337,77 +672,48 @@ $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレク�
 		$cnt++;
 	}
 		$prm['body']=$body;
+		$prm['uid']=$uid;
+		$prm['db_type']=$db_type;
 
 	return $prm;
 }
     public function multiProc(Request $request){
-
-$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
-fwrite($fp,"start...\n");
         $csv = $request->input('fromCSV');
 	$lines=explode(";",$csv);
-fwrite($fp,"fromCSV".$csv."...\n");
-
-if (!array_key_exists("max_loop",$request->input())){
-        $user= Auth::user();
-        $userId = auth()->id();
-        $uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
+        $uid = $request->input('uid');
+        $db_type = $request->input('db_type');
+	$wk="/var/www/html/ReTReKpy/";
 
 $num=0;
 	foreach($lines as $l){
 		if (substr($l,0,1)!="#"){
-#			fwrite($fp,$l."\n");
 			$num=$num+1;
-			$this->askMakeScript($num,$l);
-		}}
-$max_loop=$num;
-$loop=1;
-}else{
-        $max_loop = $request->input('max_loop');
-        $loop = $request->input('loop');
-        $uid = $request->input('uid');
-        $userId = $request->input('user_Id');
-fwrite($fp,"else ".$loop."/".$max_loop."\n");
+			$this->askMakeScript($num,$l,$uid);
+			}
 
-$this->myAddDb($uid,$loop);
-	$loop=$loop+1;
+	}
+	$ssh=$wk.$uid."_jobMaster.sh";
+	$fp=fopen($ssh,"w");
+		fwrite($fp,"#!/bin/sh\n#\n#\npython3 make_reports/jobMaster.py -start -uid ".$uid." -max_loop ".(string)$num." -db_type ".$db_type."\n");
+	fclose($fp);
+	$this->easyProcess($ssh,"jobMaster.py",$uid);
+
+        return view('multiProc', ['uid' => $uid,'db_type'=>$db_type]);
 }
-
-fwrite($fp,$max_loop." vs ".$loop."\n");
-if ($loop>$max_loop){
-fwrite($fp,"return 1\n");
-fclose($fp);
-    $user= Auth::user();
-    return view('menu',['user'=>$user]);
-}
-
-$wk="/var/www/html/ReTReKpy/";
-$ssh=$wk.$uid."_async".$loop.".sh";
-
-$num=0;
-foreach($lines as $l){
-    if (substr($l,0,1)!="#"){
-            $num=$num+1;
-fwrite($fp,$num."-".$l);
-            if ($num==$loop){
-fwrite($fp,$num."xx\n");
-	$this->easyProcess($ssh,"exe.py",$uid);
-	
-        list($p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p11, $p12)=getPrms($l);
-fwrite($fp,$ssh."\n");
-fwrite($fp,$userId."\n");
-fwrite($fp,$p1.$p2.$p12.$uid.$max_loop.$loop."\n");
-fwrite($fp,"return 2\n");
-fclose($fp);
-        return view('multiProc', ['smiles' => $p1, 'route_num' => $p2,'substance' => $p12, 'uid' => $uid,'max_loop' => $max_loop, 'loop' => $loop, 'fromCSV'=>$csv, 'userId'=> $userId]);
-}}}
-fwrite($fp,"return 3\n");
-fclose($fp);
-    }
 
     public function exepy(Request $request){
 
+	    $csv=$request->input('fromCSV');
+	if ($csv!=""){# fromCSV
+		return $this->multiProc($request);
+	}
+
         $smiles = $request->input('smiles');
+	if ($smiles==""){
+    		$user= Auth::user();
+		return view('menu',['user'=>$user,'db_type'=>$request->input('db_type')]);
+	}
+
         $substance = $request->input('substance');
 
         $route_num = (int) $request->input('route_num');
@@ -419,326 +725,24 @@ fclose($fp);
         $expansion_num = (float) $request->input('expansion_num');
         $cum_prob_mod = $request->input('cum_prob_mod');
         $chem_axon = $request->input('chem_axon');
-        $ccc = (int) $request->input('cui');
-        $csv = $request->input('fromCSV');
         $selection_constant = (float) $request->input('selection_constant');
         $time_limit = (float) $request->input('time_limit');
+        $db_type = $request->input('db_type');
+        $uid = $request->input('uid');
+
+#$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
+#fwrite($fp,"db_type in exe.py...\n->".$uid."<-\n");
+#if ($csv==""){
+#fwrite($fp,"yes\n");
+#}
+#fclose($fp);
 
         $csrf_token = csrf_token();
 
-    if ($ccc==1){
-	    $csv='False';
-    }elseif($ccc==2){
-	    $csv='True';
-    }elseif($ccc==3){# fromCSV
-	return $this->multiProc($request);
-    }elseif($ccc==5){
-	    # this is for : void call
-        $userId = auth()->id();
-        $favoriteRoutes = FavoriteRoute::where('user_id', $userId)->get();
-        return view('user', ['favoriteRoutes' => $favoriteRoutes]);
-    }elseif($ccc==4){
-	    $prm=$this->forDb();$prm['modal']='no';$prm['uid']=0;$prm['filename']='non';
-       	return view('dbManage', $prm);
-    }
-	if ($ccc>1){
-    	$user= Auth::user();
-    	$uid = preg_replace("/[^a-zA-Z0-9]+/u","",$user['email']);
         $sh = makeScript("async.sh",$smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv,$substance,$uid);
 
 	$this->easyProcess($sh,"exe.py",$uid);
 
-        	return view('proc', ['smiles' => $smiles, 'route_num' => $route_num,'substance' => $substance, 'uid' => $uid]);
-	}
-
-        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv, $substance]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
-        $process->setTimeout(0);
-       	$process->run();
-
-        $results_num = [];
-        $save_tree = filter_var($save_tree, FILTER_VALIDATE_BOOLEAN);
-        $cum_prob_mod = filter_var($cum_prob_mod, FILTER_VALIDATE_BOOLEAN);
-        $chem_axon = filter_var($chem_axon, FILTER_VALIDATE_BOOLEAN);
-
-        for ($route_id = 1; $route_id <= $route_num; $route_id++) {
-            $count = FavoriteRoute::where('route_id', $route_id)
-                ->where('smiles', $smiles)
-                ->where('knowledge_weights', $knowledge_weights)
-                ->where('save_tree', $save_tree)
-                ->where('expansion_num', $expansion_num)
-                ->where('cum_prob_mod', $cum_prob_mod)
-                ->where('chem_axon', $chem_axon)
-                ->where('selection_constant', $selection_constant)
-                ->where('time_limit', $time_limit)
-                ->count();
-
-            $results_num[$route_id] = $count;
-        }
-
-        arsort($results_num);
-
-        // 実行に失敗した場合(失敗の原因の場所の究明)
-        if(!$process->isSuccessful())
-        {
-            throw new ProcessFailedException($process);
-        }
-
-        $routes = $process->getOutput();
-
-
-        $replacements1 = [];
-        preg_match_all('/\\d+: (\\/var\\/www\\/html\\/public\\/images\\/[^<]+\\.png)/', $routes, $matches);
-        foreach ($matches[0] as $i => $text) {
-            $path = str_replace('/var/www/html/public', '', $matches[1][$i]);
-            $replacements1[$text] = '<img src="'. asset($path) .'" alt="Molecule">';
-        }
-        foreach ($replacements1 as $search => $replace) {
-            $routes = str_replace($search, $replace, $routes);
-        }
-
-
-        $plus_url = '/plus\.png/';
-        $replacement = '<img src="'. asset('images/plus.png') .'" alt="plus">';
-        $routes = preg_replace($plus_url, $replacement, $routes);
-
-        $arrow_url = '/arrow\.png/';
-        $replacement = '<img src="'. asset('images/arrow.png') .'" alt="arrow">';
-        $routes = preg_replace($arrow_url, $replacement, $routes);
-        
-        libxml_use_internal_errors(true);
-        $doc = new \DOMDocument();
-        $doc->loadHTML($routes, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $xpath = new \DOMXPath($doc);
-        
-        $routeElements = $xpath->query("//div[@class = 'route']");
-        foreach ($routeElements as $routeElement) {
-            
-            $userId = auth()->id();
-            $smiles = $routeElement->getAttribute('data-smiles');
-            $routeId = (int) $routeElement->getAttribute('data-route-id');
-            $routeNum =  (int) $routeElement->getAttribute('data-route-num');
-            $knowledgeWeights = json_encode(json_decode($routeElement->getAttribute('data-knowledge-weights')));
-            $saveTree = filter_var($routeElement->getAttribute('data-save-tree'), FILTER_VALIDATE_BOOLEAN);
-            $expansionNum = (float) $routeElement->getAttribute('data-expansion-num');
-            $cumProbMod = filter_var($routeElement->getAttribute('data-cum-prob-mod'), FILTER_VALIDATE_BOOLEAN);
-            $chemAxon = filter_var($routeElement->getAttribute('data-chem-axon'), FILTER_VALIDATE_BOOLEAN);
-            $selectionConstant = (float) $routeElement->getAttribute('data-selection-constant');
-            $timeLimit = (float) $routeElement->getAttribute('data-time-limit');
-
-            $isFavorite = FavoriteRoute::where([
-                'user_id' => $userId,
-                'smiles' => $smiles,
-                'route_id' => $routeId,
-                'route_num' => $routeNum,
-                'knowledge_weights' => $knowledgeWeights,
-                'save_tree' => $saveTree,
-                'expansion_num' => $expansionNum,
-                'cum_prob_mod' => $cumProbMod,
-                'chem_axon' => $chemAxon,
-                'selection_constant' => $selectionConstant,
-                'time_limit' => $timeLimit
-            ])->exists();
-    
-            if ($isFavorite) {
-                $buttonText = '削除';
-                $actionRoute =  route('remove');
-            }else {
-                $buttonText ='追加';
-                $actionRoute = route('add');
-            }
-
-            $form = $xpath->query(".//form[@class='favorite-form']", $routeElement)->item(0);
-            if ($form) {
-                $formHtml = $form->ownerDocument->saveHTML($form);
-                $form->setAttribute('action', $actionRoute);
-                $button = $xpath->query(".//button[contains(@class, 'favorite-button')]", $form)->item(0);
-                if ($button) {
-                    $button->nodeValue = $buttonText;
-                }
-            }
-        }
-
-        $updatedRoutes = '';
-        foreach ($results_num as $route_id => $count) {
-            $routeElement = $xpath->query("//div[@class='route' and @data-route-id='$route_id']")->item(0);
-            if ($routeElement) {
-                $updatedRoutes .= $doc->saveHTML($routeElement);
-            }
-        }
-
-        
-        libxml_use_internal_errors(false);
-
-        return view('results', ['routes' => $updatedRoutes, 'molecule' => $smiles]);
+        return view('proc', ['smiles' => $smiles, 'route_num' => $route_num,'substance' => $substance, 'uid' => $uid,'db_type' => $db_type]);
     }
-
-
-    public function add(Request $request)
-    {
-        $userId = auth()->id();
-        $smiles = $request->input('smiles');
-        $routeId = $request->input('route_id');
-        $routeNum = $request->input('route_num');
-        $knowledgeWeights = $request->input('knowledge_weights');
-        $saveTree = filter_var($request->input('save_tree'), FILTER_VALIDATE_BOOLEAN);
-        $expansionNum = $request->input('expansion_num');
-        $cumProbMod = filter_var($request->input('cum_prob_mod'), FILTER_VALIDATE_BOOLEAN);
-        $chemAxon = filter_var($request->input('chem_axon'), FILTER_VALIDATE_BOOLEAN);
-        $selectionConstant = $request->input('selection_constant');
-        $timeLimit = $request->input('time_limit');
-
-
-        $exists = FavoriteRoute::where([
-            'user_id' => $userId,
-            'smiles' => $smiles,
-            'route_id' => $routeId,
-            'route_num' => $routeNum,
-            'knowledge_weights' => $knowledgeWeights,
-            'save_tree' => $saveTree,
-            'expansion_num' => $expansionNum,
-            'cum_prob_mod' => $cumProbMod,
-            'chem_axon' => $chemAxon,
-            'selection_constant' => $selectionConstant,
-            'time_limit' => $timeLimit
-        ])->exists();
-
-        if ($exists) {
-            return response()->json(['isFavorite' => true, 'message' => 'このルートは既にお気に入りに登録されています。']);
-        }
-
-
-        $favoriteRoute = new FavoriteRoute([
-            'user_id' => $userId,
-            'smiles' => $smiles,
-            'route_num' => $routeNum,
-            'route_id' => $routeId,
-            'knowledge_weights' => $knowledgeWeights,
-            'save_tree' => $saveTree,
-            'expansion_num' => $expansionNum,
-            'cum_prob_mod' => $cumProbMod,
-            'chem_axon' => $chemAxon,
-            'selection_constant' => $selectionConstant,
-            'time_limit' => $timeLimit
-        ]);
-        $favoriteRoute->save();
-
-        return response()->json(['isFavorite' => true, 'message' => '新しいルートをお気に入りに追加しました。']);
-        
-    }
-
-
-
-    public function remove(Request $request)
-    {
-        $userId = auth()->id();
-        $saveTree = filter_var($request->input('save_tree'), FILTER_VALIDATE_BOOLEAN);
-        $cumProbMod = filter_var($request->input('cum_prob_mod'), FILTER_VALIDATE_BOOLEAN);
-        $chemAxon = filter_var($request->input('chem_axon'), FILTER_VALIDATE_BOOLEAN);
-
-        $route = FavoriteRoute::where([
-            'user_id' => $userId,
-            'smiles' => $request->input('smiles'),
-            'route_id' => $request->input('route_id'),
-            'route_num' => $request->input('route_num'),
-            'knowledge_weights' => $request->input('knowledge_weights'),
-            'save_tree' => $saveTree,
-            'expansion_num' => $request->input('expansion_num'),
-            'cum_prob_mod' => $cumProbMod,
-            'chem_axon' => $chemAxon,
-            'selection_constant' => $request->input('selection_constant'),
-            'time_limit' => $request->input('time_limit')
-        ])->first(); 
-
-        if (!$route) {
-            return response()->json(['error' => 'No matching route found'], 404);
-        }
-
-        $route->delete(); 
-        return response()->json(['isFavorite' => false, 'message' => 'Route deleted successfully']);
-    }
-
-
-    public function favorite(Request $request)
-    {
-        $smiles = $request->input('smiles');
-
-        $selected_route_id = $request->input('route_id'); 
-
-        $route_num = $request->input('route_num');
-
-        $knowledge_weights = json_encode(array_map('floatval', json_decode($request->input('knowledge_weights'))));
-        
-        $save_tree = $request->input('save_tree');
-        $expansion_num = $request->input('expansion_num');
-        $cum_prob_mod = $request->input('cum_prob_mod');
-        $chem_axon = $request->input('chem_axon');
-        $cui = $request->input('cui');
-        $selection_constant = $request->input('selection_constant');
-        $time_limit = $request->input('time_limit');
-
-        $csrf_token = csrf_token();
-
-        $process = new Process(["python3", "/var/www/html/ReTReKpy/exe.py", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token]);
-        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
-        $process->run();
-        
-
-        // 実行に失敗した場合(失敗の原因の場所の究明)
-        if(!$process->isSuccessful())
-        {
-            throw new ProcessFailedException($process);
-        }
-
-        $routes = $process->getOutput();
-
-
-        $replacements1 = [];
-        preg_match_all('/\\d+: (\\/var\\/www\\/html\\/public\\/images\\/[^<]+\\.png)/', $routes, $matches);
-        foreach ($matches[0] as $i => $text) {
-            $path = str_replace('/var/www/html/public', '', $matches[1][$i]);
-            $replacements1[$text] = '<img src="'. asset($path) .'" alt="Molecule">';
-        }
-        foreach ($replacements1 as $search => $replace) {
-            $routes = str_replace($search, $replace, $routes);
-        }
-
-
-        
-        libxml_use_internal_errors(true);
-        $doc = new \DOMDocument();
-        $doc->loadHTML($routes, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-        $xpath = new \DOMXPath($doc);
-
-        
-        $routeElements = $xpath->query("//div[@data-route-id='$selected_route_id']");
-        
-        $selectedRoutes = '';
-        foreach ($routeElements as $routeElement) {
-    
-            $buttonText = 'お気に入りから削除';
-            $actionRoute =  route('remove');
-
-            $form = $xpath->query(".//form[@class='favorite-form']", $routeElement)->item(0);
-            if ($form) {
-                $formHtml = $form->ownerDocument->saveHTML($form);
-                
-                $form->setAttribute('action', $actionRoute);
-
-                $button = $xpath->query(".//button[contains(@class, 'favorite-button')]", $form)->item(0);
-                if ($button) {
-                    $button->nodeValue = $buttonText;
-                }
-            }
-
-            $selectedRoutes .= $doc->saveHTML($routeElement);
-        }
-
-        
-        libxml_use_internal_errors(false);
-
-        return view('results', ['routes' => $selectedRoutes, 'molecule' => $smiles]);
-    
-    }
-
 }
