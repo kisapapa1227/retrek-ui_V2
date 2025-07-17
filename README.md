@@ -13,7 +13,7 @@
 
 #### 手順1: コードを作業用ディレクトリーにダウンロードする。<br>
 cd hoge<br>
-git clone https://github.com/kisapapa1227/retrek-ui.git<br>
+git clone https://github.com/kisapapa1227/retrek-ui_V2.git<br>
 cd retrek-ui<br>
 git clone https://github.com/kisapapa1227/ReTReKpy.git<br>
 cp .env.easy .env # docker の設定ファイルを準備する。<br>
@@ -65,7 +65,7 @@ sudo service apache2 stop<br>
 
 #### 手順5:手順の自動化。<br>
 手順1,2,3 は、このページのディレクトリー Installer に準備されているスクリプトファイルを実行することで省力化できる。<br>
-あらかじめ任意のディレクトリー hoge に InstallerStep1.sh、InstallerStep2.sh、InstallerStep3.sh、InstallerStep4.sh をダウンロードする。<br>
+あらかじめ任意のディレクトリー hoge に InstallerStep1.sh、InstallerStep2.sh、InstallerStep3.sh、UninstallImages.sh をダウンロードする。<br>
 cd hoge<br>
 sh InstallerStep1.sh<br>
 sh InstallerStep2.sh<br>
@@ -74,10 +74,9 @@ sh InstallerStep3.sh<br>
 
 #### バージョンアップに関して。<br>
 バージョンアップの場合、同名で旧バージョンのイメージが存在すると、そのイメージが優先的に利用されるので<br>
-sh InstallerStep4.sh<br>
+sh UninstallImages.sh<br>
 を実行し、存在するイメージの削除をした後<br>
-sh InstallerStep3.sh<br>
-を実行する。
+上の手順で再インストールを行う。
 
 #### ユーザーマニュアル
-<a href="./Installer/retrek-ui-user-manualV1.3.pdf">ユーザーマニュアル</a>に操作を示す。
+<a href="./Installer/retrek-ui-user-manualV2.3.pdf">ユーザーマニュアル</a>に操作を示す。
