@@ -34,22 +34,27 @@ ok {
   <body>
     <div class="wrapper">
 	<div class="container">
-<h1>データベースの管理</h1>
+<h1 id="theTitle">データベースの管理</h1>
             <form action="{{ route('kRet') }}" method="GET" class="mb-3">
                 <button id="btb" onclick="window.location.href='/search';" class="sysButton">メインメニューに戻る</button>
+            <input style="display:none" type="text" name="db_type" value="{{$db_type}}">
+            <input style="display:none" type="text" name="uid" value="{{$uid}}">
             </form>
 
-<div class="mainView">
+<div class="mainView"></div>
 
 <table border="1" id="retTable" align="top">
 </table>
-</div>
+
 
 @php
-$opt=array("まとめてPDFを作成","PPTXをダウンロード","RetRek情報のダウンロード","選択した検索結果の削除")
+$opt=array("選択したレコードの削除","データベースの保存","データベースの復元","データベースの初期化","一括ダウンロード")
 @endphp
- <button id="pdf" class="sysButton" onclick="proc(this)">{{$opt[0]}}</button>
- <button id="del" class="sysButton" onclick="proc(this)">{{$opt[3]}}</button>
+ <button id="del" class="sysButton" onclick="proc(this)">{{$opt[0]}}</button>
+ <button id="db_save" class="sysButton" style="width:24ex;" onclick="proc(this)">{{$opt[1]}}</button>
+ <button id="db_load" class="sysButton" style="width:24ex" onclick="proc(this)">{{$opt[2]}}</button>
+ <button id="db_init" class="sysButton" style="width:24ex" onclick="proc(this)">{{$opt[3]}}</button>
+ <button id="get_all" class="sysButton" style="width:24ex" onclick="proc(this)">{{$opt[4]}}</button>
                         </div>
 <div id="proc">
 </div>
@@ -61,12 +66,31 @@ $opt=array("まとめてPDFを作成","PPTXをダウンロード","RetRek情報�
 <embed id="forPDF" type="application/pdf" width="100%" height="0"></embed>
 </div>
 
+<form action="{{ route('dropDb') }}" method="POST" id="dropDbForm" enctype="multipart/form-data">
+@csrf
+<div style="display:none">
+        <input style="display:none" type="text" name="db_type" value="{{$db_type}}">
+        <input style="display:none" type="text" name="uid" value="{{$uid}}">
+	<input type="file" name="a" id="loadA" accept=".db">
+	<input type="text" name="oper" value="db_load" id="loadDbId">
+	<input type="submit" id="loadB">
+
+@isset($log)
+	<input type="text" name="log" value="{{$log}}" id="loadStat">
+@else
+	<input type="text" name="log" value="false" id="loadStat">
+@endisset
+<div>
+</form>
+
 <form action="{{ route('dropDb') }}" method="POST">
 @csrf
 <div style="display:none">
 	<button type="submit" id="dropDb">
+        <input style="display:none" type="text" name="db_type" value="{{$db_type}}">
+        <input style="display:none" type="text" name="uid" value="{{$uid}}">
         <input type="text" name="oper" value="dropDb" id="dropDbOper">
-        <input type="text" name="id" value="" id="dropDbId">
+        <input type="text" name="tid" value="" id="dropDbId">
 </div>
 </form>
 
@@ -76,8 +100,11 @@ $opt=array("まとめてPDFを作成","PPTXをダウンロード","RetRek情報�
 	<button type="submit" id="syncPdf">
         <input type="text" name="options" value="" id="syncOptions">
         <input type="text" name="scale" value="0.25" id="syncScale">
-        <input type="text" name="uid" value="" id="syncUid">
+        <input type="text" name="tid" value="" id="syncUid">
+        <input type="text" name="uid" value="{{$uid}}">
+        <input type="text" name="db_type" value="{{$db_type}}">
         <input type="text" name="given" value="who..." id="given">
+	<input type="text" name="from" value="dbManage">
 </div>
 </form>
 
@@ -93,13 +120,38 @@ let CHK=10
 let fname=@json($name);
 let table=@json($body);
 let modal=@json($modal);
-let thisId=@json($uid);
+let uid=@json($uid);
+let tid=@json($tid);
 let given_filename=@json($filename);
 let sT=Date.now();
 let i=0;
 let smileId=0;
 let smileTableId=0;
-dsr="http://localhost/images/smiles/pid"
+let path="{{asset('images')}}";
+
+if ("{{$db_type}}"=="pri"){
+	path=path+"/"+uid;
+}
+
+if ("{{$inUse}}"=='True'){
+	alert("このデータベースを利用中のプロセスがあります。このデータベースの初期化、別のデータベースの復元はできません。");
+	document.getElementById("db_load").style.display='none';
+	document.getElementById("db_init").style.display='none';
+}
+
+dsr=path+"/smiles/pid";
+
+if ("{{$db_type}}"=="pri"){
+        document.getElementById("theTitle").innerHTML="個人用データベースの管理";
+}else{
+        document.getElementById("theTitle").innerHTML="共有データベースの管理";
+}
+
+let ret=document.getElementById("loadStat").value;
+
+if (ret!="false"){
+	alert(ret);
+}
 
 function chkMess(opt){
 	switch(opt){
@@ -124,8 +176,9 @@ async function goThere(btn){
 }
 
 function modal_wacher(){
-var fp="http://localhost/images/report/readDb"+thisId+"normal.log";
-var fp2="http://localhost/images/report/"+thisId+".pdf";
+var fp=path+"/report/readDb"+tid+"normal.log";
+var fp2=path+"/report/"+tid+".pdf";
+
 let modal=document.getElementById("modal").innerHTML;
 
 	$.ajax({
@@ -140,7 +193,7 @@ let modal=document.getElementById("modal").innerHTML;
 			setTimeout(modal_wacher,1000);
 		}else{
 			document.getElementById("proc").innerHTML="";
-			const tg=document.getElementById("radio:"+thisId);
+			const tg=document.getElementById("radio:"+tid);
 			exto=given_filename.split(".");
 			if (exto.length>1){
 				ext=given_filename.split(".")[1];
@@ -164,7 +217,7 @@ let modal=document.getElementById("modal").innerHTML;
 				win.src=fp2;
           			win.style.height="700px";
 				//window.open(fp2,"mozillaWindow","popup");
-	      			tg.checked=truek;
+	      			tg.checked=true;
 			}
 		}
 	}).fail(function(data){
@@ -193,7 +246,7 @@ function is_file(fp){
 
 function showPdf(btn,opt,filename){
 const xhr=new XMLHttpRequest();
-const url="http://localhost/images/report/"+btn.value+".pdf";
+const url=path+"/report/"+btn.value+".pdf";
 const xproc=document.getElementById("proc");xproc.innerHTML=chkMess(opt);
 
 if (opt=='non'){
@@ -203,9 +256,10 @@ var flg=is_file(url);
             win.src=url;
             win.style.height="700px";
             xproc.innerHTML='';
-            location.href='#forPDF';
+//            location.href='#forPDF';
             return;
 	}}
+
       const button=document.getElementById("syncPdf");
       const options=document.getElementById("syncOptions");
       const scale=document.getElementById("syncScale");
@@ -267,6 +321,14 @@ function imageCheck(url,html,pid){
 	newImage.src=url;
 }
 
+function pushAll(odd){
+let pids=document.getElementsByName("pid");
+
+	for(let i=0;i<pids.length;i++){
+		pids.item(i).checked=odd;
+		}
+}
+
 function showAsSmilesImages(tbl){
 let wk,img;
 for (var i = 0; i < table[fname[smileId]].length; i++) {
@@ -292,6 +354,9 @@ const tbl = document.getElementById("retTable");
 		btn.style.background='yellow';
 	        btn.value = "Click for images";
 		showAsSmilesStrings(tbl);
+	}else if (btn.name=="select"){
+		pushAll(false);
+		btn.style.background='yellow';
 	}else{
 		btn.style.background='red';
 	}
@@ -299,6 +364,8 @@ const tbl = document.getElementById("retTable");
 		if (btn.name=='smiles'){
 	        	btn.value = "Click for strings";
 			showAsSmilesImages(tbl);
+	}else if (btn.name=="select"){
+		pushAll(true);
 		}
 		btn.style.background='transparent';
 	}
@@ -355,25 +422,51 @@ let ask="";
 			}
 			
 		}
-	}
+}
+
+switch(btn.id){
+    case 'db_load':
+	    let r=confirm("今あるデータベースに上書きされます。よろしいですか？");
+	    if(r){
+	    let a=document.getElementById("loadA");
+	    a.addEventListener("input",function(){document.getElementById("loadB").click();});
+	    a.click();
+	    }
+	    break;
+    case 'db_init':
+	    let x=confirm("初期化すると保存していないデータベースは復元できませんが、よろしいですか？");
+	    if (!x){
+		    break;
+	    }
+    case 'db_save':
+	document.getElementById("dropDbOper").value=btn.id;
+	document.getElementById("dropDb").click();
+//        <input type="text" name="oper" value="dropDb" id="dropDbOper">
+//        <input type="text" name="id" value="" id="dropDbId">
+	    break;
+    case 'pdf':
+	    break;
+    case 'get_all':
+	document.getElementById("dropDbOper").value=btn.id;
+	document.getElementById("dropDbId").value=ask;
+	document.getElementById("dropDb").click();
+	    break;
+    case 'del':
 if(ask==""){
 	alert("レコードが選択されていません")
 	return;
 }
-
-switch(btn.id){
-    case 'pdf':
-	    break;
-    case 'del':
+//	alert(ask);
 	document.getElementById("dropDbId").value=ask;
 	document.getElementById("dropDb").click();
-}
-}
+}}
+
 function xproc(){
 let i,pid;
 let rd_btn=document.getElementsByName("oper");
 let checkValue='';
 let filename;
+
 	for(let i=0;i<rd_btn.length;i++){
 		if(rd_btn.item(i).checked){
 			checkValue=rd_btn.item(i).value;
@@ -415,9 +508,18 @@ const tbl = document.getElementById("retTable");
 const tblBody = document.createElement("tbody");
 let tr,td,inp,xx,addButton;
 
+if ("{{$db_type}}"=="pri"){
+        skip.push(2);
+}
+
     tr = document.createElement("tr");
     td = document.createElement("td");
-    xx = document.createTextNode("選択");
+//    xx = document.createTextNode("選択");
+    xx = document.createElement('input');
+    xx.type='button';
+    xx.value = "選択";
+    xx.name="select";
+    xx.setAttribute('onclick','pushButton(this)');
     td.appendChild(xx);
     tr.appendChild(td);
 
@@ -461,7 +563,6 @@ for (var i = 0; i < table[fname[0]].length-1; i++) {
     addButton.setAttribute("value",table[fname[0]][i]);
     td.appendChild(addButton);
 
-
     row.appendChild(td);
 
     for (let j = 0; j < fname.length; j++) {
@@ -496,15 +597,15 @@ let tm;
     cell.appendChild(ww);
  }
       row.appendChild(cell);
-	}
-    }
+	}}
     tblBody.appendChild(row);
 tbl.appendChild(tblBody);
   }
 tbl.setAttribute("border", "2");
 }
-showTable();
 
+if (table!=""){
+showTable();
 if (modal=='yes'){
 	const mess=given_filename+" is making ... wait...";
 	document.getElementById("proc").innerHTML=mess;
@@ -514,4 +615,7 @@ if (modal=='yes'){
 	cell=document.getElementById("radio:"+table[fname[0]][0]);
 	showPdf(cell,"non","non");
 }
+
+}
+
 </script>
