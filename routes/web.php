@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/favorite', [RetrekController::class, 'favorite'])->name('favorite');
     Route::post('/syncPdf', [RetrekController::class, 'syncPdf'])->name('syncPdf');
     Route::post('/askProc', [RetrekController::class, 'askProc'])->name('askProc');
+    Route::post('/routeEval', [RetrekController::class, 'routeEval'])->name('routeEval');
     Route::post('/askMaster', [RetrekController::class, 'askMaster'])->name('askMaster');
     Route::post('/addDb'  , [RetrekController::class, 'addDb'])->name('addDb');
     Route::post('/dropDb', [RetrekController::class, 'dropDb'])->name('dropDb');
@@ -66,5 +67,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/multiSearch', [RetrekController::class, 'multiSearch'])->name('multiSearch');
     Route::get('/db',[RetrekController::class, 'db'])->name('db');
     Route::get('/dbManage', [RetrekController::class, 'dbManage'])->name('dbManage');
+    Route::get('/routeEvaluation', [RetrekController::class, 'routeEvaluation'])->name('routeEvaluation');
     Route::get('/menu', [RetrekController::class, 'menu'])->name('menu');
 });
