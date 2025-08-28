@@ -24,6 +24,8 @@
 <a>
             <form action="{{ route('kRet') }}" method="GET" class="mb-3">
             <button id='btb' onclick="window.location.href='/search';" class="sysButton">処理を中止する</button>
+            <input style="display:none" type="text" name="db_type" value="{{$db_type}}">
+            <input style="display:none" type="text" name="uid" value="{{$uid}}">
             </form>
 </a>
 <a>
@@ -56,6 +58,7 @@ let pdf=0;
 let sT=Date.now();
 let exT="∞";
 let elaps_time;
+let path="{{asset('images')}}";
 
 const ida = document.getElementById("ida");
 const idb = document.getElementById("idb");
@@ -72,11 +75,12 @@ $(function(){
       url: '/addDb', // routes/web.php でとび先を設定
       method: 'POST',
       data: {
-        'id': "{{$substance}}",
+        'db_type': "{{$db_type}}",
         'uid': "{{$uid}}",
       },
     }).done(function (data){
-      ida.style.visibility='visible';
+//      ida.style.visibility='visible';
+	    ida.remove();
       idb.innerHTML=data.substance+" is saved.";
 	ida.style.display="inline-block";
 	idb.style.display="inline-block";
@@ -86,7 +90,6 @@ $(function(){
 	ida.style.display="inline-block";
 	idb.style.display="inline-block";
     });
-//window.location.reload();
 });
 }
 const countUp=()=>{
@@ -101,15 +104,14 @@ $(function(){
       method: 'POST',
       data: {
         'id': "{{$substance}}",
+        'uid': "{{$uid}}",
       },
     }).done(function (data){
       count=data.currentRoute;
       pdf=data.pdf;
-      uid=data.uid;
     }).fail(function () {
       console.log('fail');
     });
-//window.location.reload();
 });
   cT=Date.now();
     if (count!=0){
@@ -123,7 +125,7 @@ $(function(){
 	ida.style.visibility='hidden';
     }else{
           win=document.getElementById('forPDF');
-          win.src="http://localhost/images/"+uid+"/report/{{$substance}}.pdf";
+	  win.src=path+"/{{$uid}}/report/{{$substance}}.pdf";
 	  win.style.height="700px";
 	  ida.style.visibility='visible';
 	  btb.innerHTML="メインメニューに戻る";

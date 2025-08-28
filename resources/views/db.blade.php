@@ -86,6 +86,8 @@ $opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報�
 <tr><td>
 <button id='bta' type="button" onclick="proc()"> <div id='ida' style="display:inline-block">実行する</div></button></td><td>
 <div id="modal" style="margin-left:20px"></div>
+<button id='bta' type="button" onclick="nextPdf()"> <div id='ida' style="display:inline-block">次のpdf</div></button></td><td>
+<div id="modal" style="margin-left:20px"></div>
 </td></tr>
 </table>
 </div>
@@ -186,7 +188,7 @@ async function goThere(btn){
 	}
 }
 
-function modal_wacher(){
+function modal_watcher(){
 var fp=path+"/report/readDb"+tid+"normal.log";
 var fp2=path+"/report/"+tid+".pdf";
 let modal=document.getElementById("modal").innerHTML;
@@ -198,7 +200,7 @@ let modal=document.getElementById("modal").innerHTML;
 	}).done(function(data) {
 		if (data.includes('mission ok')!=true){
 			modal="...";
-			setTimeout(modal_wacher,1000);
+			setTimeout(modal_watcher,1000);
 		}else{
 			document.getElementById("proc").innerHTML="";
 			const tg=document.getElementById("radio:"+tid);
@@ -231,7 +233,7 @@ let modal=document.getElementById("modal").innerHTML;
 		}
 	}).fail(function(data){
 		modal="...";
-		setTimeout(modal_wacher,1000);
+		setTimeout(modal_watcher,1000);
 	}
 		);
 
@@ -420,12 +422,23 @@ const tgs=document.getElementsByName("id");
 	for (let i=0;i<tgs.length;i++){
 		bt=tgs[i];
 		if (bt.checked){
-			if (i!=0){
-				i=i-1;
-			}
-		return [i,bt,bt.value];
+			return [i,bt,bt.value];
 	}
     }
+}
+
+function nextPdf(){
+sel=document.getElementsByName("id");
+pid=getPid();
+i=pid[0]+1;
+
+//	alert(String(i)+"vs"+String(sel.length));
+	if ((i+1)==sel.length){
+		i=0;
+	}
+	sel[i].click();
+	showPdf(sel[i],"non","non");
+//	alert(i,bt.value)
 }
 
 function proc(){
@@ -567,7 +580,7 @@ if (modal=='yes'){
 	const mess=given_filename+" is making ... wait...";
 	document.getElementById("proc").innerHTML=mess;
 
-	setTimeout(modal_wacher,1000);
+	setTimeout(modal_watcher,1000);
 }else{
 	cell=document.getElementById("radio:"+table[fname[0]][0]);
 	showPdf(cell,"non","non");

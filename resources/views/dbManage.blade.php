@@ -48,10 +48,10 @@ ok {
 
 
 @php
-$opt=array("選択したレコードの削除","データベースの保存","データベースの復元","データベースの初期化","一括ダウンロード")
+$opt=array("選択したレコードの削除","データベースの保存","データベースの復元","データベースの初期化","一括ダウンロード","選択したレコードで新規データベース")
 @endphp
  <button id="del" class="sysButton" onclick="proc(this)">{{$opt[0]}}</button>
- <button id="db_save" class="sysButton" style="width:24ex;" onclick="proc(this)">{{$opt[1]}}</button>
+ <button id="db_new" class="sysButton" style="width:24ex;" onclick="proc(this)">{{$opt[1]}}</button>
  <button id="db_load" class="sysButton" style="width:24ex" onclick="proc(this)">{{$opt[2]}}</button>
  <button id="db_init" class="sysButton" style="width:24ex" onclick="proc(this)">{{$opt[3]}}</button>
  <button id="get_all" class="sysButton" style="width:24ex" onclick="proc(this)">{{$opt[4]}}</button>
@@ -451,9 +451,14 @@ switch(btn.id){
 	document.getElementById("dropDbId").value=ask;
 	document.getElementById("dropDb").click();
 	    break;
+    case 'db_new':
+	document.getElementById("dropDbOper").value=btn.id;
+	document.getElementById("dropDbId").value=ask;
+	document.getElementById("dropDb").click();
+	    break;
     case 'del':
 if(ask==""){
-	alert("レコードが選択されていません")
+	alert("レコードが選択されていません");
 	return;
 }
 //	alert(ask);

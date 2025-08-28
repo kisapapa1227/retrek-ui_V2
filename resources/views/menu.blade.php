@@ -17,7 +17,7 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 40px 0;
-    height: 600px;
+    height: 700px;
     text-align: center;
 }
 .container h1 {
@@ -42,7 +42,8 @@ form {
 @php
 $mes=array("経路探索(1):SMILESを指定して反応経路を探索します。","経路探索(2):条件をファイルから読み込み、複数物質の反応経路を一括して探索します。",
 "ファイル変換:保存済みの探索経路をpdf/pptxに変換します。",
-"データベース管理:レコードの削除、データベースの保存をします。"
+"データベース管理:レコードの削除、データベースの保存をします。",
+"探索経路の絞り込み:分子骨格の変化、特定物資の有無で経路を絞り込みます。"
 );
 @endphp
 
@@ -66,6 +67,12 @@ $mes=array("経路探索(1):SMILESを指定して反応経路を探索します�
 
 <form class="form" action="{{ route('dbManage') }}" method=GET>
 	<button type="'submit" class="menuButton">{{$mes[3]}}</button>
+	<input style="display:none" type="text" name="db_type" value="com" class="db_type">
+	<input style="display:none" type="text" name="uid" class="uid">
+</form>
+
+<form class="form" action="{{ route('routeEvaluation') }}" method=GET>
+	<button type="'submit" class="menuButton">{{$mes[4]}}</button>
 	<input style="display:none" type="text" name="db_type" value="com" class="db_type">
 	<input style="display:none" type="text" name="uid" class="uid">
 </form>
