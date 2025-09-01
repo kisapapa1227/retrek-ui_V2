@@ -33,6 +33,13 @@ form {
     z-index: 2;
 }
 
+.subMessage {
+	font-size: 24px;
+	color: #00ff00;
+-webkit-text-stroke: 1px black;
+
+}
+
 </style>
     </head>
     <body>
@@ -102,7 +109,7 @@ User :
 </pre>
 <button class="db_type" style="height:15px" type="button" id="db_type" value="com" onClick="toggleDb(this);">共用データベースを使う</buttonm>
 -->
-<button class="sysButton" style="margin-top:30px;font-size:16px;width:28ex" name="db_toggle" type="button" id="db_type" value="com" onClick="toggleDb(this);">共有データベースを使う</buttonm>
+<button class="sysButton" style="text-align:center;margin-top:30px;font-size:16px;width:24ex" name="db_toggle" type="button" id="db_type" value="com" onClick="toggleDb(this);">共有データベースを使う</buttonm>
 </div>
 </body>
 </html>
@@ -117,7 +124,10 @@ const utags=document.getElementsByClassName("uid");
 //alert(db.value+":"+"{{$db_type}}"+":"+uid);
 
 if (db.value != "com"){
-	db.textContent="個人用データベースを使う";
+//	db.textContent="個人用\\nデータベースを使う";
+	db.innerText="データベースの切り替え\nCurrent : 個人用";
+}else{
+	db.innerText="データベースの切り替え\nCurrent : 共有";
 }
 for (i=0;i<utags.length;i++){
 	utags[i].value=uid;
@@ -131,10 +141,10 @@ const tags=document.getElementsByClassName("db_type");
 
 	if (db.value=="com"){
 		db.value="pri";
-		db.textContent="個人用データベースを使う";
+		db.innerText="データベースの切り替え\nCurrent : 個人用";
 	}else{
 		db.value="com";
-		db.textContent="共有データベースを使う";
+		db.innerText="データベースの切り替え\nCurrent : 共有";
 	}
 for (i=0;i<tags.length;i++){
 	tags[i].value=db.value;

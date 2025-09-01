@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>ReTReK - ユーザー検索画面</title>
+    <title>ReTReK - 複数検索画面</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/style.css')}}">
@@ -35,8 +35,11 @@
   padding: 12px 6px;
 }
 
-#bta {
+#btb {
   width: 12em;
+}
+#bta {
+  width: 18em;
 }
 
 #template{
@@ -45,39 +48,26 @@
   justify-content: flex-end;
 }
 
-#btb,#getfile {
-  width: 18em;
+#getfile {
+  width: 20em;
 }
     </style>
 </head>
 
 <body>
-    <div class="wrapper">
-	<div class="container">
+    <div class="wrapper" style="padding:10px">
             <h1>経路探索(2)</h1>
+        <div class="container d-flex justify-content-between align-items-center">
+            <form action="{{ route('kRet') }}" method="GET" class="mb-3">
+                <button id="btb" onclick="window.location.href='/search';" class="btb">メインメニューに戻る</button>
+            <input style="display:none" type="text" name="db_type" id="let_db_type" value="{{$db_type}}">
+            </form>
+      </div>
+
         <form action="{{ route('exepy') }}" method="POST" class="mb-3">
             @csrf
-            <div class="form-group">
-<br>
-<div style="display:none">
-                <input type="text" name="smiles" id="smiles" value="">
-                <input type="text" name="substance" id="substance" value="">
-                <input type="number" id="route" name="route_num" class="form-control" required value="100" min="1">
-		@php
-		$weight=array("5.0","0.5","2.0","2.0","2.0","1.0")
-		@endphp
-                            @for ($i = 0; $i < 6; $i++)
-                                    <input type="number" class="form-control mb-2" name="weights[]" id=weights[{{ $i }}] step="0.1" value="{{$weight[$i]}}" placeholder="{{ $i + 1 }}"  required>
-                            @endfor
-
-                  <input type="number" class="form-control"  id="expansion_num" name="expansion_num" value="50" required>
-                  <input type="number" class="form-control"  name="selection_constant" id="selection_constant" value="10" required>
-                  <input type="number" class="form-control" name="time_limit" id="time_limit" value="0" required>
-                  <input type="checkbox" name="save_tree" class="form-check-input" id="save_tree" value="True">
-                  <input type="checkbox" name="cum_prob_mod" class="form-check-input" id="cum_prob_mod" value="True">
-                  <input type="checkbox" name="chem_axon" class="form-check-input" id="chem_axon" value="True">
-		<input type="text" name="cui" value="3">
-</div>
+            <input style="display:none" type="text" name="uid" id="uid" value="{{$uid}}">
+            <input style="display:none" type="text" name="db_type" id="db_type" value="{{$db_type}}">
 <div class="subMessage" id="csvBox">
 探索する条件の記述されたCSV
 <input type="file" id="getfile">
@@ -87,17 +77,43 @@
 </br>
 
 <div id='template'>
-<button id='btb' type="button" onclick="templateDownload()">テンプレートをダウンロードする</button>
+<button id='bta' type="button" onclick="templateDownload()">テンプレートをダウンロードする</button>
 </div>
 </br>
             </fieldset>
-
-	    <button type="submit" class="btn btn-primary" id="bta">反応経路の探索</button>
+	    <button type="submit" class="btn btn-primary" id="btb">探索</button>
         </form>
+<img src="{{('images')}}/template/arrow123.png" style="width:80px;margin-right:20px;margin-left:20px"/>
+<button class="sysButton" id="theHint" style="width:24ex" onclick="toggleDb()"> </button>
+</div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+
+document.getElementById("uid").value="{{$uid}}";
+let dbt=document.getElementById("db_type");
+let ldbt=document.getElementById("let_db_type");
+dbt.value="{{$db_type}}";
+const mes=["データベースの切り替え\nCurrent : 個人用","データベースの切り替え\nCurrent : 共有"];
+
+setDb();
+
+function toggleDb(){
+        if (dbt.value=="com"){
+                ldbt.value=dbt.value="pri";
+        }else{
+                ldbt.value=dbt.value="com";
+        }
+        setDb();
+}
+function setDb(){
+        if (dbt.value=="com"){
+                document.getElementById("theHint").innerText=mes[1];
+        }else{
+                document.getElementById("theHint").innerText=mes[0];
+        }
+}
 var fetch=function(url,inerval){
 	$.ajax({
 		type: 'GET',
@@ -146,10 +162,11 @@ var progress = function(url){
         });
     </script>
 <script>
+let path="{{asset('images')}}";
 function templateDownload(){
 	const a = document.createElement('a');
-
-        a.href="http://localhost/images/report/template.csv";
+	alert("テンプレートをダウンロードします。");
+        a.href=path+"/template/template.csv";
         a.download="template.csv";
         a.click();
 }
