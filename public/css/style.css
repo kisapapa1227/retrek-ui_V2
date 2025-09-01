@@ -70,6 +70,7 @@ body {
     margin: 0;
     padding: 0;
 }
+
 label{
     color: #fff;
 }
@@ -95,6 +96,16 @@ justify-content: flex-end;
   box-shadow: 3px 3px 4px black;
 }
 
+.db_type{
+	font-size:24px;
+	color:#eeeeee;
+  background-color: #404040;
+}
+
+pre{
+	font-size:24px;
+	color:#ff1f00;
+}
 #bta:hover, #btb:hover, #getfile:hover, summary:hover, input:hover, .sysButton:hover, .menuButton:hover {
     color: #000;
     background-color: #ffcccc;
