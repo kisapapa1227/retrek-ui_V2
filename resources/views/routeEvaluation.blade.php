@@ -30,6 +30,10 @@ ok {
 .left {
 float:left;
 }
+
+strong{
+	font-size: 24px;
+}
 </style>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -38,17 +42,25 @@ float:left;
     <div class="wrapper">
 	<div class="container">
 <h1 id="theTitle">ルートの解析</h1>
-            <form action="{{ route('kRet') }}" method="GET" class="mb-3">
-                <button id="btb" onclick="window.location.href='/search';" class="sysButton">メインメニューに戻る</button>
-            <input style="display:none" type="text" name="db_type" value="{{$db_type}}">
-            <input style="display:none" type="text" name="uid" value="{{$uid}}">
-            </form>
+        <form action="{{ route('kRet') }}" method="GET" class="mb-3">
+        <button id="btb" onclick="window.location.href='/search';" class="sysButton">メインメニューに戻る</button>
+        <input style="display:none" type="text" name="db_type" value="{{$db_type}}">
+        <input style="display:none" type="text" name="uid" value="{{$uid}}">
+    </form>
 
 <div id="radioButtons" class="mainView"></div>
 
+<strong>レコードを選択してください</strong>
 <table border="1" id="retTable" align="top"></table>
+</br>
+<strong>選択されているレコードの情報
+</strong>
 <table border="1" id="recTable" align="top"></table>
 
+</br>
+<strong>
+Step1: 反応に伴う分子骨格の推移で選別する
+</strong>
 <table border="0">
 <tr>
 <td>骨格の推移</td>
@@ -65,6 +77,10 @@ float:left;
 </tr>
 </table>
 
+</br>
+<strong>
+選別された経路の数
+</strong>
 <div style="display:flex">
 <div>Step1 &nbsp</div><div id="firstMessage"></div>
 </div>
@@ -75,10 +91,15 @@ float:left;
 <br>
 
 <div>
+<strong>Step2a: 原料物質で選別する</strong>
 <details>
-<summary style="width:64ex">反応で使う物質で選別する。</summary>
+<summary style="width:64ex">原料物質の一覧を開く</summary>
 <table id="smilesTable"></table>
 </details>
+</div>
+
+<div>
+<button id="undo" class="sysButton" style="width:24ex" onclick="proc(this)">Undo (Step2b )</button>
 </div>
 
 <div style="display:non">
@@ -94,6 +115,10 @@ float:left;
 </form>
 </div>
 
+</br>
+<strong>
+結果を表示する
+</strong>
 <div>
 <input type="checkbox" name="inView" value="false" id="inView" onChange="proc(this)">
 下の枠に反応系を表示する
@@ -113,12 +138,15 @@ $opt=array("pdfでダウンロード","図を大きくする","図を小さく�
       version 2.5 2028/8/1
     </footer>
   </body>
+<div>
+<strong>Step2b: 原料物質で選別する(除外のみ、下の図をクリックしてください)</strong>
+</div>
 <canvas id="myCanvas" class="canvas" width="4000" height="100"></canvas>
 
 </html>
 
 <script>
-let CHK=10
+let CHK=20
 let fname=@json($name);
 let table=@json($body);
 let modal=@json($modal);
@@ -136,6 +164,11 @@ let canvas_width=2000;
 var allRoute=[];
 var firstItems=new Object();
 var secondItems=new Object();
+let ROIs=[];
+var smiles;
+let stack=[];
+let alertShow=true;
+let theSmiles=new Object(),allSmiles=new Object();
 
 const skip=[1,3,5];
 
@@ -146,7 +179,8 @@ if (tid<0){
 }
 
 keys=pushAll(tid);
-theSmiles=myForm3(stat["draw"+String(tid)],'sub');
+//catSmiles=myForm3(stat["draw"+String(tid)],'sub');
+theSmiles=myForm4(stat["draw"+String(tid)]);
 allSmiles=makeAllSmiles(theSmiles);
 
 if ("{{$db_type}}"=="pri"){
@@ -194,6 +228,17 @@ function makeAllSmiles(theSmiles){
 	return [allSmiles,allSmilesPic,count,include];
 }
 
+function smilesToButtonN(smiles,s){
+
+for(var i=0;i<smiles.length;i++){
+	if (smiles[i]==s){
+		return i;
+	}
+}
+
+return -1;
+}
+
 function pushAll(id){
 	var keys=[];
 
@@ -202,8 +247,6 @@ keys.push(myForm1(stat['record'+String(id)]['key2']));
 keys.push(myForm1(stat['record'+String(id)]['key3']));
 keys.push(myForm1(stat['record'+String(id)]['key4']));
 keys.push(myForm1(stat['record'+String(id)]['key5']));
-
-let canvas=document.getElementById('myCanvas');
 
 var count=0;
 for (k in keys[1]){
@@ -240,6 +283,17 @@ case 'get_selected':
 	document.getElementById("stat").value=stat;
 	document.getElementById("routeEval").click();
 	break;
+case 'undo':
+	if (stack.length>0){
+	n=stack.pop();
+	var theId="radioSmile"+String(n);
+	var tg=document.getElementById(theId);
+//	alert(theId+" is checked");
+	tg.checked=false;
+	procItems(firstItems,secondItems);
+	putReactions();
+	}
+	break;
 case 'inView':
 	putReactions();
 	break;
@@ -273,6 +327,24 @@ var x=src.split(";");
 		}
 	}
 	return ret;
+}
+
+function myForm4(src){
+var smiles=new Object();
+var odd=0;
+var r;
+
+	for (const s in src){
+		if (odd==0){
+			r=s;
+		}else{
+			cat=extSmiles(s,'cat');
+			sub=extSmiles(s,'sub');
+			smiles[r]=cat.concat(sub);
+		}
+		odd=1-odd;
+	}
+return smiles;
 }
 function myForm3(src,sss){
 var smiles=new Object();
@@ -364,6 +436,16 @@ const tm=s.slice(0,4)+"年"+s.slice(4,6)+"月"+s.slice(6,8)+"日"+s.slice(8,10)+
         return(tm);
 }
 
+function myMerge(s1,s2){
+let ret=new Object();
+for (var s in s1){
+	ret[s]=s1[s]
+}
+for (var s in s2){
+	ret[s]=s2[s]
+}
+return ret;
+}
 function askRoutes(btn){
 const rec = document.getElementById("recTable");
 var rowElems=rec.rows;
@@ -373,7 +455,8 @@ var cc;
         tid=btn.id.split(":")[2];
 
 keys=pushAll(tid);
-theSmiles=myForm3(stat["draw"+String(tid)],'sub');
+//the=myForm3(stat["draw"+String(tid)],'cat');
+the=myForm4(stat["draw"+String(tid)]);
 allSmiles=makeAllSmiles(theSmiles);
 
         cc=0;
@@ -397,12 +480,25 @@ if (! skip.includes(j)){
 	addPulldownMenu(keys[4],"pdMenu5");
 
 	showSmilesTable(allSmiles);
+
+var allRoute=[];
+
+for (var x in keys[1]){
+	for (var i=0;i<keys[1][x].length;i++){
+		allRoute.push(keys[1][x][i]);
+	}
+}
+
+setItems(firstItems,allRoute);
+setItems(secondItems,allRoute);
+putItems(firstItems,secondItems);
+
 }
 
 conv={'id':'id','date':'日付','uname':'ユーザー名','loop':'検索件数','factors':'検索の重み','options':'検索条件','substance':'物質名'}
 
 function showSmilesTable(allSmiles){
-	var smiles=allSmiles[0];
+smiles=allSmiles[0];
 	var images=allSmiles[1];
 	var count=allSmiles[2];
 	var include=allSmiles[3];
@@ -417,7 +513,7 @@ tblBody.id="myTbody";
 tr=document.createElement("tr");
 
 th=document.createElement("th");
-label=document.createTextNode('--');
+label=document.createTextNode('');
 th.appendChild(label);tr.appendChild(th);
 
 th=document.createElement("th");
@@ -444,17 +540,20 @@ th.appendChild(btn);tr.appendChild(th);
 th=document.createElement("th");
 div=document.createElement("div");
 div.style.setProperty("display","flex");
-label=document.createElement("div");
-label.id="showRouteDiv";
-label.innerHTML="隠す";
-div.append(label);
+
+//btn=document.createElement('input');
+//btn.type="button";btn.id="theButton";btn.name="theButton";btn.value="含む";
+//btn.setAttribute('onclick','pushButton(this)');
+//label=document.createElement("div");
+//label.id="showRouteDiv";
+//label.innerHTML="隠す";
+//div.append(label);
 
 btn=document.createElement('input');
-btn.type="checkbox";btn.id="showRoute";btn.name="showRoute";btn.value="no";
+btn.type="button";btn.id="showRoute";btn.name="showRoute";btn.value="隠す";
 btn.setAttribute('onclick','pushButton(this)');
 div.append(btn);
 th.appendChild(div);tr.appendChild(th);
-
 
 	tblBody.appendChild(tr);
 
@@ -498,7 +597,7 @@ td.appendChild(btn);tr.appendChild(td);
 }
 
 function pushButton(btn){
-if (btn.type=="button"){
+if (btn.name=="theButton"){
 	if(btn.value=='含む'){
 		btn.value='除く';
 	}else{
@@ -506,16 +605,12 @@ if (btn.type=="button"){
 	}
 	procItems(firstItems,secondItems);
 }
-//komai
-if (btn.type=="checkbox"){
-const div=document.getElementById("showRouteDiv");
-	if(btn.value=='no'){
-		btn.value='yes';
-		div.innerHTML='表示する';
+if (btn.name=="showRoute"){
+	if(btn.value=='隠す'){
+		btn.value='表示する';
 		hideShowRoutes(true);
 	}else{
-		btn.value='no';
-		div.innerHTML='隠す';
+		btn.value='隠す';
 		hideShowRoutes(false);
 	}
 }
@@ -688,13 +783,13 @@ if (elm==""){
 	prm=x[1].split(" ");
 	name.push(path+prm[1]);
 	y0=parseFloat(prm[3]);sy=parseFloat(prm[5]);
-	posit.push([parseFloat(prm[2]),y0,parseFloat(prm[4]),sy]);
+	posit.push([parseFloat(prm[2]),y0,parseFloat(prm[4]),sy,prm[6]]);
 	return y0+sy;
 }
 
 function putElement(name,posit,py,type){
-let canvas=document.getElementById('myCanvas');
 let ctx=canvas.getContext('2d');
+let x,y;
 ctx.font='20px Robot medium';
 
 	switch(type){
@@ -711,7 +806,10 @@ ctx.font='20px Robot medium';
 		).then(function(imgs){
 			imgs.forEach(function(img,i){
 	var i=getNum(img.src,name);
-	ctx.drawImage(img,(posit[i][0]+img.width*0.05)*scale,(py+posit[i][1])*scale,img.width*0.4*scale,img.height*0.4*scale);
+	x=(posit[i][0]+img.width*0.05)*scale;y=(py+posit[i][1])*scale;
+	wx=img.width*0.4*scale;wy=img.height*0.4*scale;
+	ctx.drawImage(img,x,y,wx,wy);
+	ROIs.push([x,y,wx,wy,posit[i][4]])
 		});
 		}).catch(function(e){
 //		document.getElementById("message").innerHTML+=e;
@@ -769,6 +867,7 @@ function getLength(){
 let py=0.0,ppy=0.0;
 const routes=secondItems.p2;
 
+let cnt=0;
 for (n in routes){
 	route=routes[n];
 	ret=myForm2(stat["draw"+String(tid)]["route"+String(route)]);
@@ -794,23 +893,26 @@ for (n in routes){
 		if (ty>ppy){ppy=ty;}
 	}
 	py=py+ppy;
+	if (cnt>CHK){
+		return py;
+	}
+	cnt=cnt+1;
 }
-	return py
+	return py;
 }
 
 function putReactions(){
-let canvas=document.getElementById('myCanvas');
 let inView=document.getElementById('inView');
 let ctx=canvas.getContext('2d');
 let ppy=0,ty;
 const routes=secondItems.p2;
 ctx.font='20px Robot medium';
 
+ROIs=[];
 
 if (inView.checked==false){
 	return;
 }
-
 
 ctx.clearRect(0,0,canvas_width*scale,canvas_height);
 
@@ -821,8 +923,16 @@ canvas.setAttribute("width",canvas_width*scale);
 
 py=0
 
-let name=[];let posit=[];
+let cnt=0;let name=[];let posit=[];
 for (n in routes){
+	if (cnt>CHK){
+		if (alertShow){
+		alert("表示する反応が多すぎるため、最初の"+String(CHK)+"反応のみを表示します");
+		alertShow=false;
+		}
+		return;
+	}
+	cnt=cnt+1;
 	ppy=0;
 	name=[];posit=[];
 	route=routes[n];
@@ -864,7 +974,7 @@ const tblBody = document.createElement("tbody");
 const recBody = document.createElement("tbody");
 var count;
 
-theDiv.appendChild(sec1);
+//theDiv.appendChild(sec1);
 theDiv.style.color="white";
 theDiv.style.backgroundColor="transparent";
 theDiv.style.padding="10px";
@@ -935,6 +1045,48 @@ if (! skip.includes(j)){
 rec.appendChild(recBody);
 }
 
+// main loop
+let canvas=document.getElementById('myCanvas');
+
+canvas.onclick=function(e){
+var rect=e.target.getBoundingClientRect();
+	mX=e.clientX-Math.floor(rect.left)-2;
+	mY=e.clientY-Math.floor(rect.top)-2;
+
+	ROIs.forEach(function(x){
+//		alert(String(x[0])+"x"+String(x[1])+"x"+x[4]);
+	if (mX>x[0] && mX<x[0]+x[2] && mY>x[1] && mY<x[1]+x[3]){
+		n=smilesToButtonN(smiles,x[4]);
+		if (n==-1){return;}
+	if (confirm(x[4]+"を合成原料から除きますか？")==false){
+		return;
+	}}});
+
+var inView=document.getElementById('inView');
+inView.checked=false;
+var theButton=document.getElementById('theButton');
+var cBoxes=document.getElementsByName('cBox');
+
+if (theButton.value!="除く"){
+	cBoxes.forEach(function(box){
+		if (box.checked==true){
+			box.checked=false;
+		}
+	});
+	theButton.value="除く";
+	stack=[];
+}
+	var theId="radioSmile"+String(n);
+	var tg=document.getElementById(theId);
+//	alert(theId+" is checked");
+	stack.push(n);
+	tg.checked=true;
+	procItems(firstItems,secondItems);
+	inView.checked=true;
+	putReactions();
+//komai
+}
+
 if (table!=""){
 	showTable();
 }
@@ -951,6 +1103,7 @@ for (var x in keys[1]){
 		allRoute.push(keys[1][x][i]);
 	}
 }
+
 setItems(firstItems,allRoute);
 setItems(secondItems,allRoute);
 putItems(firstItems,secondItems);

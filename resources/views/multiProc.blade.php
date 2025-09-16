@@ -68,7 +68,6 @@ $(function(){
       if (data.pid==-2){
 	      document.getElementsByName('mRet')[0].click();
       }
-
       pid=data.pid;
       proc=data.proc;
       list=data.list;
@@ -89,7 +88,8 @@ if(p!=""){
 let ps=p.split(";");
   elem.innerHTML="探索済みルート数 "+ps[0]+"<br>";
   elem.innerHTML+="<br>"+ps[1]+"<br>経過時間"+ps[2];
-  elem.innerHTML+= " (残り時間 "+ps[3]+")";
+//  elem.innerHTML+= " (残り時間 "+ps[3]+")";
+  elem.innerHTML+= " ("+ps[3]+")";
 }else{
 let ls=l.split("\n");
 h3.innerHTML="";

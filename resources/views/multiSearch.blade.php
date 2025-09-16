@@ -81,7 +81,7 @@
 </div>
 </br>
             </fieldset>
-	    <button type="submit" class="btn btn-primary" id="btb">探索</button>
+	    <button type="submit" class="btn btn-primary" id="btb">探索開始</button>
         </form>
 <img src="{{('images')}}/template/arrow123.png" style="width:80px;margin-right:20px;margin-left:20px"/>
 <button class="sysButton" id="theHint" style="width:24ex" onclick="toggleDb()"> </button>

@@ -22,6 +22,10 @@ details {
   padding: 6px 6px;
 }
 
+strong{
+font-size: 20px;
+}
+
 ok {
   width: 620px;
  cursor: pointer;
@@ -42,9 +46,10 @@ ok {
             </form>
     </div>
 <div id="mainView"></div>
+<strong>経路を選択する</strong>
 <div>
 <details id="myDetails" onclick="goHere(this)" name="details_head">
-<summary> 探索経路の一覧、選択 </summary>
+<summary> 一覧表を開く </summary>
 </br>
 
 <details>
@@ -65,15 +70,22 @@ ok {
 </details>
 </br>
 
-@php
+<strong>
+ダウンロードするファイルの種類を選択する
+</strong>
+</br>
+<!--
 $opt=array("PDFをダウンロード","PPTXをダウンロード","RetRek情報のダウンロード","探索結果の削除")
+-->
+@php
+$opt=array("PDF","PPTX","RetRek text","non")
 @endphp
 <input type="radio" name="oper" class="oper" id="pdf" value="1">
- <label style="width:90px" for="pdf">{{$opt[0]}}</label>
+ <label style="width:50px" for="pdf">{{$opt[0]}}</label>
 <input type="radio" name="oper" class="oper" id="ppt" value="2" checked>
-<label style="width:100px" for="ppt">{{$opt[1]}}</label>
+<label style="width:50px" for="ppt">{{$opt[1]}}</label>
 <input type="radio" name="oper" class="oper" id="db" value="3">
- <label style="width:90px" for="db">{{$opt[2]}}</label>
+ <label style="width:50px" for="db">{{$opt[2]}}</label>
 <!--
 <input type="radio" name="oper" class="oper" id="del" value="4">
  <label style="width:90px" for="del">{{$opt[3]}}</label>

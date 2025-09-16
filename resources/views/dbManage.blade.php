@@ -426,7 +426,7 @@ let ask="";
 
 switch(btn.id){
     case 'db_load':
-	    let r=confirm("今あるデータベースに上書きされます。よろしいですか？");
+	    let r=confirm("今あるデータベースに上書きされます。よろしいですか？\nデータベースのアップロード後に、pdfファイルを作成します。");
 	    if(r){
 	    let a=document.getElementById("loadA");
 	    a.addEventListener("input",function(){document.getElementById("loadB").click();});

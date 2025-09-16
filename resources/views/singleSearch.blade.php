@@ -55,17 +55,28 @@
                 <label class="subMessage" for="substance">物質名(空欄なら日付を利用):</label>
                 <input type="text" name="substance" class="form-control" id="substance">
 </div>
+<table width="300" border="0">
+<tr><th>
 <div>
                     <label for="route" class="subMessage">ルート数:</label>
-                        <input type="number" id="route" name="route_num" style="width:100px" class="form-control" required value="100" min="1">
+                    <input type="number" id="route" name="route_num" style="width:100px" class="form-control" required value="100" min="0">
 </div>
+</th>
+<th>
+
+<div>
+                    <label for="upper_time" class="subMessage">打ち切り時間(分):</label>
+                    <input type="number" id="upper_time" name="upper_time" style="width:100px" class="form-control" required value="0" min="0">
+
 </div>
+</tr></th>
+</table>
 
 </br>
 </div>
             <fieldset>
 <details>
-                <summary class="mb-3">詳細設定</summary>
+                <summary class="mb-3">詳細設定画面を開く</summary>
 
 		@php
 		$name=array("Convergent Disconnection Score","Available Substance Score","Ring Disconnection Score","Seletive Transformation Score","Intermediate Score","Template Score");
@@ -105,7 +116,10 @@
                         <input type="number" class="form-control"  name="selection_constant" id="selection_constant" value="10" required>
                     </div>
                 </div>
+<!--
                 <div class="form-group row mb-2" style="display:none">
+-->
+                <div class="form-group row mb-2">
                     <label for="time_limit" class="col-sm-4 col-form-label">time_limit:</label>
                     <div class="col-sm-8">
                         <input type="number" class="form-control" name="time_limit" id="time_limit" value="0" required>
@@ -142,8 +156,12 @@
                 </div>
 </details>
             </fieldset>
-	    <button type="submit" class="btn btn-primary back-button" id="bta">探索</button>
+	    <button type="submit" name="start" style="display:none" class="btn btn-primary back-button" id="start">探索開始</button>
         </form>
+<div>
+	    <button type="button" onclick="preCheck()"  id="bta">探索を開始する</button>
+</div>
+<br>
 
 <img src="{{('images')}}/template/arrow123.png" style="width:80px;margin-right:20px;margin-left:20px">
 <button class="sysButton" id="theHint" style="width:24ex" onclick="toggleDb()"> </button>
@@ -166,6 +184,19 @@ const mes=["データベースの切り替え\nCurrent : 個人用","データ�
 
 setDb();
 
+function preCheck(){
+let start=document.getElementById("start");
+let route=document.getElementById("route");
+let time=document.getElementById("upper_time");
+
+if (route.value==0 && time.value==0){
+	alert("ルート数か打ち切り時間のどちらかを0以外にしてください");
+	route.style.backgroundColor="pink";
+	time.style.backgroundColor="pink";
+	return;
+}
+	start.click();
+}
 function toggleDb(){
 	if (dbt.value=="com"){
 		ldbt.value=dbt.value="pri";

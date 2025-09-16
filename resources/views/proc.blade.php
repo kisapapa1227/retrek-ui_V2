@@ -55,6 +55,7 @@ let loop=CHK;
 let num={{$route_num}};
 let count=0;
 let pdf=0;
+let cpu=0,mem=0,swap_used=0,swap_in=0,swap_out;
 let sT=Date.now();
 let exT="∞";
 let elaps_time;
@@ -80,7 +81,7 @@ $(function(){
       },
     }).done(function (data){
 //      ida.style.visibility='visible';
-	    ida.remove();
+    ida.remove();
       idb.innerHTML=data.substance+" is saved.";
 	ida.style.display="inline-block";
 	idb.style.display="inline-block";
@@ -109,6 +110,15 @@ $(function(){
     }).done(function (data){
       count=data.currentRoute;
       pdf=data.pdf;
+      cpu=data.cpu;
+      mem=data.mem;
+      swap_used=data.swap_used;
+      swap_in=data.swap_in;
+      swap_out=data.swap_out;
+if (pdf=="0" && data.pid=='non'){
+	alert("検索が中断されました。メインメニューに戻ります"+String(pdf)+String(data.pid));
+	document.getElementById('btb').click();
+}
     }).fail(function () {
       console.log('fail');
     });
@@ -120,7 +130,7 @@ $(function(){
     }
 }
     loop--;
-    if (pdf==0){
+    if (pdf!="3"){
 	setTimeout(countUp, 1000);
 	ida.style.visibility='hidden';
     }else{
@@ -129,7 +139,7 @@ $(function(){
 	  win.style.height="700px";
 	  ida.style.visibility='visible';
 	  btb.innerHTML="メインメニューに戻る";
-//<embed src="http://localhost/images/report/{substance}.pdf" type="application/pdf" width="100%" height="700px"></embed>'
+	  document.getElementById("proc").innerHTML="探索済みルート数 "+count+"<br>探索は終了しました";
     }
 }
 
@@ -147,9 +157,14 @@ function flushText(l) {
 	  elapse_time=" 経過時間 "+hr+":"+('00'+min).slice(-2)+":"+('00'+sec).slice(-2);
 	  elem.innerHTML+="<br>"+d;
 	  elem.innerHTML+="<br>"+elapse_time;
+
   if (count==num){
-	  if (pdf=="0"){
-	  	elem.innerHTML+="<br>Making report in progress...";
+	  if (pdf=="0" && count!=0){
+	  	elem.innerHTML+="<br>Route analysing...";
+	  }else if (pdf=="1" && count!=0){
+	  	elem.innerHTML+="<br>Route analysing...";
+	  }else if (pdf=="2" && count!=0){
+	  	elem.innerHTML+="<br>Making pdf file...";
 	  }
   }else{
 	  if (count==0){
@@ -161,7 +176,10 @@ function flushText(l) {
 	  sec=String(ex%60);
 	  line3=" (残り時間 "+hr+":"+('00'+min).slice(-2)+":"+('00'+sec).slice(-2)+")";
 	  }
-	  elem.innerHTML+=line3;
+	  if (num!="0"){
+	  	elem.innerHTML+=line3;
+	  }
+	  elem.innerHTML+="<br><br>CPU 使用率:"+String(100-cpu)+"% "+"空きメモリ:"+String(parseInt(mem/1024))+"MB"+" 使用中のSwap:"+String(parseInt(swap_used/1024))+"MB<br>SwapIn:"+String(swap_in)+"KB SwapOut:"+String(swap_out)+"KB";
   }
 }
 //    setTimeout(countUp, 1000);
