@@ -1,0 +1,8 @@
+host	user
+%	root
+%	sail
+localhost	healthchecker
+localhost	mysql.infoschema
+localhost	mysql.session
+localhost	mysql.sys
+localhost	root
