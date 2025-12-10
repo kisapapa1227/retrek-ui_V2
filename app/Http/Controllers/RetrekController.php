@@ -62,6 +62,19 @@ function makeScriptForPdf($id,$uid,$db_type){
     return $sh;
 }
 
+function makeAScript($uid,$com){
+    $wk="/var/www/html/ReTReKpy/";
+    $sh=$wk.$uid."A.sh";
+    $fp=fopen($sh,"w");
+    fwrite($fp,"#!/bin/sh\n#\n#\n");
+    foreach ($com as $c){
+	    fwrite($fp,$c." ");
+    }
+    fwrite($fp,"\n");
+    fclose($fp);
+    return $sh;
+}
+
 function makeScriptForDrop($id,$uid,$db_type){
     $wk="/var/www/html/ReTReKpy/";
     $sh=$wk.$uid."_drop.sh";
@@ -135,29 +148,104 @@ class RetrekController extends Controller
         return view('db',$prm);
     }
 
+    public function downloadStatics(Request $request){
+    	$user= Auth::user();
+        $uid = $request->input('uid');
+        $db_type = $request->input('db_type');
+	$oper=$request->input('oper');
+	$tid=$request->input('tid');
+	$label=$request->input('label');
+
+	$this->log("oper:".$oper);
+	$this->log("tid:".$tid);
+	$this->log("label:".$label);
+
+	$ddd="/var/www/html/storage/app/public/";
+        $output=$ddd."report/";
+	$agent="/var/www/html/ReTReKpy/make_reports/statDb.py";
+
+	if ($oper=="get_exel"){
+		$this->log("if get_exel");
+	        $prm=["python3",$agent,"-type","3","-label",$label,"-ids"];
+		$tids=explode(",",$tid);
+		foreach ($tids as $t){
+                	array_push($prm,$t);
+		}
+		$src=$output.$uid."Summary.xlsx";
+                array_push($prm,"-excel_file_name",$src);
+	}else if ($oper=="get_table"){
+		$item=$request->input('item');
+		$this->log("if get_table");
+#		$this->log($item);
+	        $prm=["python3",$agent,"-type","4","-ids","0","-items",$item];
+		$src=$output.$uid."Table.pptx";
+	}
+
+        if ($db_type!="com"){
+                array_push($prm,"-database","sList".$uid.".db");
+        }
+
+		array_push($prm,"-d",$output);
+	    $process = new Process($prm);
+	    $process->setWorkingDirectory('/var/www/html/ReTReKpy');
+
+	foreach ($prm as $p){
+		$this->log("ok ".$p);
+	}
+
+	    $ret=$process->run();
+	  
+	if ($oper=="get_exel"){
+		$dst="Retrek_Statistics".date("Ymd_Hi").".xlsx";
+	}else{
+		$dst="Retrek_Statistics".date("Ymd_Hi").".pptx";
+	}
+
+
+        $stdout = $process->getOutput();
+	$lines=explode("\n",$stdout);
+	foreach ($lines as $line){
+		$this->log("ok ".$line);
+	}
+
+	return response()->download($src,$dst);
+    }
+
     public function routeEval(Request $request){
     	$user= Auth::user();
         $uid = $request->input('uid');
         $db_type = $request->input('db_type');
 	$tid=$request->input('tid');
+	$size=floatval($request->input('size'))*0.35;
 	$oper=$request->input('oper');
 ##
 	$ddd="/var/www/html/storage/app/public/";
         $output=$ddd."report/";
-	$agent="/var/www/html/ReTReKpy/make_reports/readDb.py";
 
 	switch($oper){
 	case 'get_selected':
+	case 'get_pptx':
+	$agent="/var/www/html/ReTReKpy/make_reports/readDb.py";
 
-	$this->log("in get_selected");
+#	$this->log("in get_selected ".$oper);
 
 	$route="[".$request->input("routes")."]";
 
-        $prm=["python3",$agent,"-id",$tid,"-s","1.0","-force","-d",$output,"-route",$route];
+        $prm=["python3",$agent,"-id",$tid,"-s",$size,"-force","-d",$output,"-route",$route];
 ## database
             if ($db_type!="com"){
                     array_push($prm,"-database","sList".$uid.".db");
             }
+
+	if ($oper=="get_selected"){
+		$dst="Retrek_Report_".date("Ymd_Hi").".pdf";
+		$src=$output.$tid.".pdf";
+	}else{
+                array_push($prm,"-ppt");
+		$dst="Retrek_Report_".date("Ymd_Hi").".pptx";
+		$src=$output.$tid.".pptx";
+	}
+
 	foreach ($prm as $p){
 		$this->log($p);
 	}
@@ -165,11 +253,6 @@ class RetrekController extends Controller
             $process=new Process($prm);
 	    $process->setWorkingDirectory('/var/www/html/ReTReKpy');
 	    $ret=$process->run();
-
-	$dst="Retrek_Report_".date("Ymd_Hi").".pdf";
-
-	$this->log($oper."  dst...".$dst);
-	$src=$output.$tid.".pdf";
 
 	$stdout=$process->getOutput();
 
@@ -185,7 +268,7 @@ class RetrekController extends Controller
 	$ids=$prm['body']['id'];
 	$prm['modal']='no';$prm['filename']='non';
 
-	$prm=$prm+$this->statForEval($db_type,$uid,$ids);
+	$prm=$prm+$this->statForEval($db_type,$uid,$ids,1);
 	if ($tid==null){
 		$prm['tid']=-1;
 	}else{
@@ -193,7 +276,70 @@ class RetrekController extends Controller
 	}	
 
 	$prm['inUse']=$this->isInUse($db_type,$uid);
+
         return view('routeEvaluation',$prm);
+    }
+
+    public function routeStatics(Request $request){
+    	$user= Auth::user();
+        $uid = $request->input('uid');
+        $db_type = $request->input('db_type');
+	$tid=$request->input('tid');
+
+	$prm=$this->forDb($db_type,$uid);
+
+	$ids=$prm['body']['id'];
+	$prm['modal']='no';$prm['filename']='non';
+
+	$prm=$prm+$this->statForEval($db_type,$uid,$ids,1);
+#komai
+#	$fp=fopen("/var/www/html/public/images/report/step3.txt","a");
+#	foreach ($prm['stat'] as $lines){
+#	foreach ($lines as $key=>$value){
+#		fwrite($fp,"-->".$key."\n");
+#		fwrite($fp,"-->".$lines[$key]."\n");
+#	}
+#	}
+#	fclose($fp);
+
+	$prm['inUse']=$this->isInUse($db_type,$uid);
+	$prm['tid']=-1;
+
+        return view('routeStatics',$prm);
+    }
+
+    public function showJson(Request $request){
+
+    	$user= Auth::user();
+        $uid = $request->input('uid');
+        $db_type = $request->input('db_type');
+
+	$prm=$this->forDb($db_type,$uid);
+	$prm=$prm+$this->getCouplingInfomation($db_type,$uid);
+
+	$this->log("prm[json]");
+	$this->log($prm['JSON']);
+
+        return view('showJson',$prm);
+    }
+
+    public function routeRearrange(Request $request){
+    	$user= Auth::user();
+        $uid = $request->input('uid');
+        $db_type = $request->input('db_type');
+	$tid=$request->input('tid');
+
+	$prm=$this->forDb($db_type,$uid);
+
+	$ids=$prm['body']['id'];
+	$prm['modal']='no';$prm['filename']='non';
+
+	$prm=$prm+$this->statForEval($db_type,$uid,$ids,2);
+
+	$prm['inUse']=$this->isInUse($db_type,$uid);
+	$prm['tid']=-1;
+
+        return view('routeRearrange',$prm);
     }
 
     public function routeEvaluation(Request $request){
@@ -207,7 +353,7 @@ class RetrekController extends Controller
 	$ids=$prm['body']['id'];
 	$prm['modal']='no';$prm['filename']='non';
 
-	$prm=$prm+$this->statForEval($db_type,$uid,$ids);
+	$prm=$prm+$this->statForEval($db_type,$uid,$ids,1);
 
 	$prm['inUse']=$this->isInUse($db_type,$uid);
 	$prm['tid']=-1;
@@ -273,6 +419,15 @@ class RetrekController extends Controller
 	    $process = new Process(["python3", "/var/www/html/ReTReKpy/make_reports/readDb.py", "-id",$id,"-drop","-d","/var/www/html/public/images"]);
         $process->setWorkingDirectory('/var/www/html/public/images'); // 作業ディレクトリの設定
        	$process->run();
+        $stdout = $process->getOutput();
+
+	$lines=explode("\n",$stdout);
+
+	foreach ($lines as $line){
+		$this->log($line);
+	}
+		$dst="Retrek_".date("Ymd_Hi").".db";
+		return response()->download($path.$tmp,$dst);
 
 	$param=[
 		'pdf' => 'reload',
@@ -298,16 +453,19 @@ class RetrekController extends Controller
 	$odir="/var/www/html/public/images/";
         $op = $request->input('oper');
         $tid = $request->input('tid');
-        $db_type = $request->input('db_type');
+       $db_type = $request->input('db_type');
         $uid = $request->input('uid');
 
 	$opr_stat="";
 
 	if ($db_type=="com"){
 		$src="sList.db";
+		$ddd="sList".$uid.".db";
 	}else{
 		$src="sList".$uid.".db";
+		$ddd="sList.db";
 	}
+		$this->log($op.":".$src);
 
 	switch($op){
 	case 'get_all':
@@ -333,6 +491,9 @@ class RetrekController extends Controller
 		$process=new Process($prm);
         	$process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
         	$process->setTimeout(0);
+	foreach ($prm as $c){
+		$this->log($c);
+	}
 		$ret=$process->run();
 
 		array_push($prm,"-db");
@@ -350,23 +511,35 @@ class RetrekController extends Controller
 		$dst="Retrek_Report_".date("Ymd_Hi").".zip";
 		return response()->download($ddd."report.zip",$dst);
 		break;
-	case 'get_selected':
-		$this->log("get_selected");
-		break;
 	case 'db_init':
         	$sh=makeScriptForDrop("all",$uid,$db_type);
         	$this->easyProcess($sh,"readDb.py","readDb.py");
 		break;
-	case 'dropDb':
+	case 'db_drop':
         	$sh=makeScriptForDrop($tid,$uid,$db_type);
-        	$this->easyProcess($sh,"readDb.py","readDb.py");
+        	$this->syncProcess($sh,"readDb.py","readDb.py");
+		break;
+	case 'db_copy':
+	$com=["python3", "make_reports/editDb.py","-cp","-ids"];
+	foreach (explode(",",$tid) as $id){
+		array_push($com,$id);
+	}
+	$com=array_merge($com,["-src",$wd.$src,"-dst",$wd.$ddd]);
+
+       	$sh=makeAScript($uid,$com);
+	$this->syncProcess($sh,"editDb.py","editDb.py");
+
+	foreach ($com as $c){
+		$this->log($c);
+	}
 		break;
 	case 'db_load':
 		$fn=$request->file('a');$request->file('a')->storeAs('','test.db');
 		$dst='/var/www/html/storage/app/test.db';
-		if ($this->is_database($dst)){
-			copy($dst,$wd.$src);
-		$proc = new Process(["python3", "make_reports/readDb.py","-database",$src,"-askTids"]);
+
+	if ($this->is_database($dst)){
+		copy($dst,$wd.$src);
+	$proc = new Process(["python3", "make_reports/readDb.py","-database",$src,"-askTids"]);
         $proc->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
        	$proc->run();
 	$stdout=$proc->getOutput();
@@ -381,17 +554,15 @@ class RetrekController extends Controller
 		$this->runIt($uid,$tt,"-id ".$id);
 	}
 
-#        	$sh=makeScriptForPdf("all",$uid,$db_type);
-#        	$this->easyProcess($sh,"readDb.py","readDb.py");
 		}else{
 			$gn=$request->file('a')->getClientOriginalName();
 //			$opr_stat=$gn." is not a retrek-ui database file.";
 			$opr_stat=$gn." は retrek-ui のデータベースファイルではありません.\nアップロードは行いませんでした。";
 		}
 		break;
-	case 'db_new':
+	case 'db_download':
 		$path="/var/www/html/ReTReKpy/";
-	$tmp="tmp".$uid.".db";
+		$tmp="tmp".$uid.".db";
 		$com=["python3", "make_reports/editDb.py","-cp","-ids"];
 	foreach (explode(",",$tid) as $id){
 		array_push($com,$id);
@@ -424,12 +595,14 @@ if (file_exists($path.$tmp) == true){
 		break;
 	}
 
-	$prm=$this->forDb($db_type,$uid);$prm['modal']='no';$prm['filename']='non';$prm['tid']=0;
+	$prm=$this->forDb($db_type,$uid);
+	$prm['modal']='no';$prm['filename']='non';$prm['tid']=0;
 
 	if ($opr_stat!=""){
 		$prm['log']=$opr_stat;
 	}
 	$prm['inUse']=$this->isInUse($db_type,$uid);
+
        	return view('dbManage', $prm);
     }
 
@@ -656,12 +829,13 @@ if (file_exists($fn) == false){
 		return 'not_this_database';
     }
 
-    private static function killIt($outp,$key1,$key2,$key3){
+    private static function killIt($outp,$key1,$key2,$uid){
+    $path="/var/www/html/ReTReKpy/";
 
 	foreach ($outp as $o){
 	if (str_contains($o,$key1)
 		&& str_contains($o,$key2)
-		&& str_contains($o,$key3)){
+		&& str_contains($o,$uid)){
 		$prms=explode(" ",$o);
 		$l=0;
 		foreach ($prms as $i){
@@ -669,6 +843,11 @@ if (file_exists($fn) == false){
 				if ($l==1){
 				$prc = new Process(['kill',$i]);
 				$prc->run();
+				if (str_contains($o,"jobMaster")==true){
+	$process = new Process(["python3", $path."/make_reports/jobMaster.py","-stop","-uid",$uid]);
+       	$process->run();
+				}
+
 				}
 				$l++;
 			}
@@ -690,9 +869,6 @@ if (file_exists($fn) == false){
 	fclose($fp);
 }
     private static function copyPdf($uid,$sub,$db_type){
-$fp=fopen("/var/www/html/public/images/report/step1.txt","a");
-fwrite($fp,"in copyPdf.....xxx\n");
-$path="/var/www/html/";
 	#
 	# 2025/06/12 データベースに追加する時、作ってあるpdf をimages/report/pid.pdf に移動する。 
 	#
@@ -817,6 +993,21 @@ $ww=0;
     }
 }
 
+    private static function syncProcess($sh,$py1,$py2){
+	$process = new Process(["sh", $sh]);
+        $process->setWorkingDirectory('/var/www/html/ReTReKpy'); // 作業ディレクトリの設定
+        $process->setTimeout(0);
+       	$process->run();
+        $stdout = $process->getOutput();
+
+	$lines=explode("\n",$stdout);
+#	$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+#		fwrite($fp,"xxxxxx\n");
+#	foreach ($lines as $line){
+#		fwrite($fp,$line."\n");
+#	}
+#	fclose($fp);
+    }
     private static function easyProcess($sh,$py1,$py2){
 
 	$process = new Process(["sh", $sh]);
@@ -895,49 +1086,104 @@ private static function makeNow($request){
     return $sh;
 }
 
-private static function statForEval($db_type,$uid,$tid){
-	$pid=str_replace(","," ",$tid);
-	array_pop($pid);
-
-if ($db_type=="com"){
-	$com=array_merge(["python3", "/var/www/html/ReTReKpy/make_reports/statDb.py", "-ids"],$pid);
-	$process = new Process($com);
-}else{
-	$com =array_merge(["python3", "/var/www/html/ReTReKpy/make_reports/statDb.py", "-database","sList".$uid.".db","-ids"],$pid);
-	$process = new Process($com);
+private static function getCouplingInfomation($db_type,$uid){
+$pwd='/var/www/html/ReTReKpy';
+$stdout="stat".$uid.".stdout";
+$com=["python3", "/var/www/html/ReTReKpy/make_reports/statDb.py","-ids",0,"-type",5];
+$com=array_merge($com,["-stdout",$stdout]);
+if ($db_type!="com"){
+        $com =array_merge($com, ["-database","sList".$uid.".db"]);
 }
+	$process = new Process($com);
 
-$process->setWorkingDirectory('/var/www/html/ReTReKpy');
+$process->setWorkingDirectory($pwd);
         $process->setTimeout(0);
        	$process->run();
-        $routes = $process->getOutput();
-	$records=explode("\n",$process->getOutput());
+$ret="";$flag=false;
+$std=fopen($pwd."/".$stdout,"r");
+	while($line=fgets($std)){
+	$record=trim($line);
+	if (str_contains($record,"end-forCrossCoupling")){$flag=false;}
+		if ($flag==true){
+		$ret=$ret.$record;
+		}
+	if (str_contains($record,"start-forCrossCoupling")){$flag=true;}
+	}
+fclose($std);
+
+$json['JSON']=$ret;
+	return $json;
+}
+
+private static function statForEval($db_type,$uid,$tid,$type){
+$pwd='/var/www/html/ReTReKpy';
+	$pid=str_replace(","," ",$tid);
+	array_pop($pid);
+#	$com=["python3", "/var/www/html/ReTReKpy/make_reports/statDb.py", "-ids"];
+	$stdout="stat".$uid.".stdout";
+	$com=["python3", "/var/www/html/ReTReKpy/make_reports/statDb.py", "-stdout",$stdout,"-ids"];
+	$com =array_merge($com, $pid);
+if ($db_type!="com"){
+	$com =array_merge($com, ["-database","sList".$uid.".db"]);
+}
+if ($type==2){
+	$com=array_merge($com,["-type",$type]);
+}
+	$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+	foreach ($com as $c){
+	fwrite($fp,$c."\n");
+	}
+#	fclose($fp);
+	$process = new Process($com);
+
+$process->setWorkingDirectory($pwd);
+        $process->setTimeout(0);
+       	$process->run();
+#        $routes = $process->getOutput();
+#	$records=explode("\n",$process->getOutput());
+$std=fopen($pwd."/".$stdout,"r");
 
 	$prmRoot=array();
 	$prms=array();$flag=-1;$key="";
-	foreach ($records as $record){
+
+#	foreach ($records as $record){
+	while($line=fgets($std)){
+		$record=trim($line);
+#	$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
+#	fwrite($fp,$record."\n");
+#	fclose($fp);
+		#
+
+		if (str_contains($record,"no route")){
+			$x=explode(" ",$record);
+			$prm=array();$id=$x[2];
+		for ($i=1;$i<6;$i++){
+			$key="key".(string)$i;$prm[$key]="##";
+		}
+			$prms["record".$id]=$prm;$flag=2;
+			$prms["draw".$id]="##";
+			continue;
+		}
 
 		if (str_contains($record,"end-forDraw")){
 			$prms["draw".$id]=$prm;$flag=-1;
 		}
+
 		if (str_contains($record,"start-forDraw")){
+
 			$x=explode(" ",$record);
 			$prm=array();$id=$x[2];$flag=1;continue;
 		}
 
-#
 		if (str_contains($record,"end-forEval")){
 			$prms["record".$id]=$prm;$flag=-1;
 		}
+
 		if (str_contains($record,"start-forEval")){
 			$x=explode(" ",$record);
 			$prm=array();$id=$x[2];$flag=0;continue;
 		}
-#
-#	$fp=fopen("/var/www/html/public/images/report/step2.txt","a");
-#	fwrite($fp,"->".$x[0]."-".$x[1]." ".$x[2]."\n");
-#	fclose($fp);
-#
+
 		if ($flag<0){
 			continue;
 		}
@@ -954,6 +1200,7 @@ $process->setWorkingDirectory('/var/www/html/ReTReKpy');
 			$key="key".(string)$i;
 	       	}}
 	}
+	fclose($std);
 	$prmRoot['stat']=$prms;
 	return $prmRoot;
 }
@@ -1010,6 +1257,7 @@ $num=0;
 	$fp=fopen($ssh,"w");
 		fwrite($fp,"#!/bin/sh\n#\n#\npython3 make_reports/jobMaster.py -start -uid ".$uid." -max_loop ".(string)$num." -db_type ".$db_type."\n");
 	fclose($fp);
+#	$this->log("about jobMaster ".$num);
 	$this->easyProcess($ssh,"jobMaster.py",$uid);
 
         return view('multiProc', ['uid' => $uid,'db_type'=>$db_type]);
@@ -1047,7 +1295,7 @@ $num=0;
 
         $csrf_token = csrf_token();
 
-        $sh = makeScript("async.sh",$smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv,$substance,$uid,$upper_time);
+        $sh = makeScript("async.sh", $smiles, $route_num, $knowledge_weights, $save_tree, $expansion_num, $cum_prob_mod, $chem_axon, $selection_constant, $time_limit, $csrf_token,$csv,$substance,$uid,$upper_time);
 
 	$this->easyProcess($sh,"exe.py",$uid);
 
